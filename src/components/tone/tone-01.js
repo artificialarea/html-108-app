@@ -1,7 +1,7 @@
 import React from "react";
 import { Sampler } from "tone";
-import A1 from "../assets/A1.mp3";
-// import A1 from "../assets/hh_sample.mp3";
+import A1 from "../../assets/A1.mp3";
+// import A1 from "../../assets/hh_sample.mp3";
 
 export default class ToneTestOne extends React.Component {
 
