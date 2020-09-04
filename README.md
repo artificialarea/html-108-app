@@ -1,8 +1,18 @@
 # HTML-108
 
+## Preliminary 
+
+* [Screen Inventory](https://github.com/artificialarea/html-108/blob/master/docs/screen-inventory.md)
+* [User Flows](https://github.com/artificialarea/html-108/blob/master/docs/user-flow.pdf)
+* [HTML Wireframes](https://artificialarea.github.io/html-108/greybox)
+
+<br />
+
 ## Notes
 
 Did some initial React integration studies in my [p5-reaction](https://github.com/artificialarea/p5-reaction) repo to explore integration of **p5.js library** as Web Audio API middleware. Was able to integrate `p5.js` sketch canvas, but encountered too many difficulties with `p5.sound.js` library. Looking at other audio optons, discovered **[Tone.js](https://tonejs.github.io/)** audio framework integrates with React, so will go that route.
+
+<br />
 
 ## Dependencies
 
