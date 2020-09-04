@@ -8,8 +8,38 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-    <main class="greybox login">
-        Login
+    <nav role="navigation">Nav</nav>
+    <main role="main" class="greybox login">
+        <header role="banner">
+            <h3>Login</h3>
+        </header>
+        <form class="login-form">
+            <div>
+                <label for="username">
+                    Username
+                </label>
+                <input 
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Username" />
+            </div>
+            <div>
+                <label for="password">
+                    Password
+                </label>
+                <input 
+                    type="text"
+                    name="password"
+                    id="password"
+                    placeholder="Password" />
+            </div>
+            
+            <button type="submit">Sign Up</button>
+
+        </form>
+
     </main>
+    <footer role="content-info">Footer</footer>
 </body>
 </html>

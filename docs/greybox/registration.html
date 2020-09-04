@@ -8,8 +8,47 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-    <main class="greybox registration">
-        Registration
+    <nav role="navigation">Nav</nav>
+    <main role="main" class="greybox registration">
+        <header role="banner">
+            <h3>Registration</h3>
+        </header>
+        <form class="registration-form">
+            <div>
+                <label for="username">
+                    Username
+                </label>
+                <input 
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Username" />
+            </div>
+            <div>
+                <label for="password">
+                    Password
+                </label>
+                <input 
+                    type="text"
+                    name="password"
+                    id="password"
+                    placeholder="Password" />
+            </div>
+            <div>
+                <label for="e,ao;">
+                    Email (optional)
+                </label>
+                <input 
+                    type="text"
+                    name="email"
+                    id="email"
+                    placeholder="" />
+            </div>
+            <button type="submit">Sign Up</button>
+
+        </form>
+
     </main>
+    <footer role="content-info">Footer</footer>
 </body>
 </html>
