@@ -1,7 +1,7 @@
 # Screen Inventory
 
 ### URL Routes:
-* **`/`** landing page (root)
+* **`/`** **landing page** (root)
     * if user not signed in, introdutory page
     * if user signed in... may be rerouted to `/user/:user_id` **homepage**
 * **drum machine page(s)**
@@ -9,9 +9,9 @@
     * **`/track/:track_id`** saved track, machine prepopulated with track data from db
 * **`/login`**
 * **`/registration`**
-* **`/???`** public dashboard
+* **`/???`** **public dashboard**
    * list of public tracks done by users
-* **`/user/:user_id`** private user dashboard/homepage
+* **`/user/:user_id`** **private user dashboard/homepage**
     * user dashboard of saved private tracks (some of which may be public)
 
 
