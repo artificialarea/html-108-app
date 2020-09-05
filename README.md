@@ -13,6 +13,10 @@ Corresponding server repo: **[html-108-server](https://github.com/artificialarea
 * [HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)
 * [Component Composition Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-composition.pdf)
 
+**Schema** I think
+
+![Schema](https://github.com/artificialarea/html-108-app/blob/master/docs/schema.png)
+
 <br />
 
 ## Notes
