@@ -15,9 +15,8 @@
         </header>
 
         <div class="container">
-            <button class="togglePlay">Start/Stop</button> <button type="submit">Save Track</button>
-            <br />
             <div class="controls-tempo">
+                <button class="togglePlay">Start/Stop</button> 
                 <label for="textTempo">
                     BPM
                 </label>
@@ -36,6 +35,15 @@
                 />
             </div>
             <div class="controls-beats">
+                <div class="instrument-selector">
+                    <label for="instrument-selector">Display:</label>
+                    <select id="instrument-selector">
+                        <option value="hahat">HiHat</option>
+                        <option value="clap">Clap</option>
+                        <option value="trap">Trap</option>
+                        <option value="bass">Bass</option>
+                    </select>
+                </div>
                 <div class="instrument">
                     <button>HiHat</button>
                     <input type="checkbox" id="beat-1" name="beat-1" />
@@ -112,6 +120,10 @@
                     <input type="checkbox" id="beat-15" name="beat-15" />
                     <input type="checkbox" id="beat-16" name="beat-16" />
                 </div>
+                <div class="controls-file">
+                    <button type="submit">Download Track</button> <button type="submit">Save Track</button>
+                </div>
+                
 
             </div>
                 

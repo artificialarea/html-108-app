@@ -63,5 +63,14 @@ form {
 }
 
 .controls-tempo {
-    padding: 12% 0 4% 0;
+    padding: 0 0 4% 0;
+}
+
+.controls-file,
+.instrument-selector {
+    padding: 4% 0 4% 0;
+}
+
+.instrument {
+    padding: 10px 0 10px 0;
 }

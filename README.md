@@ -1,5 +1,7 @@
 # HTML-108
 
+Deployed to production: **https://html-108.vercel.app/**
+
 Corresponding server repo: **[html-108-server](https://github.com/artificialarea/html-108-server)**
 
 <br />
@@ -9,6 +11,7 @@ Corresponding server repo: **[html-108-server](https://github.com/artificialarea
 * [Screen Inventory](https://github.com/artificialarea/html-108-app/blob/master/docs/screen-inventory.md)
 * [User Flows](https://github.com/artificialarea/html-108-app/blob/master/docs/user-flow.pdf)
 * [HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)
+* [HTML Wireframes](https://artificialarea.github.io/html-108-app/component-composition.pdf/)
 
 <br />
 
