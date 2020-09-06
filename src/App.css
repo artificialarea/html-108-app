@@ -6,7 +6,46 @@ body {
   text-align: center;
 }
 
+div {
+    padding: 1%;
+}
+
 .component {
     border: 2px solid black;
-    margin: 10px;
+    margin: 10px 10px 30px 10px;
+    padding: 2%;
+}
+
+.composition {
+    border: 1px solid grey;
+    margin: 10px 0 10px 0;
+    padding: 2%;
+    background-color: rgb(240, 241, 241, 0.2);
+}
+
+.user-controls {
+    border: 2px solid aquamarine;
+    padding: 2%;
+    background-color: rgb(0, 153, 255, 0.3);
+}
+
+.public-user {
+    color: rgb(0, 153, 255);
+    border: 2px solid aquamarine;
+    background-color: rgb(0, 153, 255, 0.3);
+    font-weight: bold;
+    padding: 5px;
+}
+
+nav,
+.footer {
+    background-color: aqua;
+}
+
+button {
+    margin: 2%;
+}
+
+.error {
+    color: red;
 }
