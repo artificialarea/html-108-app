@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
+import uuid from 'react-uuid';
 import './App.css';
+import store from './STORE'; // temporary faux-db
 
 
 function Intro (props) {
@@ -19,7 +20,10 @@ function Intro (props) {
     )
 }
 
-// FOR DRUM MACHINE /////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////
+// DRUM MACHINE COMPONENTS /////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 class DrumMachine extends React.Component {
 
@@ -36,21 +40,22 @@ class DrumMachine extends React.Component {
                 <div className="container">
                     <div className="controls-tempo">
                         <button className="togglePlay">Start/Stop</button> 
-                        <label forHtml="textTempo">
+                        <label>
                             BPM
+                            <input 
+                                type="number"
+                                name="textTempo"
+                                id="textTempo"
+                                // value="120"
+                            />
                         </label>
-                        <input 
-                            type="text"
-                            name="textTempo"
-                            id="textTempo"
-                            placeholder="120" 
-                        />
                         <input 
                             type="range"
                             min="30"
                             max="300"
-                            value="120"
+                            // value="120"
                             name="rangeTempo"
+                            // onChange={this.handleChange}
                         />
                     </div>
                     <div className="controls-beats">
@@ -75,18 +80,12 @@ class DrumMachine extends React.Component {
 
 function Instrument (props) {
 
+    let sequence_length = 16;
     let beatArray = [];
-
-    for (let i = 1; i <= 16; i++ ) {
-        beatArray.push(<input type="checkbox" id="beat-${i}" name="beat-${i}" />)
-    }
 
     return (
         <div className="instrument">
             <InstrumentSound type={props.type} />
-
-            {/* { beatArray } */}
-            
             <input type="checkbox" id="beat-1" name="beat-1" />
             <input type="checkbox" id="beat-2" name="beat-2" />
             <input type="checkbox" id="beat-3" name="beat-3" />
@@ -122,70 +121,148 @@ function Beat (props) {
 function InstrumentSelector (props) {
     return (
         <div className="instrument-selector">
-            <label forHtml="instrument-selector">Display:</label>
-            <select id="instrument-selector">
-                <option value="hahat">HiHat</option>
-                <option value="clap">Clap</option>
-                <option value="trap">Trap</option>
-                <option value="bass">Bass</option>
-            </select>
+            <label>
+                Display:
+                <select id="instrument-selector">
+                    <option value="hahat">HiHat</option>
+                    <option value="clap">Clap</option>
+                    <option value="trap">Trap</option>
+                    <option value="bass">Bass</option>
+                </select>
+            </label>
         </div>
     )
 }
 
+// end DRUM MACHINE COMPONENTS //////////////////////////////////////////////////
 
-// end FOR DRUM MACHINE //////////////////////////////////////////////////
 
-
-// FOR DASHBOARD /////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+// DASHBOARD COMPONENTS /////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
 
 function Dashboard (props) {
 
-    let displayView;
+    console.log('props.userId: ', props.userId)
 
-    props.who !== 'private'
-        ? displayView = 'Community Dashboard'
-        : displayView = 'My Dashboard';
 
     return (
         <div className="component dashboard">
-            <header role="banner">
-                <h1>{displayView}</h1>
-            </header>
-
-            <section className="composition">
-                <h2>Krautrocka</h2>
-                { props.who !== 'private' 
-                    ? <p className="public-user">by Sarah</p> 
-                    : null }
-                <p>3 Sept 2020</p>
-                
-                { props.who === 'private' && 
-                    <UserControls />
-                }
-    
-                <br />
-                <br />
-                
-                <button>Listen to Audio Sample</button> <button>See Drum Machine Configuration</button>
-            </section>
-
+            <DashboardHeader 
+                who={props.who}
+                userId={props.userId}
+                users={props.users}
+            />
+            <TrackList 
+                id={uuid()}  // TEMP until set up Routes
+                who={props.who}
+                userId={props.userId}
+                users={props.users}
+                tracks={props.tracks}
+            />
         </div>
+    )
+}
+
+function DashboardHeader (props) {
+
+    let displayView;
+    let usernameTitle;
+
+    if (props.who !== 'private') {
+        displayView = 'Community Dashboard'
+    } else {
+        usernameTitle = props.users.find(user => user.id === props.userId).username;
+        displayView = `${usernameTitle}'s Dashboard`;
+    }
+
+    return (
+        <header role="banner">
+            <h1>{displayView}</h1>
+        </header>
+    )
+}
+
+function TrackList (props) {
+
+    const publicTracks = [];
+    const privateTracks = [];
+
+    props.tracks.forEach(track => {
+        if (props.who !== 'private') {
+            if (track.public === true) {
+                const trackUser = props.users.find(user => user.id === track.user_id ).username
+                publicTracks.push(
+                    <TrackItem 
+                        id={uuid()}
+                        who={props.who}
+                        user={trackUser} 
+                        track={track}
+                    />
+                );
+            }
+        }
+        if (track.user_id === props.userId) {
+            console.log('show Private tracks')
+            privateTracks.push(
+                <TrackItem 
+                    id={uuid()}
+                    who={props.who}
+                    track={track}
+                />
+            );
+        }
+    })
+    
+    const dashboardDisplay = 
+        (props.who !== 'private')
+                ? publicTracks
+                : privateTracks
+
+
+    console.log('dashboardDisplay: ', dashboardDisplay)
+
+    return (
+        <ul className="track-list" key={props.id}>
+            {dashboardDisplay}
+        </ul>
+    )
+}
+
+function TrackItem (props) {
+
+    console.log('props.track.id: ', props.track.id)
+
+    return (
+        <li className="composition track-item" key={props.id}>
+            <h2>{props.track.title}</h2>
+            { props.who !== 'private' 
+                ? <p className="public-user">by {props.user}</p> 
+                : null }
+            <p>3 Sept 2020</p>
+            
+            { props.who === 'private' && 
+                <UserControls />
+            }
+            
+            <button>Listen to Audio Sample</button> <button>See Drum Machine Configuration</button>
+        </li>
+
     )
 }
 
 function UserControls (props) {
     return (
         <div className="user-controls">
-            <input type="radio" name="composition-1" value="private" />Private
-            <input type="radio" name="composition-1" value="public" checked />Public
+            <input type="radio" name="composition-1" value="private"/>Private
+            <input type="radio" name="composition-1" value="public"/>Public
             <br />
             <button>Delete Track</button>
         </div>
     )
 }
 
-// end FOR DASHBOARD /////////////////////////////////////////////////////////
+// end DASHBOARD COMPONENTS /////////////////////////////////////////////////////////
 
 
 function Login (props) {
@@ -199,24 +276,24 @@ function Login (props) {
             </div>
             <form className="login-form">
                 <div>
-                    <label forHtml="username">
+                    <label>
                         Username
+                        <input 
+                            type="text"
+                            name="login-username"
+                            id="login-username"
+                            placeholder="Username" />
                     </label>
-                    <input 
-                        type="text"
-                        name="username"
-                        id="username"
-                        placeholder="Username" />
                 </div>
                 <div>
-                    <label forHtml="password">
+                    <label> 
                         Password
+                        <input 
+                            type="text"
+                            name="login-password"
+                            id="login-password"
+                            placeholder="Password" />
                     </label>
-                    <input 
-                        type="text"
-                        name="password"
-                        id="password"
-                        placeholder="Password" />
                 </div>
                 
                 <button type="submit">Sign Up</button>
@@ -242,34 +319,34 @@ function Registration (props) {
             </div>
             <form className="registration-form">
                 <div>
-                    <label forHtml="username">
+                    <label>
                         Username
+                        <input 
+                            type="text"
+                            name="registration-username"
+                            id="registration-username"
+                            placeholder="Username" />
                     </label>
-                    <input 
-                        type="text"
-                        name="username"
-                        id="username"
-                        placeholder="Username" />
                 </div>
                 <div>
-                    <label forHtml="password">
+                    <label>
                         Password
+                        <input 
+                            type="text"
+                            name="registration-password"
+                            id="registration-password"
+                            placeholder="Password" />
                     </label>
-                    <input 
-                        type="text"
-                        name="password"
-                        id="password"
-                        placeholder="Password" />
                 </div>
                 <div>
-                    <label forHtml="e,ao;">
+                    <label>
                         Email (optional)
+                        <input 
+                            type="text"
+                            name="email"
+                            id="email"
+                            placeholder="" />
                     </label>
-                    <input 
-                        type="text"
-                        name="email"
-                        id="email"
-                        placeholder="" />
                 </div>
                 <button type="submit">Sign Up</button>
                 <button>Cancel</button>
@@ -292,14 +369,14 @@ function EditTitle (props) {
             </header>
             <form className="login-form">
                 <div>
-                    <label forHtml="username">
+                    <label>
                         Title
+                        <input 
+                            type="text"
+                            name="title"
+                            id="title"
+                            placeholder="Krautrocka" />
                     </label>
-                    <input 
-                        type="text"
-                        name="username"
-                        id="username"
-                        placeholder="Krautrocka" />
                 </div>
                 
                 <button type="submit">Sign Up</button>
@@ -332,18 +409,34 @@ function Footer (props) {
 export default class App extends React.Component {
 
     render() {
+
+        let { users, compositions } = store;
+        console.log('store.users: ', users);
+        console.log('store.compositions: ', compositions);
+
         return (
             <div className="App">
                 <Nav />
                 <Intro />
 
-                <Dashboard who={'private'} />
-                <Dashboard who={'public'} />
+                <Dashboard 
+                    who={'private'} 
+                    userId={1}    // TEMP
+                    users={users}
+                    tracks={compositions}
+                />
+                <Dashboard 
+                    who={'public'}
+                    users={users}
+                    tracks={compositions}
+                />
                 
                 <DrumMachine />
+
                 <Registration />
                 <Login />
                 <EditTitle />
+                
                 <Footer />
             </div>
         );
