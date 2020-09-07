@@ -52,6 +52,7 @@ export default class App extends React.Component {
                 <Route path='/register' component={Registration} />
                 <Route path='/profile' component={Registration} />
                 <Route path='/edit-title' component={EditTitle} />
+
                 <Route 
                     path='/dashboard' 
                     render={() => 
@@ -73,8 +74,25 @@ export default class App extends React.Component {
                         />
                     }  
                 />
-                <Route exact path='/track' component={DrumMachine} />
-                <Route path='/track/:track_id' component={DrumMachine} />
+
+                <Route 
+                    exact 
+                    path='/track' 
+                    render={() => 
+                        <DrumMachine 
+                            tracks={compositions}
+                        />
+                    }   
+                />
+                <Route 
+                    path='/track/:track_id' 
+                    render={() => 
+                        <DrumMachine 
+                            tracks={compositions}
+                        />
+                    }   
+                />
+                
                 <Route component={NotFound} />
             </Switch>
         )

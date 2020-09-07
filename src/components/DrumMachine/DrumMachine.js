@@ -1,83 +1,139 @@
 import React from 'react';
+import uuid from 'react-uuid';
 
+export default function DrumMachine (props) {
 
-export default class DrumMachine extends React.Component {
+    // TODO: dynamic track selection
+    const selectedTrack = props.tracks[0];
+
+    return (
+        <div className="component drum-machine">
+            <Header track={selectedTrack} />
+            <Tempo track={selectedTrack} />
+            <StepSequencer track={selectedTrack} />
+        </div>
+    )
+
+}
+
+function Header (props) {
+
+    return (
+
+        <header role="banner">
+            {!!props.track.title.length &&
+                <h1>{props.track.title}</h1>}
+        </header>
+    )
+
+    // return (
+    //     <>
+    //             <header role="banner">
+    //                 <h1>{props.track.title}</h1>
+    //             </header>
+    //     </>
+    // )
+}
+
+function Tempo (props) {
+    return (
+        <div className="tempo__controls">
+            <PlayButton />
+            <TempoDisplay bpm={props.track.tempo} />
+            <TempoControl bpm={props.track.tempo} />
+        </div>
+    )
+}
+
+function PlayButton (props) {
+    return (
+        <>
+            <button className="togglePlay">Start/Stop</button> 
+        </>
+    )
+}
+
+function TempoDisplay (props) {
+    return (
+        <>
+            <label>
+                BPM
+                <input 
+                    type="number"
+                    name="textTempo"
+                    id="textTempo"
+                    value={props.bpm}
+                />
+            </label>
+        </>
+    )
+}
+function TempoControl (props) {
 
     // TODO: make input range slider work
     // https://stackoverflow.com/questions/36122034/jsx-react-html5-input-slider-doesnt-work
 
-    render() {
-        return (
-            <div className="component drum-machine">
-                <header role="banner">
-                    <h1>:Track-Title</h1>
-                </header>
+    return (
+        <>
+            <input 
+                type="range"
+                min="30"
+                max="300"
+                value={props.bpm}
+                name="rangeTempo"
+                // onChange={this.handleChange}
+            />
+        </>
+    )
+}
 
-                <div className="container">
-                    <div className="controls-tempo">
-                        <button className="togglePlay">Start/Stop</button> 
-                        <label>
-                            BPM
-                            <input 
-                                type="number"
-                                name="textTempo"
-                                id="textTempo"
-                                // value="120"
-                            />
-                        </label>
-                        <input 
-                            type="range"
-                            min="30"
-                            max="300"
-                            // value="120"
-                            name="rangeTempo"
-                            // onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="controls-beats">
-                        
-                        <InstrumentSelector />
+function StepSequencer (props) {
 
-                        <Instrument type='HiHat' />
-                        <Instrument type='Clap' />
-                        <Instrument type='Trap' />
-                        <Instrument type='Bass' />
-                        
-                        <div className="controls-file">
-                            <button type="submit">Download Track</button> <button type="submit">Save Track</button>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
+    const instrumentArr = [];
+
+    props.track.step_sequence.forEach(sequence => 
+        instrumentArr.push(
+            <Instrument steps={sequence}/>
         )
-    }
+        
+    )
+    return (
+        <div className="step-sequencer">
+                        
+            <InstrumentSelector />
+
+            {instrumentArr}
+            
+            <div className="controls-file">
+                <DownloadTrack />
+                <SaveTrack />
+            </div>
+            
+        </div>
+
+    )
 }
 
 function Instrument (props) {
+    
+    let key = Object.keys(props.steps)
+    let stepSequence = props.steps[key];
 
-    let sequence_length = 16;
-    let beatArray = [];
+    let beatArr = [];
+
+    stepSequence.forEach(step => {
+        beatArr.push(
+            <Beat 
+                key={uuid()}
+                beat={stepSequence[step]}
+            />
+        )
+    })
 
     return (
         <div className="instrument">
-            <InstrumentSound type={props.type} />
-            <input type="checkbox" id="beat-1" name="beat-1" />
-            <input type="checkbox" id="beat-2" name="beat-2" />
-            <input type="checkbox" id="beat-3" name="beat-3" />
-            <input type="checkbox" id="beat-4" name="beat-4" />
-            <input type="checkbox" id="beat-5" name="beat-5" />
-            <input type="checkbox" id="beat-6" name="beat-6" />
-            <input type="checkbox" id="beat-7" name="beat-7" />
-            <input type="checkbox" id="beat-8" name="beat-8" />
-            <input type="checkbox" id="beat-9" name="beat-9" />
-            <input type="checkbox" id="beat-10" name="beat-10" />
-            <input type="checkbox" id="beat-11" name="beat-11" />
-            <input type="checkbox" id="beat-12" name="beat-12" />
-            <input type="checkbox" id="beat-13" name="beat-13" />
-            <input type="checkbox" id="beat-14" name="beat-14" />
-            <input type="checkbox" id="beat-15" name="beat-15" />
-            <input type="checkbox" id="beat-16" name="beat-16" />
+            <InstrumentSound type={key} />
+            {beatArr}
         </div>
     )
 }
@@ -107,6 +163,22 @@ function InstrumentSelector (props) {
                 </select>
             </label>
         </div>
+    )
+}
+
+function DownloadTrack (props) {
+    return (
+        <>
+            <button type="submit">Download Track</button>
+        </>
+    )
+}
+
+function SaveTrack (props) {
+    return (
+        <>
+            <button type="submit">Save Track</button>
+        </>
     )
 }
 
