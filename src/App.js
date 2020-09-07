@@ -80,7 +80,7 @@ export default class App extends React.Component {
                     path='/track' 
                     render={() => 
                         <DrumMachine 
-                            tracks={compositions}
+                            track={compositions[0]}
                         />
                     }   
                 />
@@ -88,11 +88,11 @@ export default class App extends React.Component {
                     path='/track/:track_id' 
                     render={() => 
                         <DrumMachine 
-                            tracks={compositions}
+                            track={compositions[1]}
                         />
                     }   
                 />
-                
+
                 <Route component={NotFound} />
             </Switch>
         )

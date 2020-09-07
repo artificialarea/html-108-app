@@ -1,38 +1,26 @@
 import React from 'react';
 import uuid from 'react-uuid';
+import './DrumMachine.css';
 
 export default function DrumMachine (props) {
 
-    // TODO: dynamic track selection
-    const selectedTrack = props.tracks[0];
-
     return (
         <div className="component drum-machine">
-            <Header track={selectedTrack} />
-            <Tempo track={selectedTrack} />
-            <StepSequencer track={selectedTrack} />
+            <Header track={props.track} />
+            <Tempo track={props.track} />
+            <StepSequencer track={props.track} />
         </div>
     )
 
 }
 
 function Header (props) {
-
     return (
-
         <header role="banner">
             {!!props.track.title.length &&
                 <h1>{props.track.title}</h1>}
         </header>
     )
-
-    // return (
-    //     <>
-    //             <header role="banner">
-    //                 <h1>{props.track.title}</h1>
-    //             </header>
-    //     </>
-    // )
 }
 
 function Tempo (props) {
@@ -130,10 +118,16 @@ function Instrument (props) {
         )
     })
 
+    console.log(`${key}`);
+    console.log(beatArr)
+
     return (
         <div className="instrument">
             <InstrumentSound type={key} />
-            {beatArr}
+            <ul>
+                {beatArr}
+            </ul>
+            
         </div>
     )
 }
@@ -146,7 +140,18 @@ function InstrumentSound (props) {
 
 function Beat (props) {
     return (
-        <input type="checkbox" id="beat-1" name="beat-1" />
+        <> 
+            {/* {props.beat === 1
+                ? <input type="checkbox" id="beat-1" name="beat-1" checked/>
+                : <input type="checkbox" id="beat-1" name="beat-1" />
+            } */}
+
+            {props.beat === 1
+                ? <li className="checked"></li>
+                : <li></li>
+            }
+            
+        </>
     )
 }
 

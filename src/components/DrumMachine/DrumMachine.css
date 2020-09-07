@@ -1,0 +1,14 @@
+.drum-machine li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 2px;
+    background-color: rgba(13, 228, 243, 0.2);
+}
+
+.drum-machine li.checked {
+    background-color: rgb(13, 228, 243)
+}
+
