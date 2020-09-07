@@ -47,7 +47,7 @@ _Components are **stateless** unless otherwise noted_
   * **user_id** (foreign key > Users.id)
   * **title** (defaults to 'Untitled')
   * **date_modified** (new Date()) 
-  * **public** (NOT NULL, boolean)
+  * **public** (NOT NULL, boolean default false)
   * **tempo** (NOT NULL, numeric)
   * **sequence_length** (NOT NULL, numeric)
   * **mp3** **TBD** (location of file, e.g. "http://path-of-the-audio-preview.mp3")
