@@ -1,5 +1,6 @@
 import React from 'react';
 import uuid from 'react-uuid';
+import { Link } from 'react-router-dom';
 
 
 export default function Dashboard (props) {
@@ -37,6 +38,7 @@ function DashboardHeader (props) {
     return (
         <header role="banner">
             <h1>{displayView}</h1>
+            {props.who !== 'public' ? <Link to='/profile'>Edit Profile</Link> : null}
         </header>
     )
 }
