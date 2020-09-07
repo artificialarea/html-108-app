@@ -37,8 +37,7 @@ export default function Registration (props) {
                         <input 
                             type="text"
                             name="email"
-                            id="email"
-                            placeholder="" />
+                            id="email" />
                     </label>
                 </div>
                 <button type="submit">Sign Up</button>
