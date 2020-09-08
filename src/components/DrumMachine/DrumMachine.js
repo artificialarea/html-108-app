@@ -13,4 +13,5 @@ export default function DrumMachine (props) {
             <StepSequencer track={props.track} />
         </div>
     )
+
 }

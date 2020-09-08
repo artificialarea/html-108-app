@@ -17,7 +17,27 @@ import NotFound from './components/NotFound/NotFound'
 
 export default class App extends React.Component {
 
-    renderNavRoutes() {
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: '',  
+            user_id: '',
+            title: '', 
+            date_modified: '',
+            public: false,
+            tempo: 120,
+            sequence_length: 16,
+            mp3: '',
+            step_sequence: [
+                { hihat: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+                { clap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+                { trap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+                { bass: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+            ],
+        }
+    }
+
+    renderNavRoutes () {
         return (
             <>
                 <Route 
@@ -28,7 +48,7 @@ export default class App extends React.Component {
         )
     }
 
-    renderFooterRoutes() {
+    renderFooterRoutes () {
         return (
             <>
                 <Route 
@@ -39,7 +59,7 @@ export default class App extends React.Component {
         )
     }
 
-    renderMainRoutes() {
+    renderMainRoutes () {
 
         let { users, compositions } = store;
         console.log('store.users: ', users);
@@ -80,7 +100,8 @@ export default class App extends React.Component {
                     path='/track' 
                     render={() => 
                         <DrumMachine 
-                            track={compositions[0]}
+                            // track={compositions[0]}
+                            track={this.state}
                         />
                     }   
                 />

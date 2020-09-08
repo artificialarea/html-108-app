@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import uuid from 'react-uuid';
 import Instrument from './Instrument';
 import InstrumentSelector from './InstrumentSelector';
 import DownloadTrack from './DownloadTrack';
@@ -9,7 +10,10 @@ export default function StepSequencer (props) {
     const instrumentArr = [];
     props.track.step_sequence.forEach(sequence => 
         instrumentArr.push(
-            <Instrument steps={sequence}/>
+            <Instrument
+                id={uuid()}
+                steps={sequence}
+            />
         )
     )
 
