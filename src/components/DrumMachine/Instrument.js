@@ -4,7 +4,7 @@ import Beat from './Beat';
 import InstrumentSound from './InstrumentSound'
 
 export default function Instrument (props) {
-    
+
     const key = Object.keys(props.steps)
     const stepSequence = props.steps[key];
     const beatArr = [];
@@ -13,8 +13,10 @@ export default function Instrument (props) {
     for (let i = 0; i < stepSequence.length; i++ ) {
         beatArr.push(
             <Beat 
-                id={uuid()}
+                // id={uuid()}
+                id={`${key} ${i} ${stepSequence[i]}`}
                 beat={stepSequence[i]}
+                onClick={e => props.onClick(e)}
             />
         )
     }

@@ -10,7 +10,10 @@ export default function DrumMachine (props) {
         <div className="component drum-machine">
             <Header track={props.track} />
             <Tempo track={props.track} />
-            <StepSequencer track={props.track} />
+            <StepSequencer 
+                track={props.track} 
+                onClick={e => props.onClick(e)}
+            />
         </div>
     )
 

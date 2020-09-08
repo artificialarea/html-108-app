@@ -8,11 +8,13 @@ import SaveTrack from './SaveTrack';
 export default function StepSequencer (props) {
 
     const instrumentArr = [];
+    
     props.track.step_sequence.forEach(sequence => 
         instrumentArr.push(
             <Instrument
                 id={uuid()}
                 steps={sequence}
+                onClick={e => props.onClick(e)}
             />
         )
     )
