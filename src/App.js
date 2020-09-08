@@ -134,18 +134,25 @@ export default class App extends React.Component {
         const targets = target.id.split(' ');
         const instrumentKey = targets[0];
         const beatIndex = targets[1];
-        const beatBoolean = targets[2]; // will need to inverse value for setState()
-        console.log(instrumentKey, beatIndex, beatBoolean)
+        let beatBoolean = targets[2]; 
 
-        const newTest = [instrumentKey, beatIndex, beatBoolean]
+        // I'm sure there is a better way to do this but
+        // need to inverse value of beat to setState
+        beatBoolean == 1
+            ? beatBoolean = 0
+            : beatBoolean = 1;
+
+        const instrumentArr = this.state.new_composition.step_sequence[instrumentKey]
+        instrumentArr[beatIndex] = beatBoolean;
+        
         this.setState({
             new_composition: {
                 ...this.state.new_composition,
-                test: newTest
-                // step_sequence: [
-                //     ...this.state.step_sequence,
-
-                // ]
+                // test: newTest,
+                step_sequence: {
+                    ...this.state.new_composition.step_sequence,
+                    [instrumentKey]: instrumentArr,
+                }
             }
         })
     }
