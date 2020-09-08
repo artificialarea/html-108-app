@@ -47,12 +47,12 @@ export default class App extends React.Component {
                     tempo: 80,
                     sequence_length: 16,
                     mp3: "http://path-of-the-audio-preview.mp3",
-                    step_sequence: [
-                        { hihat: [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1] },
-                        { clap: [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1] },
-                        { trap: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1] },
-                        { bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0] },
-                    ],
+                    step_sequence: {
+                        hihat: [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                        clap: [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
+                        trap: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                        bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
+                    },
                 },
                 {
                     id: 10,
@@ -63,12 +63,12 @@ export default class App extends React.Component {
                     tempo: 220,
                     sequence_length: 16,
                     mp3: "http://path-of-the-audio-preview.mp3",
-                    step_sequence: [
-                        { hihat: [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0] },
-                        { clap: [0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0] },
-                        { trap: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0] },
-                        { bass: [0,0,0,1,0,0,0,1,0,1,0,0,0,0,0,1] },
-                    ],
+                    step_sequence: {
+                        hihat: [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+                        clap: [0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],
+                        trap: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],
+                        bass: [0,0,0,1,0,0,0,1,0,1,0,0,0,0,0,1],
+                    },
                 },
             ],
             // via api, compositions by logged-in user, listed on private dashboard
@@ -118,12 +118,12 @@ export default class App extends React.Component {
                 tempo: 120,
                 sequence_length: 16,
                 mp3: '',
-                step_sequence: [
-                    { hihat: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
-                    { clap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
-                    { trap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
-                    { bass: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
-                ],
+                step_sequence: {
+                    hihat: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    clap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    trap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    bass: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                },
             },
         }
     }
@@ -178,7 +178,7 @@ export default class App extends React.Component {
         // console.log('store.users: ', users);
         // console.log('store.compositions: ', compositions);
         // console.log('this.state.new_composition: ', this.state.new_composition)
-        console.log('this.state.new_composition.test: ', this.state.new_composition.test)
+        // console.log('this.state.new_composition.test: ', this.state.new_composition.test)
 
         return (
             <Switch>
@@ -215,7 +215,6 @@ export default class App extends React.Component {
                     path='/track' 
                     render={() => 
                         <DrumMachine 
-                            // track={compositions[0]}
                             track={this.state.new_composition}
                             onClick={e => this.handleBeatChange(e.target)}
                         />
@@ -226,6 +225,7 @@ export default class App extends React.Component {
                     render={() => 
                         <DrumMachine 
                             track={compositions[2]}
+                            onClick={e => this.handleBeatChange(e.target)}
                         />
                     }   
                 />

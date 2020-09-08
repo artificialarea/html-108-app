@@ -10,7 +10,6 @@ export default function Beat (props) {
                         className="checked" 
                         key={props.id} 
                         id={props.id}
-                        // onClick={e => handleBeatChange(e.target)}
                         onClick={e => props.onClick(e)}
                     >
                             {props.beat}
@@ -18,7 +17,6 @@ export default function Beat (props) {
                 :   <li 
                         key={props.id} 
                         id={props.id}
-                        // onClick={e => handleBeatChange(e.target)}
                         onClick={e => props.onClick(e)}
                     >
                             {props.beat}
