@@ -13,8 +13,8 @@ export default function StepSequencer (props) {
     
     Object.keys(obj).forEach(key => 
         instrumentArr.push(
-            // obj[key]
             <Instrument
+                key={uuid()}
                 id={uuid()}
                 sound={key}
                 steps={obj[key]}

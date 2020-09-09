@@ -12,7 +12,7 @@ export default function Instrument (props) {
     for (let i = 0; i < stepSequence.length; i++ ) {
         beatArr.push(
             <Beat 
-                // id={uuid()}
+                key={uuid()}
                 id={`${props.sound} ${i} ${stepSequence[i]}`}
                 beat={stepSequence[i]}
                 onClick={e => props.onClick(e)}
@@ -21,7 +21,7 @@ export default function Instrument (props) {
     }
 
     return (
-        <div className="instrument" key={props.id} id={props.id}>
+        <div className="instrument" id={props.id}>
             <InstrumentSound type={props.sound} />
             <ul>
                 {beatArr}

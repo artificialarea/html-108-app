@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import './App.css';
-import store from './STORE'; // temporary faux-db
 
 import Nav from './components/Nav/Nav';
 import Intro from './components/Intro/Intro';
