@@ -19,6 +19,8 @@ export default function Dashboard (props) {
                 userId={props.userId}
                 users={props.users}
                 tracks={props.tracks}
+                // onChange={e => props.onChange(e.target)}
+                onChange={props.onChange}
             />
         </div>
     )

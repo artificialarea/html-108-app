@@ -12,7 +12,11 @@ export default function TrackItem (props) {
             <p>3 Sept 2020</p>
             
             { props.who === 'private' && 
-                <UserControls />
+                <UserControls 
+                    track={props.track}
+                    // onChange={e => props.onChange(e.target)}
+                    onChange={props.onChange}
+                />
             }
             
             <button>Listen to Audio Sample</button> <button>See Drum Machine Configuration</button>

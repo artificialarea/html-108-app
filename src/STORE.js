@@ -14,10 +14,14 @@ export default {
             email: "dolf@aol.com"
         },
     ],
+
     // QUESTION: Should I split compositions into three distinct objects, each with their own api call?
     // public_compositions: []  // via api
     // user_compositions: []    // via api, if signed in
     // temp_composition: []     // sans api, for new /track route 
+    // ANSWER: For dashboard scenarios, No; for new drum machine track, Yes. 
+    // Pull down the entire Compositions db table (public and private, by all users), then filter data clientside when required. Same goes for Users db table (sans password + email, presumably).
+    
     compositions: [
         {
             id: 1,
