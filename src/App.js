@@ -231,8 +231,9 @@ export default class App extends React.Component {
     }
 
     renderMainRoutes () {
-        console.log('this.state.compositions: ', this.state.compositions)
-        // console.log('this.state.new_composition: ', this.state.new_composition)
+        // console.log('this.state.compositions: ', this.state.compositions)
+        console.log(`track privacy via state... is track public\?\nKrautrock: ${this.state.compositions[0].public}, TinyTempah: ${this.state.compositions[1].public},` )
+        console.log('hihat beat sequence via state: ', this.state.new_composition.step_sequence.hihat)
 
         return (
             <Switch>

@@ -4,7 +4,7 @@ import UserControls from '../UserControls/UserControls';
 export default function TrackItem (props) {
 
     return (
-        <li className="composition track-item" key={props.id}>
+        <li className="composition track-item">
             <h2>{props.track.title}</h2>
             { props.who !== 'private' 
                 ? <p className="public-user">by {props.user}</p> 
