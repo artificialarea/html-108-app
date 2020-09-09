@@ -10,8 +10,7 @@ export default function UserControls (props) {
                     name={props.track.id} 
                     value="private"
                     checked={!props.track.public}
-                    // onChange={e => props.onChange(e.target)}
-                    onChange={props.onChange}
+                    onChange={e => props.onChange(e)}
 
                 />
                 Private
@@ -22,8 +21,7 @@ export default function UserControls (props) {
                     name={props.track.id}  
                     value="public"
                     checked={props.track.public}
-                    // onChange={e => props.onChange(e.target)}
-                    onChange={props.onChange}
+                    onChange={e => props.onChange(e)}
                 />
                 Public
             </label>

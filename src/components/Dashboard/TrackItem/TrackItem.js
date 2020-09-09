@@ -14,8 +14,7 @@ export default function TrackItem (props) {
             { props.who === 'private' && 
                 <UserControls 
                     track={props.track}
-                    // onChange={e => props.onChange(e.target)}
-                    onChange={props.onChange}
+                    onChange={e => props.onChange(e)}
                 />
             }
             

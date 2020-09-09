@@ -22,7 +22,7 @@ export default class App extends React.Component {
             users: [
                 {
                     id: 1,
-                    username: "Sarah State",
+                    username: "Sarah",
                     // presumably won't store this sensitive data client-side?
                     // (even for the signed-in user?)
                     // password: "aaAA11!!",        
@@ -30,7 +30,7 @@ export default class App extends React.Component {
                 },
                 {
                     id: 2,
-                    username: "Dolfmeister State",
+                    username: "Dolfmeister",
                 },
 
             ],
@@ -122,10 +122,10 @@ export default class App extends React.Component {
         }
     }
 
-    handleBeatChange = (target) => {
+    handleBeatChange = (changeEvent) => {
         // extract target tag id information from string into array
         // "instrumentKey beatIndex beatBoolean" e.g. "hihat 5 0"
-        const targets = target.id.split(' ');
+        const targets = changeEvent.target.id.split(' ');
         const instrumentKey = targets[0];
         const beatIndex = targets[1];
         let beatBoolean = targets[2]; 
@@ -167,11 +167,11 @@ export default class App extends React.Component {
         // })
     }
 
-    handleTempoChange = (target) => {
+    handleTempoChange = (changeEvent) => {
         this.setState({
             new_composition: {
                 ...this.state.new_composition,
-                tempo: target.value
+                tempo: changeEvent.target.value
 
             }
         })
@@ -261,7 +261,6 @@ export default class App extends React.Component {
                             userId={1}    // TODO: make dynamic
                             users={this.state.users}
                             tracks={this.state.compositions}
-                            // onChange={e => this.handlePrivacyChange(e.target)}
                             onChange={this.handlePrivacyChange}
                         />
                     }  
@@ -273,8 +272,8 @@ export default class App extends React.Component {
                     render={() => 
                         <DrumMachine 
                             track={this.state.new_composition}
-                            onChange={e => this.handleTempoChange(e.target)}
-                            onClick={e => this.handleBeatChange(e.target)}
+                            onChange={this.handleTempoChange}
+                            onClick={this.handleBeatChange}
                         />
                     }   
                 />
@@ -283,8 +282,8 @@ export default class App extends React.Component {
                     render={() => 
                         <DrumMachine 
                             track={this.state.compositions[2]}
-                            onChange={e => this.handleTempoChange(e.target)}
-                            onClick={e => this.handleBeatChange(e.target)}
+                            onChange={this.handleTempoChange}
+                            onClick={this.handleBeatChange}
                         />
                     }   
                 />

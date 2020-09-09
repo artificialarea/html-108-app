@@ -27,8 +27,7 @@ export default function TrackList (props) {
                     key={uuid()}
                     who={props.who}
                     track={track}
-                    // onChange={e => props.onChange(e.target)}
-                    onChange={props.onChange}
+                    onChange={e => props.onChange(e)}
                 />
             );
         }
