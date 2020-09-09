@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import UserControls from '../UserControls/UserControls';
 
 export default function TrackItem (props) {
@@ -18,7 +19,10 @@ export default function TrackItem (props) {
                 />
             }
             
-            <button>Listen to Audio Sample</button> <button>See Drum Machine Configuration</button>
+            <Link to={`/track/${props.track.id}`}>See Drum Machine Configuration</Link>
+
+            {/* <button>Listen to Audio Sample</button> // revisit once dealing with sound */}
+            
         </li>
     )
 }

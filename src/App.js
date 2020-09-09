@@ -80,7 +80,7 @@ export default class App extends React.Component {
                         hihat: [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
                         clap: [0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],
                         trap: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],
-                        bass: [0,0,0,1,0,0,0,1,0,1,0,0,0,0,0,1],
+                        bass: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                     },
                 },
                 {
@@ -232,7 +232,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         // console.log('this.state.compositions: ', this.state.compositions)
-        console.log(`track privacy via state... is track public\?\nKrautrock: ${this.state.compositions[0].public}, TinyTempah: ${this.state.compositions[1].public},` )
+        console.log(`via state, is track public\?\nKrautrock: ${this.state.compositions[0].public}, TinyTempah: ${this.state.compositions[1].public},` )
         console.log('hihat beat sequence via state: ', this.state.new_composition.step_sequence.hihat)
 
         return (
@@ -279,13 +279,18 @@ export default class App extends React.Component {
                 />
                 <Route 
                     path='/track/:track_id' 
-                    render={() => 
-                        <DrumMachine 
-                            track={this.state.compositions[2]}
-                            onChange={this.handleTempoChange}
-                            onClick={this.handleBeatChange}
-                        />
-                    }   
+                    component={(props) => {
+                        // console.log('props.match: ', props.match)
+                        return <DrumMachine 
+                                    track={
+                                        this.state.compositions.find(t =>
+                                            t.id == props.match.params.track_id
+                                        )
+                                    }
+                                    onChange={this.handleTempoChange}
+                                    onClick={this.handleBeatChange}
+                                />
+                    }}
                 />
 
                 <Route component={NotFound} />
