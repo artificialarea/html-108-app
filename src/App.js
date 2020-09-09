@@ -169,7 +169,13 @@ export default class App extends React.Component {
     }
 
     handleTempoChange = (target) => {
-        
+        this.setState({
+            new_composition: {
+                ...this.state.new_composition,
+                tempo: target.value
+
+            }
+        })
     }
 
     handlePrivacyChange = (changeEvent) => {
@@ -267,6 +273,7 @@ export default class App extends React.Component {
                     render={() => 
                         <DrumMachine 
                             track={this.state.new_composition}
+                            onChange={e => this.handleTempoChange(e.target)}
                             onClick={e => this.handleBeatChange(e.target)}
                         />
                     }   
@@ -275,7 +282,8 @@ export default class App extends React.Component {
                     path='/track/:track_id' 
                     render={() => 
                         <DrumMachine 
-                            track={this.state.compositions[1]}
+                            track={this.state.compositions[2]}
+                            onChange={e => this.handleTempoChange(e.target)}
                             onClick={e => this.handleBeatChange(e.target)}
                         />
                     }   
