@@ -7,26 +7,29 @@ export default function TrackList (props) {
     const publicTracks = [];
     const privateTracks = [];
 
-    props.tracks.forEach(track => {
+    const obj = props.tracks;
+    // console.log('Object.keys(obj): ', Object.keys(obj))
+    Object.keys(obj).forEach(key => {
+        // console.log(key, obj[key])
         if (props.who !== 'private') {
-            if (track.public === true) {
-                const trackUser = props.users.find(user => user.id === track.user_id ).username
+            if (obj[key].public === true) {
+                const trackUser = props.users[props.userId]
                 publicTracks.push(
                     <TrackItem 
                         key={uuid()}
                         who={props.who}
                         user={trackUser} 
-                        track={track}
+                        track={obj[key]}
                     />
                 );
             }
         }
-        if (track.user_id === props.userId) {
+        if (obj[key].user_id === props.userId) {
             privateTracks.push(
                 <TrackItem 
                     key={uuid()}
                     who={props.who}
-                    track={track}
+                    track={obj[key]}
                     onChange={e => props.onChange(e)}
                 />
             );

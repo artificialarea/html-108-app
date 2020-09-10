@@ -19,8 +19,8 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [
-                {
+            users: {
+                '1': {
                     id: 1,
                     username: "Sarah",
                     // presumably won't store this sensitive data client-side?
@@ -28,14 +28,13 @@ export default class App extends React.Component {
                     // password: "aaAA11!!",        
                     // email: "sarah@hotmail.com"
                 },
-                {
+                '2': {
                     id: 2,
                     username: "Dolfmeister",
                 },
-
-            ],
-            compositions: [
-                {
+            },
+            compositions: { // [f2]
+                '1': {
                     id: 1,
                     user_id: 1,
                     title: "Krautrock",
@@ -51,7 +50,7 @@ export default class App extends React.Component {
                         bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
                     },
                 },
-                {
+                '2': {
                     id: 2,
                     user_id: 1,
                     title: "Tiny Tempah",
@@ -67,7 +66,7 @@ export default class App extends React.Component {
                         bass: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                     },
                 },
-                {
+                '10': {
                     id: 10,
                     user_id: 2,
                     title: "Browser Noise",
@@ -83,7 +82,7 @@ export default class App extends React.Component {
                         bass: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                     },
                 },
-                {
+                '11': {
                     id: 11,
                     user_id: 2,
                     title: "Untitled",
@@ -99,7 +98,7 @@ export default class App extends React.Component {
                         bass: [0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
                     },
                 },
-            ],
+            },
             // for /track route, sans api, 
             // temporary storage of data from new drum machine session
             new_composition: {
@@ -124,47 +123,29 @@ export default class App extends React.Component {
 
     handleBeatChange = (changeEvent) => {
         // extract target tag id information from string into array
-        // "instrumentKey beatIndex beatBoolean" e.g. "hihat 5 0"
+        // "instrumentKey beatIndex beatBoolean" e.g. "hihat 5 0" // => ['hihat', 5, 0]
         const targets = changeEvent.target.id.split(' ');
         const instrumentKey = targets[0];
         const beatIndex = targets[1];
         let beatBoolean = targets[2]; 
 
-        // I'm sure there is a better way to do this but
-        // need to inverse value of beat to setState
-        beatBoolean == 1
+        beatBoolean == 1        // fails if strict equality (===)
             ? beatBoolean = 0
             : beatBoolean = 1;
 
-        // ISSUE: THINK I MAY BE MUTATING STATE!!!
-        // if leave setState empty ala  this.setState({ })
-        // the state is still modified and renders!!!
-        const instrumentArr = this.state.new_composition.step_sequence[instrumentKey]
-        instrumentArr[beatIndex] = beatBoolean;
+        // [f1]
+        const instrumentArr = [...this.state.new_composition.step_sequence[instrumentKey]];
+        instrumentArr[beatIndex] = beatBoolean; 
         
-        this.setState({ }) 
-
-        // ... I thought it was changing state in here, but apparently not
-        // this.setState({
-        //     new_composition: {  
-        //         ...this.state.new_composition,
-        //         step_sequence: {
-        //             ...this.state.new_composition.step_sequence,
-        //             [instrumentKey]: instrumentArr,
-        //         }
-        //     }
-        // })
-
-        // ATTEMPT 2
-        // this.setState({
-        //     new_composition: {  
-        //         ...this.state.new_composition,
-        //         step_sequence: {
-        //             ...this.state.new_composition.step_sequence,
-        //             [this.state.new_composition.step_sequence[instrumentKey]]: this.state.new_composition.step_sequence[instrumentKey],
-        //         }
-        //     }
-        // })
+        this.setState({
+            new_composition: {  
+                ...this.state.new_composition,
+                step_sequence: {
+                    ...this.state.new_composition.step_sequence,
+                    [instrumentKey]: instrumentArr,
+                }
+            }
+        })
     }
 
     handleTempoChange = (changeEvent) => {
@@ -178,34 +159,19 @@ export default class App extends React.Component {
     }
 
     handlePrivacyChange = (changeEvent) => {
-        // console.log('privacy target: ', changeEvent.target.name)
-        // console.log('privacy target: ', changeEvent.target.value)
-
+        const track = changeEvent.target.name;
         const newPrivacyBool = changeEvent.target.value === 'public' ? true : false;
 
-        const compositionToUpdate = this.state.compositions.find(key => key.id == changeEvent.target.name)
-        // console.log("objToChange", compositionToUpdate)
-
-        compositionToUpdate.public = newPrivacyBool;
-        // console.log("objToChange (changed)", compositionToUpdate)
-
-        // ISSUE, AGAIN: THINK I MAY BE MUTATING STATE!!!
         this.setState({
+            compositions: {
+                ...this.state.compositions,
+                [track]: {
+                    ...this.state.compositions[track],
+                    public: newPrivacyBool
+                }
+            }
 
-            // FAIL 1
-            // successful updates that particular composition,
-            // BUT all the other compositions are lost
-            // compositions: [
-            //     compositionToUpdate
-            // ]
-
-            // FAIL 2
-            // compositions: [
-            //     ...this.state.compositions,
-            //     compositionToUpdate
-            // ]
         })
-
     }
 
     renderNavRoutes () {
@@ -231,9 +197,6 @@ export default class App extends React.Component {
     }
 
     renderMainRoutes () {
-        // console.log('this.state.compositions: ', this.state.compositions)
-        console.log(`via state, is track public\?\nKrautrock: ${this.state.compositions[0].public}, TinyTempah: ${this.state.compositions[1].public},` )
-        console.log('hihat beat sequence via state: ', this.state.new_composition.step_sequence.hihat)
 
         return (
             <Switch>
@@ -282,11 +245,7 @@ export default class App extends React.Component {
                     component={(props) => {
                         // console.log('props.match: ', props.match)
                         return <DrumMachine 
-                                    track={
-                                        this.state.compositions.find(t =>
-                                            t.id == props.match.params.track_id
-                                        )
-                                    }
+                                    track={this.state.compositions[props.match.params.track_id]}
                                     onChange={this.handleTempoChange}
                                     onClick={this.handleBeatChange}
                                 />

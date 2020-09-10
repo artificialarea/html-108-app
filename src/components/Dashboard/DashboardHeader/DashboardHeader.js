@@ -9,7 +9,7 @@ export default function DashboardHeader (props) {
     if (props.who !== 'private') {
         displayView = 'Community Dashboard'
     } else {
-        usernameTitle = props.users.find(user => user.id === props.userId).username;
+        usernameTitle = props.users[props.userId].username;
         displayView = `${usernameTitle}'s Dashboard`;
     }
 
