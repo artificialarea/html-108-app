@@ -5,15 +5,16 @@ import TempoControl from './TempoControl';
 
 
 export default function Tempo (props) {
+    // console.log(props.track)
     return (
         <div className="tempo__controls">
             <PlayButton />
             <TempoDisplay 
-                bpm={props.track.tempo} 
+                track={props.track} 
                 onChange={e => props.onChange(e)}
             />
             <TempoControl 
-                bpm={props.track.tempo} 
+                track={props.track} 
                 onChange={e => props.onChange(e)}
             />
         </div>

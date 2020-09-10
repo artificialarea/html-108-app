@@ -7,9 +7,9 @@ export default function TempoDisplay (props) {
                 BPM
                 <input 
                     type="number"
-                    name="textTempo"
-                    id="textTempo"
-                    value={props.bpm}
+                    // id={props.track.id}
+                    name={props.track.id}
+                    value={props.track.tempo}
                     onChange={e => props.onChange(e)}
                 />
             </label>

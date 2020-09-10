@@ -10,11 +10,11 @@
 // Upon discusion, my error was pointed out to me and the solution.
 
 // Initially I was directly mutating state
-const instrumentArr = this.state.new_composition.step_sequence[instrumentKey];
+const instrumentArr = this.state.compositions[track].step_sequence[instrumentKey];
 instrumentArr[beatIndex] = beatBoolean; 
 
 // Solution: adding a spread operator to the instrumentArray I made a copy/clone of that array in state, allowing me to manipulate it prior to setState without directly mutating state...
-const instrumentArr = [...this.state.new_composition.step_sequence[instrumentKey]];
+const instrumentArr = [...this.state.compositions[track].step_sequence[instrumentKey]];
 
 // I'm still a bit fuzzy as why the spread operator does this... but gonna read up on it now.
 

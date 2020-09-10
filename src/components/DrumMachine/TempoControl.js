@@ -6,10 +6,11 @@ export default function TempoControl (props) {
         <>
             <input 
                 type="range"
-                name="rangeTempo"
+                // id={props.track.id}
+                name={props.track.id}
                 min="30"
                 max="300"
-                value={props.bpm}
+                value={props.track.tempo}
                 onChange={e => props.onChange(e)}
             />
         </>

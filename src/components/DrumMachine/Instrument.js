@@ -13,7 +13,7 @@ export default function Instrument (props) {
         beatArr.push(
             <Beat 
                 key={uuid()}
-                id={`${props.sound} ${i} ${stepSequence[i]}`}
+                id={`${props.track.id} ${props.sound} ${i} ${stepSequence[i]}`}
                 beat={stepSequence[i]}
                 onClick={e => props.onClick(e)}
             />

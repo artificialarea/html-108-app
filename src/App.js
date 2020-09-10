@@ -34,6 +34,22 @@ export default class App extends React.Component {
                 },
             },
             compositions: { // [f2]
+                '0': {  // temporary storage for 'new' composition that doesn't really have a trackId yet
+                    id: '0', 
+                    user_id: '',
+                    title: '', 
+                    date_modified: '',
+                    public: false,
+                    tempo: 120,
+                    sequence_length: 16,
+                    mp3: '',
+                    step_sequence: {
+                        hihat: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        clap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        trap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        bass: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    },
+                },
                 '1': {
                     id: 1,
                     user_id: 1,
@@ -99,61 +115,52 @@ export default class App extends React.Component {
                     },
                 },
             },
-            // for /track route, sans api, 
-            // temporary storage of data from new drum machine session
-            new_composition: {
-                id: '', 
-                test: [],   // temp, to be deleted 
-                user_id: '',
-                title: '', 
-                date_modified: '',
-                public: false,
-                tempo: 120,
-                sequence_length: 16,
-                mp3: '',
-                step_sequence: {
-                    hihat: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    clap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    trap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    bass: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                },
-            },
         }
     }
 
     handleBeatChange = (changeEvent) => {
-        // extract target tag id information from string into array
-        // "instrumentKey beatIndex beatBoolean" e.g. "hihat 5 0" // => ['hihat', 5, 0]
+        // probably a less hacky way to do this, but...
+        // Extract target tag id information from string into array
+        // "trackId instrumentKey beatIndex beatBoolean" e.g. "2 hihat 5 0" // => ['2','hihat', 5, 0]
         const targets = changeEvent.target.id.split(' ');
-        const instrumentKey = targets[0];
-        const beatIndex = targets[1];
-        let beatBoolean = targets[2]; 
+        const track = targets[0];
+        const instrumentKey = targets[1];
+        const beatIndex = targets[2];
+        let beatBoolean = targets[3]; 
 
         beatBoolean == 1        // fails if strict equality (===)
             ? beatBoolean = 0
             : beatBoolean = 1;
 
         // [f1]
-        const instrumentArr = [...this.state.new_composition.step_sequence[instrumentKey]];
+        const instrumentArr = [...this.state.compositions[track].step_sequence[instrumentKey]];
         instrumentArr[beatIndex] = beatBoolean; 
         
         this.setState({
-            new_composition: {  
-                ...this.state.new_composition,
-                step_sequence: {
-                    ...this.state.new_composition.step_sequence,
-                    [instrumentKey]: instrumentArr,
+            compositions: {  
+                ...this.state.compositions,
+                [track]: {
+                    ...this.state.compositions[track],
+                    step_sequence: {
+                        ...this.state.compositions[track].step_sequence,
+                        [instrumentKey]: instrumentArr,
+                    }
                 }
             }
         })
     }
 
     handleTempoChange = (changeEvent) => {
+        // console.log(changeEvent)
+        const track = changeEvent.target.name;
+        console.log(track);
         this.setState({
-            new_composition: {
-                ...this.state.new_composition,
-                tempo: changeEvent.target.value
-
+            compositions: {
+                ...this.state.compositions,
+                [track]: {
+                    ...this.state.compositions[track],
+                    tempo: changeEvent.target.value
+                }
             }
         })
     }
@@ -221,7 +228,7 @@ export default class App extends React.Component {
                     render={() => 
                         <Dashboard 
                             who={'private'} 
-                            userId={1}    // TODO: make dynamic
+                            userId={1}    // this will be dynamic once login auth set up
                             users={this.state.users}
                             tracks={this.state.compositions}
                             onChange={this.handlePrivacyChange}
@@ -234,18 +241,18 @@ export default class App extends React.Component {
                     path='/track' 
                     render={() => 
                         <DrumMachine 
-                            track={this.state.new_composition}
+                            track={this.state.compositions['0']}
                             onChange={this.handleTempoChange}
                             onClick={this.handleBeatChange}
                         />
                     }   
                 />
                 <Route 
-                    path='/track/:track_id' 
+                    path='/track/:trackId' 
                     component={(props) => {
                         // console.log('props.match: ', props.match)
                         return <DrumMachine 
-                                    track={this.state.compositions[props.match.params.track_id]}
+                                    track={this.state.compositions[props.match.params.trackId]}
                                     onChange={this.handleTempoChange}
                                     onClick={this.handleBeatChange}
                                 />
