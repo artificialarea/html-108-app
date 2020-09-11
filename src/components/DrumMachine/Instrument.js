@@ -14,6 +14,8 @@ export default function Instrument (props) {
             <Beat 
                 key={uuid()}
                 id={`${props.track.id} ${props.sound} ${i} ${stepSequence[i]}`}
+                userId={props.userId}
+                track={props.track}
                 beat={stepSequence[i]}
                 onClick={e => props.onClick(e)}
             />

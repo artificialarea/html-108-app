@@ -9,14 +9,18 @@ export default function Tempo (props) {
     return (
         <div className="tempo__controls">
             <PlayButton />
-            <TempoDisplay 
-                track={props.track} 
-                onChange={e => props.onChange(e)}
-            />
-            <TempoControl 
-                track={props.track} 
-                onChange={e => props.onChange(e)}
-            />
+            {(props.track.id === '0' || props.track.user_id === props.userId) &&
+                <>
+                <TempoDisplay 
+                    track={props.track} 
+                    onChange={e => props.onChange(e)}
+                />
+                <TempoControl 
+                    track={props.track} 
+                    onChange={e => props.onChange(e)}
+                />
+                </>
+            }   
         </div>
     )
 }

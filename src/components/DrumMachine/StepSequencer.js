@@ -16,6 +16,7 @@ export default function StepSequencer (props) {
             <Instrument
                 key={uuid()}
                 id={uuid()}
+                userId={props.userId}
                 track={props.track}
                 sound={key}
                 steps={obj[key]}

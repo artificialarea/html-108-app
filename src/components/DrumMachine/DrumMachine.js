@@ -11,6 +11,7 @@ export default function DrumMachine (props) {
             <Header track={props.track} />
             <Tempo 
                 track={props.track} 
+                userId={props.userId}
                 onChange={e => props.onChange(e)}
             />
             <StepSequencer 
