@@ -6,13 +6,15 @@ Corresponding server repo: **[html-108-server](https://github.com/artificialarea
 
 <br />
 
-## Preliminary 
+## Docs 
 
 * [Screen Inventory](https://github.com/artificialarea/html-108-app/blob/master/docs/screen-inventory.md)
 * [User Flows](https://github.com/artificialarea/html-108-app/blob/master/docs/user-flow.pdf)
 * [HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)
 * [Component Composition Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-composition.pdf)
 
+* **[Questions](https://github.com/artificialarea/html-108-app/blob/master/docs/questions.md)**
+* **[Footnotes](https://github.com/artificialarea/html-108-app/blob/master/docs/footnotes.js)**
 
 
 <br />
