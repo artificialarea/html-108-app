@@ -260,6 +260,8 @@ export default class App extends React.Component {
                         // console.log('props.match: ', props.match)
                         return <DrumMachine 
                                     track={this.state.compositions[props.match.params.trackId]}
+                                    userId={1}    // this will be dynamic once login auth set up
+                                    users={this.state.users}
                                     onChange={this.handleTempoChange}
                                     onClick={this.handleBeatChange}
                                 />

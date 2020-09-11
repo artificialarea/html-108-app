@@ -15,6 +15,8 @@ export default function DrumMachine (props) {
             />
             <StepSequencer 
                 track={props.track} 
+                userId={props.userId}   
+                users={props.users}
                 onClick={e => props.onClick(e)}
             />
         </div>

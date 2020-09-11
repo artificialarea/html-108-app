@@ -23,7 +23,17 @@ export default function StepSequencer (props) {
             />
         )
     )
-
+    
+    let conditionalSaveButton;
+    if (props.track.id === '0') {
+        conditionalSaveButton = <SaveTrack label={'Save'}/>
+    } else if (props.track.user_id === props.userId) {
+        conditionalSaveButton = <SaveTrack label={'Update'}/>
+    } else {
+        // Because a user can't save another user's track at present.
+        conditionalSaveButton = null
+    }
+    
     return (
         <div className="step-sequencer">
                         
@@ -32,10 +42,11 @@ export default function StepSequencer (props) {
             {instrumentArr}
             
             <div className="controls-file">
-                <DownloadTrack />
-                <SaveTrack />
+                {conditionalSaveButton}
+                {/* <DownloadTrack /> */}
             </div>
-            
+
+
         </div>
 
     )
