@@ -181,6 +181,34 @@ export default class App extends React.Component {
         })
     }
 
+    handleDeleteTrack = (trackId) => {
+        console.log('handleDeleteTrack init ', trackId)
+        console.log(this.state.compositions[trackId]) 
+
+        // I can delete this key/value pair by mutating state
+        // delete this.state.compositions[trackId]
+
+        // BUT how can I do this via setState??
+        /* using this as a guide...
+
+        // Bad
+        delete this.state.obj.key;
+        
+        // Good 
+        const {key, ...rest} = this.state.obj;
+        this.setState({
+            obj: rest
+        });
+
+        // this should work, but doesn't =/ */
+        const { trackId, ...rest } = this.state.compositions;
+
+        this.setState({
+            compositions: rest
+        })
+
+    }
+
     renderNavRoutes () {
         return (
             <>
@@ -204,7 +232,7 @@ export default class App extends React.Component {
     }
 
     renderMainRoutes () {
-
+        console.log(this.state.compositions)
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
@@ -232,6 +260,7 @@ export default class App extends React.Component {
                             users={this.state.users}
                             tracks={this.state.compositions}
                             onChange={this.handlePrivacyChange}
+                            onClickDelete={this.handleDeleteTrack}
                         />
                     }  
                 />

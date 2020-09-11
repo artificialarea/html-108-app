@@ -16,6 +16,8 @@ export default function TrackItem (props) {
                 <UserControls 
                     track={props.track}
                     onChange={e => props.onChange(e)}
+                    // onClickDelete={props.onClickDelete}
+                    onClickDelete={(trackId) => props.onClickDelete(trackId)}
                 />
             }
             

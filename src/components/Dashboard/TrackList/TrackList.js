@@ -30,6 +30,8 @@ export default function TrackList (props) {
                     who={props.who}
                     track={obj[key]}
                     onChange={e => props.onChange(e)}
+                    // onClickDelete={props.onClickDelete}
+                    onClickDelete={(trackId) => props.onClickDelete(trackId)}
                 />
             );
         }

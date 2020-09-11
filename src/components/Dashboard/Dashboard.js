@@ -18,6 +18,8 @@ export default function Dashboard (props) {
                 users={props.users}
                 tracks={props.tracks}
                 onChange={e => props.onChange(e)}
+                // onClickDelete={props.onClickDelete}
+                onClickDelete={(trackId) => props.onClickDelete(trackId)}
             />
         </div>
     )

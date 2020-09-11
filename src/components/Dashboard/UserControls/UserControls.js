@@ -1,6 +1,11 @@
 import React from 'react';
 
 export default function UserControls (props) {
+
+    // function testing(trackId) {
+    //     console.log(trackId)
+    // }
+
     return (
         <div className="user-controls">
             <label>
@@ -26,7 +31,13 @@ export default function UserControls (props) {
                 Public
             </label>
             <br />
-            <button>Delete Track</button>
+            <button
+                type="button"
+                onClick={() => props.onClickDelete(props.track.id)}
+                // onClick={() => testing(props.track.id)}
+            >
+                Delete Track
+            </button>
         </div>
     )
 }
