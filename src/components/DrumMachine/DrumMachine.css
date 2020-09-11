@@ -1,10 +1,12 @@
 .drum-machine li {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    /* width: 10px;
+    height: 10px; */
+    width: 2px;
+    height: 2px;
     border: 1px solid black;
-    padding: 10px;
-    margin: 2px;
+    padding: 9%;
+    margin: 2%;
     background-color: rgba(13, 228, 243, 0.2);
 }
 
@@ -12,3 +14,22 @@
     background-color: rgb(13, 228, 243)
 }
 
+/* 500 /////////////////////////////////////*/
+@media screen and (min-width: 500px) {
+
+    .drum-machine li {
+        padding: 2%;
+        margin: 2px;
+    }
+
+}
+
+/* 768 /////////////////////////////////////*/
+@media screen and (min-width: 768px) {
+
+    .drum-machine li {
+        padding: 2.5%;
+        margin: 2px;
+    }
+
+}

@@ -1,24 +1,27 @@
 body {
-    margin: 20px;
+    /* margin: 2%; */
+    margin: 0;
+    padding: 0;
 }
 
 .App {
   text-align: center;
+  margin: 0px;
 }
 
 div {
-    padding: 1%;
+    /* padding: 1%; */
 }
 
 .component {
-    border: 2px solid black;
+    /* border: 2px solid black;
     margin: 10px 10px 30px 10px;
-    padding: 2%;
+    padding: 2%; */
 }
 
 .composition {
-    border: 1px solid grey;
-    margin: 10px 0 10px 0;
+    border: 2px solid grey;
+    margin: 10px;
     padding: 2%;
     background-color: rgb(240, 241, 241, 0.2);
 }
@@ -40,6 +43,7 @@ div {
 nav,
 .footer {
     background-color: aqua;
+    padding: 10px;
 }
 
 button {
@@ -53,4 +57,8 @@ button {
 ul {
     list-style-type: none;
     padding: 0;
+}
+
+h1, h2, h3 {
+    margin: 0;
 }
