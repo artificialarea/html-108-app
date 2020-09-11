@@ -34,3 +34,27 @@ const trackId = '2';
 this.state.compositions.find((track) => track.id === trackId)
 // object (sooo much easier)
 this.state.compositions[trackId];
+
+
+// [f3] ////////////////////////////////////////////////
+// Unable to purge key/value from state via setState
+
+// Per guidelines
+// BAD
+delete this.state.obj.key;
+// GOOD
+const {key, ...rest} = this.state.obj;
+this.setState({
+    obj: rest
+});
+
+// However, I was unable to implement via the suggested GOOD method.
+// So, resorted to the BAD approach:
+// deleting composition key/value by directly mutating state, 
+// then empty setState({ }) to trigger render in the DOM
+delete this.state.compositions[trackId]
+this.setState({ })
+
+// James suggests this approach may not be that bad, tho. 
+// Suggests I research "Primative vs Reference Types" to shed more light on state.
+
