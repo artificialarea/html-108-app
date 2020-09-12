@@ -12,7 +12,8 @@ export default function Instrument (props) {
     for (let i = 0; i < stepSequence.length; i++ ) {
         beatArr.push(
             <Beat 
-                key={uuid()}
+                // key={uuid()}
+                key={`${props.track.id} ${props.sound} ${i} ${stepSequence[i]}`}
                 id={`${props.track.id} ${props.sound} ${i} ${stepSequence[i]}`}
                 userId={props.userId}
                 track={props.track}
