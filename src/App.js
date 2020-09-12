@@ -19,8 +19,8 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: {
-                '1': {
+            users: [
+                {
                     id: 1,
                     username: "Sarah",
                     // presumably won't store this sensitive data client-side?
@@ -28,15 +28,15 @@ export default class App extends React.Component {
                     // password: "aaAA11!!",        
                     // email: "sarah@hotmail.com"
                 },
-                '2': {
+                {
                     id: 2,
                     username: "Dolfmeister",
                 },
-            },
-            compositions: { // [f2]
-                '0': {  // temporary storage for 'new' composition that doesn't really have a trackId yet
-                    id: '0', 
-                    user_id: '',
+            ],
+            compositions: [ // [f2]
+                {  // temporary storage for 'new' composition that doesn't really have a trackId yet
+                    id: 0, 
+                    user_id: null,
                     title: '', 
                     date_modified: '',
                     public: false,
@@ -50,7 +50,7 @@ export default class App extends React.Component {
                         bass: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                     },
                 },
-                '1': {
+                {
                     id: 1,
                     user_id: 1,
                     title: "Krautrock",
@@ -66,7 +66,7 @@ export default class App extends React.Component {
                         bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
                     },
                 },
-                '2': {
+                {
                     id: 2,
                     user_id: 1,
                     title: "Tiny Tempah",
@@ -82,7 +82,7 @@ export default class App extends React.Component {
                         bass: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                     },
                 },
-                '10': {
+                {
                     id: 10,
                     user_id: 2,
                     title: "Browser Noise",
@@ -98,7 +98,7 @@ export default class App extends React.Component {
                         bass: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                     },
                 },
-                '11': {
+                {
                     id: 11,
                     user_id: 2,
                     title: "Untitled",
@@ -114,7 +114,7 @@ export default class App extends React.Component {
                         bass: [0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
                     },
                 },
-            },
+            ],
         }
     }
 
@@ -123,7 +123,7 @@ export default class App extends React.Component {
         // Extract target tag id information from string into array
         // "trackId instrumentKey beatIndex beatBoolean" e.g. "2 hihat 5 0" // => ['2','hihat', 5, 0]
         const targets = changeEvent.target.id.split(' ');
-        const track = targets[0];
+        const trackId = targets[0];
         const instrumentKey = targets[1];
         const beatIndex = targets[2];
         let beatBoolean = targets[3]; 
@@ -133,58 +133,47 @@ export default class App extends React.Component {
             : beatBoolean = 1;
 
         // [f1]
-        const instrumentArr = [...this.state.compositions[track].step_sequence[instrumentKey]];
-        instrumentArr[beatIndex] = beatBoolean; 
-        
+        const newCompositions = [...this.state.compositions];
+        newCompositions.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
+
         this.setState({
-            compositions: {  
-                ...this.state.compositions,
-                [track]: {
-                    ...this.state.compositions[track],
-                    step_sequence: {
-                        ...this.state.compositions[track].step_sequence,
-                        [instrumentKey]: instrumentArr,
-                    }
-                }
-            }
+            // [f1]
+            // compositions: newCompositions
         })
     }
 
     handleTempoChange = (changeEvent) => {
-        const track = changeEvent.target.name;
+        const trackId = changeEvent.target.name;
+
+        const newCompositions = [...this.state.compositions];
+        newCompositions.find(track => track.id == trackId).tempo = changeEvent.target.value;
+
         this.setState({
-            compositions: {
-                ...this.state.compositions,
-                [track]: {
-                    ...this.state.compositions[track],
-                    tempo: changeEvent.target.value
-                }
-            }
+            // [f1]
+            // compositions: newCompositions
         })
     }
 
     handlePrivacyChange = (changeEvent) => {
-        const track = changeEvent.target.name;
+        const trackId = changeEvent.target.name;  
         const newPrivacyBool = changeEvent.target.value === 'public' ? true : false;
 
-        this.setState({
-            compositions: {
-                ...this.state.compositions,
-                [track]: {
-                    ...this.state.compositions[track],
-                    public: newPrivacyBool
-                }
-            }
+        const newCompositions = [...this.state.compositions];
+        newCompositions.find(track => track.id == trackId).public = newPrivacyBool;
 
+        this.setState({
+            // [f1]
+            // compositions: newCompositions
         })
     }
 
     handleDeleteTrack = (trackId) => {
-        // console.log(this.state.compositions[trackId]) 
-
         // [f3]
         delete this.state.compositions[trackId]
-        this.setState({ })
+        this.setState({
+            // [f1]
+            // compositions: newCompositions
+        })
     }
 
     renderNavRoutes () {
@@ -210,7 +199,7 @@ export default class App extends React.Component {
     }
 
     renderMainRoutes () {
-        // console.log(this.state.compositions)
+        console.log(this.state.compositions)
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
@@ -248,7 +237,7 @@ export default class App extends React.Component {
                     path='/track' 
                     render={() => 
                         <DrumMachine 
-                            track={this.state.compositions['0']}
+                            track={this.state.compositions[0]}
                             onChange={this.handleTempoChange}
                             onClick={this.handleBeatChange}
                         />
@@ -257,9 +246,10 @@ export default class App extends React.Component {
                 <Route 
                     path='/track/:trackId' 
                     component={(props) => {
-                        // console.log('props.match: ', props.match)
+                        console.log('props.match: ', props.match)
+                        const trackViaParams = this.state.compositions.find(track => track.id == props.match.params.trackId)
                         return <DrumMachine 
-                                    track={this.state.compositions[props.match.params.trackId]}
+                                    track={trackViaParams}  
                                     userId={1}    // this will be dynamic once login auth set up
                                     users={this.state.users}
                                     onChange={this.handleTempoChange}

@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 export default function DashboardHeader (props) {
 
     let displayView;
-    let usernameTitle;
+    let user;
 
     if (props.who !== 'private') {
         displayView = 'Community Dashboard'
     } else {
-        usernameTitle = props.users[props.userId].username;
-        displayView = `${usernameTitle}'s Dashboard`;
+        user = props.users.find(user => user.id === props.userId).username;
+        displayView = `${user}'s Dashboard`;
     }
 
     return (

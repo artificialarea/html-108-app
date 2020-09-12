@@ -14,8 +14,10 @@ export default function StepSequencer (props) {
     Object.keys(obj).forEach(key => 
         instrumentArr.push(
             <Instrument
-                key={uuid()}
-                id={uuid()}
+                // key={uuid()}
+                // id={uuid()}
+                key={key}
+                id={key}
                 userId={props.userId}
                 track={props.track}
                 sound={key}
@@ -26,7 +28,7 @@ export default function StepSequencer (props) {
     )
     
     let conditionalSaveButton;
-    if (props.track.id === '0') {
+    if (props.track.id === 0) {
         conditionalSaveButton = <SaveTrack label={'Save'}/>
     } else if (props.track.user_id === props.userId) {
         conditionalSaveButton = <SaveTrack label={'Update'}/>

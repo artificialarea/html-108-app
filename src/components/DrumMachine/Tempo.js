@@ -9,7 +9,7 @@ export default function Tempo (props) {
     return (
         <div className="tempo__controls">
             <PlayButton />
-            {(props.track.id === '0' || props.track.user_id === props.userId) &&
+            {(props.track.id === 0 || props.track.user_id === props.userId) &&
                 <>
                 <TempoDisplay 
                     track={props.track} 
