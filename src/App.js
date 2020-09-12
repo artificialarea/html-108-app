@@ -123,7 +123,7 @@ export default class App extends React.Component {
         // Extract target tag id information from string into array
         // "trackId instrumentKey beatIndex beatBoolean" e.g. "2 hihat 5 0" // => ['2','hihat', 5, 0]
         const targets = changeEvent.target.id.split(' ');
-        const track = targets[0];
+        const trackId = targets[0];
         const instrumentKey = targets[1];
         const beatIndex = targets[2];
         let beatBoolean = targets[3]; 
@@ -133,58 +133,47 @@ export default class App extends React.Component {
             : beatBoolean = 1;
 
         // [f1]
-        const instrumentArr = [...this.state.compositions[track].step_sequence[instrumentKey]];
-        instrumentArr[beatIndex] = beatBoolean; 
-        
+        const newCompositions = [...this.state.compositions];
+        newCompositions.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
+
         this.setState({
-            compositions: {  
-                ...this.state.compositions,
-                [track]: {
-                    ...this.state.compositions[track],
-                    step_sequence: {
-                        ...this.state.compositions[track].step_sequence,
-                        [instrumentKey]: instrumentArr,
-                    }
-                }
-            }
+            // [f1]
+            // compositions: newCompositions
         })
     }
 
     handleTempoChange = (changeEvent) => {
-        const track = changeEvent.target.name;
+        const trackId = changeEvent.target.name;
+
+        const newCompositions = [...this.state.compositions];
+        newCompositions.find(track => track.id == trackId).tempo = changeEvent.target.value;
+
         this.setState({
-            compositions: {
-                ...this.state.compositions,
-                [track]: {
-                    ...this.state.compositions[track],
-                    tempo: changeEvent.target.value
-                }
-            }
+            // [f1]
+            // compositions: newCompositions
         })
     }
 
     handlePrivacyChange = (changeEvent) => {
-        const track = changeEvent.target.name;
+        const trackId = changeEvent.target.name;  
         const newPrivacyBool = changeEvent.target.value === 'public' ? true : false;
 
-        this.setState({
-            compositions: {
-                ...this.state.compositions,
-                [track]: {
-                    ...this.state.compositions[track],
-                    public: newPrivacyBool
-                }
-            }
+        const newCompositions = [...this.state.compositions];
+        newCompositions.find(track => track.id == trackId).public = newPrivacyBool;
 
+        this.setState({
+            // [f1]
+            // compositions: newCompositions
         })
     }
 
     handleDeleteTrack = (trackId) => {
-        // console.log(this.state.compositions[trackId]) 
-
         // [f3]
         delete this.state.compositions[trackId]
-        this.setState({ })
+        this.setState({
+            // [f1]
+            // compositions: newCompositions
+        })
     }
 
     renderNavRoutes () {
@@ -210,7 +199,7 @@ export default class App extends React.Component {
     }
 
     renderMainRoutes () {
-        // console.log(this.state.compositions)
+        console.log(this.state.compositions)
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
@@ -257,7 +246,7 @@ export default class App extends React.Component {
                 <Route 
                     path='/track/:trackId' 
                     component={(props) => {
-                        console.log('props.match: ', props.match.params.trackId)
+                        console.log('props.match: ', props.match)
                         const trackViaParams = this.state.compositions.find(track => track.id == props.match.params.trackId)
                         return <DrumMachine 
                                     track={trackViaParams}  

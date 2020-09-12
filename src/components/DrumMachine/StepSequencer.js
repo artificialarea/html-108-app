@@ -28,7 +28,7 @@ export default function StepSequencer (props) {
     )
     
     let conditionalSaveButton;
-    if (props.track.id === '0') {
+    if (props.track.id === 0) {
         conditionalSaveButton = <SaveTrack label={'Save'}/>
     } else if (props.track.user_id === props.userId) {
         conditionalSaveButton = <SaveTrack label={'Update'}/>

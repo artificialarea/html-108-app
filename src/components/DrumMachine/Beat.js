@@ -5,7 +5,7 @@ export default function Beat (props) {
 
     let item;
     let itemChecked;
-    if (props.track.id === '0' || props.track.user_id === props.userId) {
+    if (props.track.id === 0 || props.track.user_id === props.userId) {
         item = <li id={props.id} onClick={e => props.onClick(e)}></li>
         itemChecked = <li className="checked" id={props.id} onClick={e => props.onClick(e)}></li>
     } else {

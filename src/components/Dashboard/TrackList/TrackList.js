@@ -6,6 +6,7 @@ export default function TrackList (props) {
 
     const publicTracks = [];
     const privateTracks = [];
+    // console.log('props.tracks: ', props.tracks)
 
     props.tracks.forEach(track => {
         const userId =  track.user_id
@@ -48,4 +49,8 @@ export default function TrackList (props) {
             {dashboardDisplay}
         </ul>
     )
+}
+
+TrackList.defaultProps = {
+    tracks: []
 }
