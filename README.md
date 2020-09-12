@@ -1,6 +1,6 @@
 # HTML-108
 
-Deployed to production: **https://html-108.vercel.app/**
+Deployed to production: **https://html-108.vercel.app**
 
 Corresponding server repo: **[html-108-server](https://github.com/artificialarea/html-108-server)**
 

@@ -19,14 +19,16 @@ const instrumentArr = [...this.state.compositions[track].step_sequence[instrumen
 // I'm still a bit fuzzy as why the spread operator does this... but gonna read up on it now.
 
 
+
 // [f2] ////////////////////////////////////////////////
 // Use objects not arrays for organizing data in state to conduct CRUD operations
 // src: https://medium.com/javascript-in-plain-english/https-medium-com-javascript-in-plain-english-why-you-should-use-an-object-not-an-array-for-lists-bee4a1fbc8bd
            
-// Once I switched this.state.compositions and this.state.users from an array (of nameless objects) to an object
+// Once I switched this.state.compositions and this.state.users 
+// from an array (of nameless objects) to an object
 // suddenly CRUD operations to access state and setState became so much simpler.
-// BAD:     [ {id:'1'}, {id:'2'}, ... ]
-// GOOD:    { '1': {}, '2': {}, ... }
+// BAD?:     [ {id:'1'}, {id:'2'}, ... ]
+// GOOD?:    { '1': {}, '2': {}, ... }
 
 // READ example
 const trackId = '2';
@@ -34,6 +36,12 @@ const trackId = '2';
 this.state.compositions.find((track) => track.id === trackId)
 // object (sooo much easier)
 this.state.compositions[trackId];
+
+// POST-SCRIPT!!!! 
+// Unfortunately, it appears Marius recommends the opposite. Ugh.
+// I failed to capture all the pros and cons he gave, but essentially he said 99% of databases are configured as an array of object. It's easier to access data (via mapping, etc) and also something about deleting data.
+// For now I will leave as is, but may likely need to refactor again back to how I previously had it =/e e.g. compositions: [ {}, {}, {} ]
+
 
 
 // [f3] ////////////////////////////////////////////////
