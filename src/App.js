@@ -168,12 +168,9 @@ export default class App extends React.Component {
     }
 
     handleDeleteTrack = (trackId) => {
-        // [f3]
+        // [f3] + [f1]
         delete this.state.compositions[trackId]
-        this.setState({
-            // [f1]
-            // compositions: newCompositions
-        })
+        this.setState({ })
     }
 
     renderNavRoutes () {

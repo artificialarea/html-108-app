@@ -65,3 +65,12 @@ this.setState({ })
 // James suggests this approach may not be that bad, tho. 
 // Suggests I research "Primative vs Reference Types" to shed more light on state.
 
+// POST-SCRIPT!!!!
+// was able to pull it off in branch 'state-with-objects'
+// co-opted this from somewhere else...
+let {[trackId]: _, ...rest} = this.state.compositions;
+this.setState({
+    compositions: rest
+})
+
+// Note: the underscore (_) indicates to ignore.
