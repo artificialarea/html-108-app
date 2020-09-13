@@ -72,5 +72,12 @@ let {[trackId]: _, ...rest} = this.state.compositions;
 this.setState({
     compositions: rest
 })
-
 // Note: the underscore (_) indicates to ignore.
+// and in master state with arrays
+const newCompositions = [...this.state.compositions]
+const index = newCompositions.findIndex(track => track.id === trackId)
+newCompositions.splice(index, 1);
+
+this.setState({
+    compositions: newCompositions
+})

@@ -169,8 +169,15 @@ export default class App extends React.Component {
 
     handleDeleteTrack = (trackId) => {
         // [f3] + [f1]
-        delete this.state.compositions[trackId]
-        this.setState({ })
+        const newCompositions = [...this.state.compositions]
+        const index = newCompositions.findIndex(track => track.id === trackId)
+        newCompositions.splice(index, 1);
+
+        this.setState({
+            compositions: newCompositions
+        })
+
+
     }
 
     renderNavRoutes () {
