@@ -1,10 +1,11 @@
 import React from 'react';
 import DashboardHeader from './DashboardHeader/DashboardHeader';
 import TrackList from './TrackList/TrackList';
+import SearchBox from './SearchBox/SearchBox';
 
 
 export default function Dashboard (props) {
-    const { who, users, tracks, userId } = props;
+    const { who, users, tracks, userId, searchTerm } = props;
 
     return (
         <div className="component dashboard">
@@ -12,6 +13,9 @@ export default function Dashboard (props) {
                 who={who}
                 userId={userId}
                 users={users}
+            />
+            <SearchBox 
+                handleUpdate={props.handleUpdate}
             />
             <TrackList 
                 who={who}
@@ -21,6 +25,7 @@ export default function Dashboard (props) {
                 onChange={e => props.onChange(e)}
                 // onClickDelete={props.onClickDelete}
                 onClickDelete={(trackId) => props.onClickDelete(trackId)}
+                searchTerm={searchTerm}
             />
         </div>
     )
