@@ -1,4 +1,10 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+    faRedoAlt, 
+    faTrashAlt, 
+    faCloudDownloadAlt, 
+  } from '@fortawesome/free-solid-svg-icons';
 
 export default function UserControls (props) {
     const { track } = props;
@@ -31,10 +37,14 @@ export default function UserControls (props) {
             <button
                 type="button"
                 onClick={() => props.onClickDelete(track.id)}
-                // onClick={() => testing(track.id)}
             >
                 Delete Track
             </button>
+            {/* <FontAwesomeIcon 
+                icon={faTrashAlt}
+                type="button"
+                onClick={() => props.onClickDelete(track.id)}
+            /> */}
         </div>
     )
 }

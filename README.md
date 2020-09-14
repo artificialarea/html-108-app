@@ -79,6 +79,16 @@ Did some initial React integration studies in my [p5-reaction](https://github.co
 
 * **Tone.js**: [npm](https://www.npmjs.com/package/tone) | [docs](https://tonejs.github.io/)
 * **StartAudioContext**: [npm](https://www.npmjs.com/package/startaudiocontext) | [repo](https://github.com/tambien/StartAudioContext)
+* **[FontAwesome Icons](https://fontawesome.com/icons)** via...
+```
+$ npm install @fortawesome/fontawesome-svg-core
+$ npm install @fortawesome/free-solid-svg-icons
+$ npm install @fortawesome/react-fontawesome
+```
+https://fontawesome.com/how-to-use/on-the-web/using-with/react
+https://react-icons.github.io/react-icons/icons?name=fa
+refer to [checkpoint 12](https://courses.thinkful.com/react-v1/checkpoint/12#brief-interlude) & repo 05-21_fileuploader
+
 <br />
 
 <hr /> 
