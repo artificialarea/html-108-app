@@ -1,38 +1,38 @@
 import React from 'react';
 
 export default function Beat (props) {
-    // console.log(props.beat)
+    const { track, id, userId, beat } = props;
 
     let item;
     let itemChecked;
-    if (props.track.id === 0 || props.track.user_id === props.userId) {
-        item = <li id={props.id} onClick={e => props.onClick(e)}></li>
-        itemChecked = <li className="checked" id={props.id} onClick={e => props.onClick(e)}></li>
+    if (track.id === 0 || track.user_id === userId) {
+        item = <li id={id} onClick={e => props.onClick(e)}></li>
+        itemChecked = <li className="checked" id={id} onClick={e => props.onClick(e)}></li>
     } else {
-        item = <li id={props.id}></li>
-        itemChecked = <li className="checked" id={props.id}></li>
+        item = <li id={id}></li>
+        itemChecked = <li className="checked" id={id}></li>
     }
 
     return (
         <> 
-            {props.beat
+            {beat
                 ?   itemChecked
                 :   item
             }
-            {/* {props.beat
+            {/* {beat
                 ?   <li 
                         className="checked" 
-                        id={props.id}
+                        id={id}
                         onClick={e => props.onClick(e)}
                             
                     >
-                            {props.beat}
+                            {beat}
                     </li>
                 :   <li 
-                        id={props.id}
+                        id={id}
                         onClick={e => props.onClick(e)}
                     >
-                            {props.beat}
+                            {beat}
                     </li>
             } */}
         </>

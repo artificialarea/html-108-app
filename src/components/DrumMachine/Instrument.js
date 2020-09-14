@@ -4,20 +4,21 @@ import Beat from './Beat';
 import InstrumentSound from './InstrumentSound'
 
 export default function Instrument (props) {
+    const { user, userId, track, steps, sound } = props;
 
-    const stepSequence = props.steps;
+    // const stepSequence = props.steps;
     const beatArr = [];
     // had an issue with stepSequence.forEach() method,
     // so resorting to old faithful
-    for (let i = 0; i < stepSequence.length; i++ ) {
+    for (let i = 0; i < steps.length; i++ ) {
         beatArr.push(
             <Beat 
                 // key={uuid()}
-                key={`${props.track.id} ${props.sound} ${i} ${stepSequence[i]}`}
-                id={`${props.track.id} ${props.sound} ${i} ${stepSequence[i]}`}
-                userId={props.userId}
-                track={props.track}
-                beat={stepSequence[i]}
+                key={`${track.id} ${sound} ${i} ${steps[i]}`}
+                id={`${track.id} ${sound} ${i} ${steps[i]}`}
+                userId={userId}
+                track={track}
+                beat={steps[i]}
                 onClick={e => props.onClick(e)}
             />
         )
@@ -25,7 +26,7 @@ export default function Instrument (props) {
 
     return (
         <div className="instrument" id={props.id}>
-            <InstrumentSound type={props.sound} />
+            <InstrumentSound type={sound} />
             <ul>
                 {beatArr}
             </ul>

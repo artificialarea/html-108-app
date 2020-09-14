@@ -5,22 +5,23 @@ import Tempo from './Tempo';
 import StepSequencer from './StepSequencer';
 
 export default function DrumMachine (props) {
+    const { users, userId, track } = props;
     // console.log('props.tracks: ', props.tracks)
     // console.log(props.match.params.trackId)
     // const track = props.tracks.find(track => track.id === props.match.params.trackId)
     // console.log('props.track: ', props.track)
     return (
         <div className="component drum-machine">
-            <Header track={props.track} />
+            <Header track={track} />
             <Tempo 
-                track={props.track} 
-                userId={props.userId}
+                track={track} 
+                userId={userId}
                 onChange={e => props.onChange(e)}
             />
             <StepSequencer 
-                track={props.track} 
-                userId={props.userId}   
-                users={props.users}
+                track={track} 
+                userId={userId}   
+                users={users}
                 onClick={e => props.onClick(e)}
             />
         </div>

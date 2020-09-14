@@ -15,7 +15,7 @@ const newCompositions = this.state.compositions;
 // Whereas apparently this does not: adding a spread operator to the instrumentArray I made a copy/clone of that array in state, allowing me to manipulate it prior to setState without directly mutating state...
 const newCompositions = [...this.state.compositions];
 
-// But it still seems to update state without the need of setState, tho? =/
+// BUT... it still seems to update state without the need of setState, tho? =/
 
 
 

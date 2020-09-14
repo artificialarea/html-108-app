@@ -1,20 +1,17 @@
 import React from 'react';
 
 export default function UserControls (props) {
-
-    // function testing(trackId) {
-    //     console.log(trackId)
-    // }
+    const { track } = props;
 
     return (
         <div className="user-controls">
             <label>
                 <input 
                     type="radio" 
-                    // name={`composition-${props.track.id}`} 
-                    name={props.track.id} 
+                    // name={`composition-${track.id}`} 
+                    name={track.id} 
                     value="private"
-                    checked={!props.track.public}
+                    checked={!track.public}
                     onChange={e => props.onChange(e)}
 
                 />
@@ -23,9 +20,9 @@ export default function UserControls (props) {
             <label>
                 <input 
                     type="radio" 
-                    name={props.track.id}  
+                    name={track.id}  
                     value="public"
-                    checked={props.track.public}
+                    checked={track.public}
                     onChange={e => props.onChange(e)}
                 />
                 Public
@@ -33,8 +30,8 @@ export default function UserControls (props) {
             <br />
             <button
                 type="button"
-                onClick={() => props.onClickDelete(props.track.id)}
-                // onClick={() => testing(props.track.id)}
+                onClick={() => props.onClickDelete(track.id)}
+                // onClick={() => testing(track.id)}
             >
                 Delete Track
             </button>

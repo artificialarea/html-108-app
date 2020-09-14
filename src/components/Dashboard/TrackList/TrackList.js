@@ -3,33 +3,34 @@ import uuid from 'react-uuid';
 import TrackItem from '../TrackItem/TrackItem';
 
 export default function TrackList (props) {
+    const { users, tracks, who, userId } = props;
 
     const publicTracks = [];
     const privateTracks = [];
-    // console.log('props.tracks: ', props.tracks)
+    // console.log('tracks: ', tracks)
 
-    props.tracks.forEach(track => {
-        const userId =  track.user_id
-        if (props.who !== 'private') {
+    tracks.forEach(track => {
+        const trackUserId =  track.user_id
+        if (who !== 'private') {
             if (track.public === true) {
-                const trackUser = props.users.find(user => user.id === userId).username;
+                const trackUser = users.find(user => user.id === trackUserId).username;
                 publicTracks.push(
                     <TrackItem 
                         // key={uuid()}
                         key={track.id}
-                        who={props.who}
+                        who={who}
                         user={trackUser} 
                         track={track}
                     />
                 );
             }
         }
-        if (track.user_id === props.userId) {
+        if (track.user_id === userId) {
             privateTracks.push(
                 <TrackItem 
                     // key={uuid()}
                     key={track.id}
-                    who={props.who}
+                    who={who}
                     track={track}
                     onChange={e => props.onChange(e)}
                     // onClickDelete={props.onClickDelete}
@@ -40,12 +41,12 @@ export default function TrackList (props) {
     })
     
     const dashboardDisplay = 
-        (props.who !== 'private')
+        (who !== 'private')
                 ? publicTracks
                 : privateTracks
 
     return (
-        <ul className="track-list" key={props.id}>
+        <ul className="track-list">
             {dashboardDisplay}
         </ul>
     )

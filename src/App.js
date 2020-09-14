@@ -119,6 +119,7 @@ export default class App extends React.Component {
     }
 
     handleBeatChange = (changeEvent) => {
+        const { compositions } = this.state;
         // probably a less hacky way to do this, but...
         // Extract target tag id information from string into array
         // "trackId instrumentKey beatIndex beatBoolean" e.g. "2 hihat 5 0" // => ['2','hihat', 5, 0]
@@ -133,7 +134,7 @@ export default class App extends React.Component {
             : beatBoolean = 1;
 
         // [f1]
-        const newCompositions = [...this.state.compositions];
+        const newCompositions = [...compositions];
         newCompositions.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
 
         this.setState({
@@ -143,9 +144,10 @@ export default class App extends React.Component {
     }
 
     handleTempoChange = (changeEvent) => {
+        const { compositions } = this.state;
         const trackId = changeEvent.target.name;
 
-        const newCompositions = [...this.state.compositions];
+        const newCompositions = [...compositions];
         newCompositions.find(track => track.id == trackId).tempo = changeEvent.target.value;
 
         this.setState({
@@ -155,10 +157,11 @@ export default class App extends React.Component {
     }
 
     handlePrivacyChange = (changeEvent) => {
+        const { compositions } = this.state;
         const trackId = changeEvent.target.name;  
         const newPrivacyBool = changeEvent.target.value === 'public' ? true : false;
 
-        const newCompositions = [...this.state.compositions];
+        const newCompositions = [...compositions];
         newCompositions.find(track => track.id == trackId).public = newPrivacyBool;
 
         this.setState({
@@ -168,10 +171,13 @@ export default class App extends React.Component {
     }
 
     handleDeleteTrack = (trackId) => {
+        const { compositions } = this.state;
         // [f3] + [f1]
-        const newCompositions = [...this.state.compositions]
+        const newCompositions = [...compositions]
         const index = newCompositions.findIndex(track => track.id === trackId)
-        newCompositions.splice(index, 1);
+        if (index > -1) {
+            newCompositions.splice(index, 1);
+        }
 
         this.setState({
             compositions: newCompositions
@@ -203,7 +209,9 @@ export default class App extends React.Component {
     }
 
     renderMainRoutes () {
-        console.log(this.state.compositions)
+        const { users, compositions } = this.state;
+        // console.log(compositions)
+
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
@@ -217,8 +225,8 @@ export default class App extends React.Component {
                     render={() => 
                         <Dashboard 
                             who={'public'}
-                            users={this.state.users}
-                            tracks={this.state.compositions}
+                            users={users}
+                            tracks={compositions}
                         />
                     } 
                 />
@@ -228,8 +236,8 @@ export default class App extends React.Component {
                         <Dashboard 
                             who={'private'} 
                             userId={1}    // this will be dynamic once login auth set up
-                            users={this.state.users}
-                            tracks={this.state.compositions}
+                            users={users}
+                            tracks={compositions}
                             onChange={this.handlePrivacyChange}
                             onClickDelete={this.handleDeleteTrack}
                         />
@@ -241,7 +249,7 @@ export default class App extends React.Component {
                     path='/track' 
                     render={() => 
                         <DrumMachine 
-                            track={this.state.compositions[0]}
+                            track={compositions[0]}
                             onChange={this.handleTempoChange}
                             onClick={this.handleBeatChange}
                         />
@@ -251,11 +259,11 @@ export default class App extends React.Component {
                     path='/track/:trackId' 
                     component={(props) => {
                         console.log('props.match: ', props.match)
-                        const trackViaParams = this.state.compositions.find(track => track.id == props.match.params.trackId)
+                        const trackViaParams = compositions.find(track => track.id == props.match.params.trackId)
                         return <DrumMachine 
                                     track={trackViaParams}  
                                     userId={1}    // this will be dynamic once login auth set up
-                                    users={this.state.users}
+                                    users={users}
                                     onChange={this.handleTempoChange}
                                     onClick={this.handleBeatChange}
                                 />

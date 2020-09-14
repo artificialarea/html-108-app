@@ -8,6 +8,7 @@
     padding: 9%;
     margin: 2%;
     background-color: rgba(13, 228, 243, 0.2);
+    cursor: pointer;
 }
 
 .drum-machine li.checked {

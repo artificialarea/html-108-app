@@ -1,16 +1,17 @@
 import React from 'react';
 
 export default function TempoControl (props) {
+    const { track } = props;
 
     return (
         <>
             <input 
                 type="range"
-                // id={props.track.id}
-                name={props.track.id}
+                // id={track.id}
+                name={track.id}
                 min="30"
                 max="300"
-                value={props.track.tempo}
+                value={track.tempo}
                 onChange={e => props.onChange(e)}
             />
         </>

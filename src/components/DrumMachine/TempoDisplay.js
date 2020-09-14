@@ -1,15 +1,17 @@
 import React from 'react';
 
 export default function TempoDisplay (props) {
+    const { track } = props;
+
     return (
         <>
             <label>
                 BPM
                 <input 
                     type="number"
-                    // id={props.track.id}
-                    name={props.track.id}
-                    value={props.track.tempo}
+                    // id={track.id}
+                    name={track.id}
+                    value={track.tempo}
                     onChange={e => props.onChange(e)}
                 />
             </label>

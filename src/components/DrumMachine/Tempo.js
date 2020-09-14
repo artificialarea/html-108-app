@@ -5,18 +5,19 @@ import TempoControl from './TempoControl';
 
 
 export default function Tempo (props) {
-    // console.log(props.track)
+    const { track, userId } = props;
+    // console.log(track)
     return (
         <div className="tempo__controls">
             <PlayButton />
-            {(props.track.id === 0 || props.track.user_id === props.userId) &&
+            {(track.id === 0 || track.user_id === userId) &&
                 <>
                 <TempoDisplay 
-                    track={props.track} 
+                    track={track} 
                     onChange={e => props.onChange(e)}
                 />
                 <TempoControl 
-                    track={props.track} 
+                    track={track} 
                     onChange={e => props.onChange(e)}
                 />
                 </>
