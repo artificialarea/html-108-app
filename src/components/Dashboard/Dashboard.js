@@ -4,29 +4,46 @@ import TrackList from './TrackList/TrackList';
 import SearchBox from './SearchBox/SearchBox';
 
 
-export default function Dashboard (props) {
-    const { who, users, tracks, userId, searchTerm } = props;
+export default class Dashboard extends React.Component {
 
-    return (
-        <div className="component dashboard">
+    constructor(props) {
+        super(props)
+        this.state = {
+            searchTerm: '',
+        }
+    }
+
+    updateSearchTerm (term) {
+        this.setState({
+            searchTerm: term,
+        })
+    }
+
+    render () {
+
+        const { who, users, tracks, userId, onChange, onClickDelete } = this.props;
+        const { searchTerm } = this.state;
+        
+        return (
+            <div className="component dashboard">
             <DashboardHeader 
                 who={who}
                 userId={userId}
                 users={users}
-            />
+                />
             <SearchBox 
-                handleUpdate={props.handleUpdate}
-            />
+                handleUpdate={term => this.updateSearchTerm(term)}
+                />
             <TrackList 
                 who={who}
                 userId={userId}
                 users={users}
                 tracks={tracks}
-                onChange={e => props.onChange(e)}
-                // onClickDelete={props.onClickDelete}
-                onClickDelete={(trackId) => props.onClickDelete(trackId)}
+                onChange={e => onChange(e)}
+                onClickDelete={(trackId) => onClickDelete(trackId)}
                 searchTerm={searchTerm}
-            />
-        </div>
-    )
+                />
+            </div>
+        )
+    }
 }

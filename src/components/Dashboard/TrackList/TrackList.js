@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'react-uuid';
 import TrackItem from '../TrackItem/TrackItem';
 
 export default function TrackList (props) {

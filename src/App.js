@@ -19,7 +19,6 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchTerm: '',
             users: [
                 {
                     id: 1,
@@ -185,12 +184,6 @@ export default class App extends React.Component {
         })
     }
 
-    updateSearchTerm (term) {
-        this.setState({
-            searchTerm: term,
-        })
-    }
-
     renderNavRoutes () {
         return (
             <>
@@ -232,9 +225,6 @@ export default class App extends React.Component {
                             who={'public'}
                             users={users}
                             tracks={compositions}
-                            // remove later
-                            handleUpdate={term => this.updateSearchTerm(term)}
-                            searchTerm={this.state.searchTerm}
                         />
                     } 
                 />
@@ -248,8 +238,6 @@ export default class App extends React.Component {
                             tracks={compositions}
                             onChange={this.handlePrivacyChange}
                             onClickDelete={this.handleDeleteTrack}
-                            handleUpdate={term => this.updateSearchTerm(term)}
-                            searchTerm={this.state.searchTerm}
                         />
                     }  
                 />

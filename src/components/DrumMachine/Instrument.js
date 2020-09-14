@@ -1,10 +1,9 @@
 import React from 'react';
-import uuid from 'react-uuid';
 import Beat from './Beat';
 import InstrumentSound from './InstrumentSound'
 
 export default function Instrument (props) {
-    const { user, userId, track, steps, sound } = props;
+    const { userId, track, steps, sound } = props;
 
     // const stepSequence = props.steps;
     const beatArr = [];

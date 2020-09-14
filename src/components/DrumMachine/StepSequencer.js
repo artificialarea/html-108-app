@@ -1,13 +1,12 @@
 import React from 'react';
-import uuid from 'react-uuid';
 import Instrument from './Instrument';
 import InstrumentSelector from './InstrumentSelector';
-import DownloadTrack from './DownloadTrack';
 import SaveTrack from './SaveTrack';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faCloudUploadAlt
-} from '@fortawesome/free-solid-svg-icons';
+// import DownloadTrack from './DownloadTrack';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { 
+//   faCloudUploadAlt
+// } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function StepSequencer (props) {
