@@ -21,17 +21,11 @@ export default class Dashboard extends React.Component {
 
     render () {
 
-        const { who, users, tracks, userId, onChange, onClickDelete, onClickFetch } = this.props;
+        const { who, users, tracks, userId, onChange, onClickDelete, } = this.props;
         const { searchTerm } = this.state;
         
         return (
             <div className="component dashboard">
-            <button
-                type="button"
-                onClick={(e) => onClickFetch(e)}
-            >
-                Fetch Tracks
-            </button>
             <DashboardHeader 
                 who={who}
                 userId={userId}

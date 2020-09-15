@@ -64,9 +64,8 @@ export default class App extends React.Component {
         });
     }
 
-    handleFetchCompositions(e) {
-        e.preventDefault();
-
+    componentDidMount() {
+        // fetch compositions.public = true automatically in anticipation of visiting /dashboard route
         const baseUrl = 'http://localhost:8000/faux-tracks';
         const params = [];
         if (this.state.public) {
@@ -93,7 +92,6 @@ export default class App extends React.Component {
                     error: 'Houston, we have a problem.'
                 });
             })
-
     }
 
     handleBeatChange = (changeEvent) => {
@@ -203,7 +201,6 @@ export default class App extends React.Component {
                             who={'public'}
                             users={users}
                             tracks={compositions}
-                            onClickFetch={e => this.handleFetchCompositions(e)}
                         />
                     } 
                 />
