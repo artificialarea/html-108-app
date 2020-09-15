@@ -12,6 +12,7 @@ import Registration from './components/Registration/Registration';
 import EditTitle from './components/EditTitle/EditTitle';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound'
+import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class App extends React.Component {
@@ -33,89 +34,66 @@ export default class App extends React.Component {
                     username: "Dolfmeister",
                 },
             ],
-            compositions: [ // [f2]
-                {  // temporary storage for 'new' composition that doesn't really have a trackId yet
-                    id: 0, 
-                    user_id: null,
-                    title: '', 
-                    date_modified: '',
-                    public: false,
-                    tempo: 120,
-                    sequence_length: 16,
-                    mp3: '',
-                    step_sequence: {
-                        hihat: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        clap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        trap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        bass: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    },
-                },
-                {
-                    id: 1,
-                    user_id: 1,
-                    title: "Krautrock",
-                    date_modified: "",
-                    public: true,
-                    tempo: 80,
-                    sequence_length: 16,
-                    mp3: "http://path-of-the-audio-preview.mp3",
-                    step_sequence: {
-                        hihat: [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                        clap: [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
-                        trap: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-                        bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
-                    },
-                },
-                {
-                    id: 2,
-                    user_id: 1,
-                    title: "Tiny Tempah",
-                    date_modified: "",
-                    public: false,
-                    tempo: 80,
-                    sequence_length: 16,
-                    mp3: "http://path-of-the-audio-preview.mp3",
-                    step_sequence: {
-                        hihat: [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
-                        clap: [0,0,0,1,0,0,0,1,1,0,1,0,0,0,0,1],
-                        trap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        bass: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                    },
-                },
-                {
-                    id: 10,
-                    user_id: 2,
-                    title: "Browser Noise",
-                    date_modified: "",
-                    public: true,
-                    tempo: 220,
-                    sequence_length: 16,
-                    mp3: "http://path-of-the-audio-preview.mp3",
-                    step_sequence: {
-                        hihat: [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
-                        clap: [0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],
-                        trap: [0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],
-                        bass: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                    },
-                },
-                {
-                    id: 11,
-                    user_id: 2,
-                    title: "Untitled",
-                    date_modified: "",
-                    public: false,
-                    tempo: 100,
-                    sequence_length: 16,
-                    mp3: "http://path-of-the-audio-preview.mp3",
-                    step_sequence: {
-                        hihat: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                        clap: [0,0,0,1,0,0,0,1,1,1,0,1,0,0,0,1],
-                        trap: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        bass: [0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
-                    },
-                },
-            ],
+            compositions: [],
+            publicity: 'true', // string instead of boolean (for now)
+            error: null,
+            // pre_compositions: [ // guide-only
+            //     {
+            //         id: 1,
+            //         user_id: 1,
+            //         title: "Krautrock",
+            //         date_modified: "",
+            //         public: true,
+            //         tempo: 80,
+            //         sequence_length: 16,
+            //         mp3: "http://path-of-the-audio-preview.mp3",
+            //         step_sequence: {
+            //             hihat: [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            //             clap: [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
+            //             trap: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+            //             bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
+            //         },
+            //     },
+            // ],
         }
+    }
+
+    setPublicity(publicity) {  // public is a reserve word... may need to purge everywhere
+        this.setState({
+            publicity
+        });
+    }
+
+    handleFetchCompositions(e) {
+        e.preventDefault();
+
+        const baseUrl = 'http://localhost:8000/faux-tracks';
+        const params = [];
+        if (this.state.public) {
+            params.push(`public=${this.state.public}`);
+        }
+        const query = params.join('&');
+        const url = `${baseUrl}?${query}`
+
+        fetch(url)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.statusText);
+                }
+                return res.json();
+            })
+            .then(data => {
+                this.setState({
+                    compositions: data,
+                    error: null
+                });
+            })
+            .catch(err => {
+                this.setState({
+                    error: 'Houston, we have a problem.'
+                });
+            })
+
     }
 
     handleBeatChange = (changeEvent) => {
@@ -208,7 +186,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { users, compositions } = this.state;
-        // console.log(compositions)
+        console.log(compositions)
 
         return (
             <Switch>
@@ -225,6 +203,7 @@ export default class App extends React.Component {
                             who={'public'}
                             users={users}
                             tracks={compositions}
+                            onClickFetch={e => this.handleFetchCompositions(e)}
                         />
                     } 
                 />

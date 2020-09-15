@@ -6,13 +6,12 @@ export default function TrackList (props) {
 
     const publicTracks = [];
     const privateTracks = [];
-    // console.log('tracks: ', tracks)
 
     tracks.forEach(track => {
         const trackUserId =  track.user_id
         if (track.title.toLowerCase().includes(searchTerm.toLowerCase())) {
             if (who !== 'private') {
-                if (track.public === true) {
+                if (track.public === 'true') {  // swapped Boolean for string
                     const trackUser = users.find(user => user.id === trackUserId).username;
                     publicTracks.push(
                         <TrackItem 

@@ -4,6 +4,7 @@ import UserControls from '../UserControls/UserControls';
 
 export default function TrackItem (props) {
     const { track, user, who } = props;
+    // console.log('TrackItem props: ', props)
 
     return (
         <li className="composition track-item">
