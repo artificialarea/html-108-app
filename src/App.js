@@ -58,6 +58,25 @@ export default class App extends React.Component {
                     ],
                 },
             ],
+            reset_composition: [
+                {
+                    id: 0,
+                    user_id: '',
+                    title: '',
+                    date_modified: '',
+                    public: true,
+                    tempo: 120,
+                    sequence_length: 16,
+                    mp3: '',
+                    audio_sequence: [ 'hihat', 'clap', 'trap', 'bass'],     // TODO: Add to db
+                    step_sequence: [
+                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    ],
+                },
+            ],
             // pre_compositions: [ // guide-only
                 // {
                 //     id: 1,
@@ -151,15 +170,19 @@ export default class App extends React.Component {
     }
 
     handleTempoChange = (changeEvent) => {
-        const { compositions } = this.state;
+        const { compositions, new_composition } = this.state;
         const trackId = changeEvent.target.name;
 
-        const newCompositions = [...compositions];
-        newCompositions.find(track => track.id == trackId).tempo = changeEvent.target.value;
+        if (trackId === '0' ) {
+            const updateNewComposition = [...new_composition];
+            updateNewComposition.find(track => track.id == trackId).tempo = changeEvent.target.value;
+        } else {
+            const newCompositions = [...compositions];
+            newCompositions.find(track => track.id == trackId).tempo = changeEvent.target.value;
+        }
 
         this.setState({
             // [f1]
-            // compositions: newCompositions
         })
     }
 
@@ -189,6 +212,18 @@ export default class App extends React.Component {
         this.setState({
             compositions: newCompositions
         })
+    }
+
+    handleResetTrack = (trackId) => {
+        const { reset_composition } = this.state;
+
+        // TODO: enable this functionality for saved tracks as well. Intially tried but failed.
+        if (trackId === 0 ) {
+            this.setState({
+                // [f1]
+                new_composition: [...reset_composition]
+            })
+        }
     }
 
     renderNavRoutes () {
@@ -256,6 +291,7 @@ export default class App extends React.Component {
                             track={new_composition[0]}
                             onChange={this.handleTempoChange}
                             onClick={this.handleBeatChange}
+                            onClickReset={this.handleResetTrack}
                         />
                     }   
                 />
@@ -270,6 +306,7 @@ export default class App extends React.Component {
                                     users={users}
                                     onChange={this.handleTempoChange}
                                     onClick={this.handleBeatChange}
+                                    onClickReset={this.handleResetTrack}
                                 />
                     }}
                 />

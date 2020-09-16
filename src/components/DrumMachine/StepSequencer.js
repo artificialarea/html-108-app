@@ -2,6 +2,7 @@ import React from 'react';
 import Instrument from './Instrument';
 import InstrumentSelector from './InstrumentSelector';
 import SaveTrack from './SaveTrack';
+import ResetTrack from './ResetTrack';
 // import DownloadTrack from './DownloadTrack';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { 
@@ -52,15 +53,20 @@ export default function StepSequencer (props) {
 
     
     let conditionalSaveButton;
+    let conditionalResetButton;
     if (track.id === 0) {
         conditionalSaveButton = <SaveTrack label={'Save'}/>
         // conditionalSaveButton = <FontAwesomeIcon icon={faCloudUploadAlt}/>
+        conditionalResetButton = <ResetTrack track={track} onClickReset={e => props.onClickReset(e)} />
+
     } else if (track.user_id === userId) {
         conditionalSaveButton = <SaveTrack label={'Update'}/>
         // conditionalSaveButton = <FontAwesomeIcon icon={faCloudUploadAlt}/>
+        conditionalResetButton = null
     } else {
         // Because a user can't save another user's track at present.
         conditionalSaveButton = null
+        conditionalResetButton = null
     }
     
     return (
@@ -72,6 +78,8 @@ export default function StepSequencer (props) {
             
             <div className="controls-file">
                 {conditionalSaveButton}
+                {conditionalResetButton}
+                
                 {/* <DownloadTrack /> */}
                 {/* <FontAwesomeIcon icon={faCloudDownloadAlt}/> */}
             </div>

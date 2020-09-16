@@ -23,6 +23,7 @@ export default function DrumMachine (props) {
                 userId={userId}   
                 users={users}
                 onClick={e => props.onClick(e)}
+                onClickReset={e => props.onClickReset(e)}
             />
         </div>
     )
