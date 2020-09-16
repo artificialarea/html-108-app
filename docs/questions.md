@@ -1,5 +1,8 @@
 # Questions
 
+## See also...
+**[./docs/footnotes.js](https://github.com/artificialarea/html-108-app/blob/master/docs/footnotes.js)**
+
 ## 1.
 Appears that my strategy is to make fetch api calls to **`GET /api/users`** and **`GET /api/compositions`** to get ALL the database data, and then filter the data clientside depending on the route.
 
@@ -39,3 +42,4 @@ per: https://courses.thinkful.com/node-postgres-v1/checkpoint/20#full-stack-book
   ]
 }
 ```
+

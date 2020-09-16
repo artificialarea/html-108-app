@@ -14,7 +14,7 @@ import EditTitle from './components/EditTitle/EditTitle';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound'
 
-// console.log('process.env: ', process.env) // to check API_KEY
+// console.log('process.env: ', process.env) // [f4] Re: Vercel `.env.local` issues
 
 export default class App extends React.Component {
 

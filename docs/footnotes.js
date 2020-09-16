@@ -81,3 +81,18 @@ newCompositions.splice(index, 1);
 this.setState({
     compositions: newCompositions
 })
+
+
+
+// [f4] ////////////////////////////////////////////////
+// Vercel: .env -vs- .env.local
+
+/*
+in Thinkful checkpoint Deploying to Production: https://courses.thinkful.com/react-v1/checkpoint/18
+it explictly tells me to add REACT_APP_API_KEY to `.env.local` ... but when I deployed .env.local Vercel it was ignored.
+
+Changing the file name to just `.env` and redeploying to Vercel solved that problem. But WHY?????
+
+
+Aside: https://medium.com/@tacomanator/environments-with-create-react-app-7b645312c09d
+*/
