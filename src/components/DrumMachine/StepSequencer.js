@@ -15,12 +15,14 @@ export default function StepSequencer (props) {
     const instrumentArr = [];
 
     const obj = track.step_sequence;
+    console.log('step_sequence: ', obj)
     
+    // surprised this still works as in db step_sequence is an array 
+    // but looks like react somehow converts them into sequentially numbered objects
+    // so I'll persist with this for now
     Object.keys(obj).forEach(key => 
         instrumentArr.push(
             <Instrument
-                // key={uuid()}
-                // id={uuid()}
                 key={key}
                 id={key}
                 userId={userId}
@@ -31,6 +33,23 @@ export default function StepSequencer (props) {
             />
         )
     )
+
+    // thought I would need to switch to this
+    // track.step_sequence.map(item => 
+    //     instrumentArr.push(
+    //         <Instrument
+    //             key={item}
+    //             id={item}
+    //             userId={userId}
+    //             track={track}
+    //             sound={item}
+    //             steps={item}
+    //             onClick={e => props.onClick(e)}
+    //         />
+    //     )
+    // )
+
+
     
     let conditionalSaveButton;
     if (track.id === 0) {

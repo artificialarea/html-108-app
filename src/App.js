@@ -35,27 +35,48 @@ export default class App extends React.Component {
                 },
             ],
             compositions: [],
-            publicity: 'true', // string instead of boolean (for now)
+           
+            public: true, // string instead of boolean (for now)
             error: null,
+            new_composition: [
+                {
+                    id: '',
+                    user_id: '',
+                    title: '',
+                    date_modified: '',
+                    public: true,
+                    tempo: 120,
+                    sequence_length: 16,
+                    mp3: '',
+                    audio_sequence: [ 'hihat', 'clap', 'trap', 'bass'],     // TODO: Add to db
+                    step_sequence: [
+                        [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                        [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
+                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                        [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
+                    ],
+                },
+            ],
             // pre_compositions: [ // guide-only
-            //     {
-            //         id: 1,
-            //         user_id: 1,
-            //         title: "Krautrock",
-            //         date_modified: "",
-            //         public: true,
-            //         tempo: 80,
-            //         sequence_length: 16,
-            //         mp3: "http://path-of-the-audio-preview.mp3",
-            //         step_sequence: {
-            //             hihat: [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            //             clap: [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
-            //             trap: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-            //             bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
-            //         },
-            //     },
+                // {
+                //     id: 1,
+                //     user_id: 1,
+                //     title: "Krautrock",
+                //     date_modified: "",
+                //     public: true,
+                //     tempo: 80,
+                //     sequence_length: 16,
+                //     mp3: "http://path-of-the-audio-preview.mp3",
+                //     step_sequence: {
+                //         hihat: [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                //         clap: [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
+                //         trap: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                //         bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
+                //     },
+                // },
             // ],
         }
+        
     }
 
     setPublicity(publicity) {  // public is a reserve word... may need to purge everywhere
@@ -66,6 +87,10 @@ export default class App extends React.Component {
 
     componentDidMount() {
         // fetch compositions.public = true automatically in anticipation of visiting /dashboard route
+        // HOWEVER LIFECYCLE ISSUE
+        // fails to execute in time if enter site via particular track route URL, so tracks are undefined
+        // e.g. http://http://localhost:3000/track/3
+
         const baseUrl = 'http://localhost:8000/faux-tracks';
         const params = [];
         if (this.state.public) {
@@ -73,7 +98,7 @@ export default class App extends React.Component {
         }
         const query = params.join('&');
         const url = `${baseUrl}?${query}`
-
+        console.log('fetch(url): ', url)
         fetch(url)
             .then(res => {
                 if (!res.ok) {

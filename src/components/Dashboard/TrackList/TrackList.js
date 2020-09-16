@@ -3,7 +3,7 @@ import TrackItem from '../TrackItem/TrackItem';
 
 export default function TrackList (props) {
     const { users, tracks, who, userId, searchTerm } = props;
-
+    console.log(tracks)
     const publicTracks = [];
     const privateTracks = [];
 
@@ -11,7 +11,7 @@ export default function TrackList (props) {
         const trackUserId =  track.user_id
         if (track.title.toLowerCase().includes(searchTerm.toLowerCase())) {
             if (who !== 'private') {
-                if (track.public === 'true') {  // swapped Boolean for string
+                if (track.public === true) {
                     const trackUser = users.find(user => user.id === trackUserId).username;
                     publicTracks.push(
                         <TrackItem 
