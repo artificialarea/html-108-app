@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import config from './config';
 
 import './App.css';
 
@@ -12,8 +13,8 @@ import Registration from './components/Registration/Registration';
 import EditTitle from './components/EditTitle/EditTitle';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound'
-import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
 
+// console.log('process.env: ', process.env) // to check API_KEY
 
 export default class App extends React.Component {
 
@@ -82,18 +83,24 @@ export default class App extends React.Component {
     componentDidMount() {
         // fetch compositions.public = true automatically in anticipation of visiting /dashboard route
         // HOWEVER LIFECYCLE ISSUE
-        // fails to execute in time if enter site via particular track route URL, so tracks are undefined
+        // fetch fails to execute in time (if at all) if enter site via particular /track/:trackId route URL, so tracks are undefined
         // e.g. http://http://localhost:3000/track/3
 
-        const baseUrl = 'http://localhost:8000/faux-tracks';
+        const baseUrl = config.API_ENDPOINT;
         const params = [];
         if (this.state.public) {
             params.push(`public=${this.state.public}`);
         }
         const query = params.join('&');
         const url = `${baseUrl}?${query}`
-        console.log('fetch(url): ', url)
-        fetch(url)
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
+            },
+        })
             .then(res => {
                 if (!res.ok) {
                     throw new Error(res.statusText);
@@ -208,7 +215,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { users, compositions, new_composition } = this.state;
-        console.log(this.state)
+        // console.log(this.state)
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
@@ -246,7 +253,6 @@ export default class App extends React.Component {
                     path='/track' 
                     render={() => 
                         <DrumMachine 
-                            // track={compositions[0]}
                             track={new_composition[0]}
                             onChange={this.handleTempoChange}
                             onClick={this.handleBeatChange}
@@ -256,7 +262,7 @@ export default class App extends React.Component {
                 <Route 
                     path='/track/:trackId' 
                     component={(props) => {
-                        console.log('props.match: ', props.match)
+                        // console.log('props.match: ', props.match)
                         const trackViaParams = compositions.find(track => track.id == props.match.params.trackId)
                         return <DrumMachine 
                                     track={trackViaParams}  
