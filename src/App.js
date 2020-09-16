@@ -40,7 +40,7 @@ export default class App extends React.Component {
             error: null,
             new_composition: [
                 {
-                    id: '',
+                    id: 0,
                     user_id: '',
                     title: '',
                     date_modified: '',
@@ -50,10 +50,10 @@ export default class App extends React.Component {
                     mp3: '',
                     audio_sequence: [ 'hihat', 'clap', 'trap', 'bass'],     // TODO: Add to db
                     step_sequence: [
-                        [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                        [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
-                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-                        [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
+                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                     ],
                 },
             ],
@@ -77,12 +77,6 @@ export default class App extends React.Component {
             // ],
         }
         
-    }
-
-    setPublicity(publicity) {  // public is a reserve word... may need to purge everywhere
-        this.setState({
-            publicity
-        });
     }
 
     componentDidMount() {
@@ -120,7 +114,7 @@ export default class App extends React.Component {
     }
 
     handleBeatChange = (changeEvent) => {
-        const { compositions } = this.state;
+        const { compositions, new_composition } = this.state;
         // probably a less hacky way to do this, but...
         // Extract target tag id information from string into array
         // "trackId instrumentKey beatIndex beatBoolean" e.g. "2 hihat 5 0" // => ['2','hihat', 5, 0]
@@ -134,9 +128,14 @@ export default class App extends React.Component {
             ? beatBoolean = 0
             : beatBoolean = 1;
 
-        // [f1]
-        const newCompositions = [...compositions];
-        newCompositions.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
+        if (trackId === '0' ) {
+            const updateNewComposition = [...new_composition];
+            updateNewComposition.[trackId].step_sequence[instrumentKey][beatIndex] = beatBoolean;
+        } else {
+            // [f1]
+            const newCompositions = [...compositions];
+            newCompositions.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
+        }
 
         this.setState({
             // [f1]
@@ -208,9 +207,8 @@ export default class App extends React.Component {
     }
 
     renderMainRoutes () {
-        const { users, compositions } = this.state;
-        console.log(compositions)
-
+        const { users, compositions, new_composition } = this.state;
+        console.log(this.state)
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
@@ -248,7 +246,8 @@ export default class App extends React.Component {
                     path='/track' 
                     render={() => 
                         <DrumMachine 
-                            track={compositions[0]}
+                            // track={compositions[0]}
+                            track={new_composition[0]}
                             onChange={this.handleTempoChange}
                             onClick={this.handleBeatChange}
                         />

@@ -15,7 +15,7 @@ export default function StepSequencer (props) {
     const instrumentArr = [];
 
     const obj = track.step_sequence;
-    console.log('step_sequence: ', obj)
+    // console.log('step_sequence: ', obj)
     
     // surprised this still works as in db step_sequence is an array 
     // but looks like react somehow converts them into sequentially numbered objects
