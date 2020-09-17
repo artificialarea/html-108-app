@@ -9,10 +9,10 @@ export default function Nav (props) {
             {' '}
             <Link to='/track'>New Track</Link>
             {' '}
-            <Link to='/dashboard'>Community</Link>
+            <Link to='/dashboard'>Community Dashboard</Link>
             {' '}
-            <Link to='/my-dashboard'>My Dashboard</Link>
-            {' '}
+            {/* <Link to='/my-dashboard'>My Dashboard</Link>
+            {' '} */}
             <Link to='/login'>Login</Link>
             {' '}
             <Link to='/register'>Register</Link>

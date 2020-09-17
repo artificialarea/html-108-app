@@ -21,20 +21,7 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [
-                {
-                    id: 1,
-                    username: "Sarah",
-                    // presumably won't store this sensitive data client-side?
-                    // (even for the signed-in user?)
-                    // password: "aaAA11!!",        
-                    // email: "sarah@hotmail.com"
-                },
-                {
-                    id: 2,
-                    username: "Dolfmeister",
-                },
-            ],
+            users: [],
             compositions: [],
             visible: true, 
             error: null,
@@ -85,11 +72,12 @@ export default class App extends React.Component {
         // fetch fails to execute in time (if at all) if enter site via particular /track/:trackId route URL, so tracks are undefined
         // e.g. http://http://localhost:3000/track/3
 
-        this.fetchPublicTracks();
+        this.getPublicTracks();
+        this.getAllUsers();
         
     }
 
-    fetchPublicTracks() {
+    getPublicTracks() {
         const baseUrl = config.API_ENDPOINT;
         const path = `/api/compositions`;
         const params = [];
@@ -115,6 +103,37 @@ export default class App extends React.Component {
             .then(data => {
                 this.setState({
                     compositions: data,
+                    error: null
+                });
+            })
+            .catch(err => {
+                this.setState({
+                    error: `Error: ${err}`
+                });
+            })
+    }
+
+    getAllUsers() {
+        const baseUrl = config.API_ENDPOINT;
+        const path = `/api/users`;
+        const url = `${baseUrl}${path}`
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
+            },
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.statusText);
+                }
+                return res.json();
+            })
+            .then(data => {
+                this.setState({
+                    users: data,
                     error: null
                 });
             })
@@ -190,7 +209,7 @@ export default class App extends React.Component {
                 return res.json();
             })
             .then(data => {
-                this.fetchPublicTracks();
+                this.getPublicTracks();
 
                 // Uncertain how to proceed:
                 // make GET call at this point for 
@@ -322,7 +341,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { users, compositions, new_composition } = this.state;
-        // console.log('state rendered:', this.state)
+        console.log('state:', this.state)
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
