@@ -3,7 +3,7 @@ import TrackItem from '../TrackItem/TrackItem';
 
 export default function TrackList (props) {
     const { users, tracks, who, userId, searchTerm } = props;
-    console.log(tracks)
+    
     const publicTracks = [];
     const privateTracks = [];
 

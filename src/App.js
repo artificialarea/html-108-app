@@ -85,6 +85,11 @@ export default class App extends React.Component {
         // fetch fails to execute in time (if at all) if enter site via particular /track/:trackId route URL, so tracks are undefined
         // e.g. http://http://localhost:3000/track/3
 
+        this.fetchPublicTracks();
+        
+    }
+
+    fetchPublicTracks() {
         const baseUrl = config.API_ENDPOINT;
         const path = `/api/compositions`;
         const params = [];
@@ -185,6 +190,8 @@ export default class App extends React.Component {
                 return res.json();
             })
             .then(data => {
+                this.fetchPublicTracks();
+
                 // Uncertain how to proceed:
                 // make GET call at this point for 
                 // updated /api/compositions

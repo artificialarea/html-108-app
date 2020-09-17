@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Header (props) {
     const { track, titleChange } = props;
-    console.log('track.id: ', track.id)
+
     return (
         <header role="banner">
             {/* {!!track.title.length &&
