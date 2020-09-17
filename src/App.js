@@ -106,12 +106,13 @@ export default class App extends React.Component {
         // e.g. http://http://localhost:3000/track/3
 
         const baseUrl = config.API_ENDPOINT;
+        const path = `/api/compositions`;
         const params = [];
         if (this.state.public) {
             params.push(`public=${this.state.public}`);
         }
         const query = params.join('&');
-        const url = `${baseUrl}?${query}`
+        const url = `${baseUrl}${path}?${query}`
 
         fetch(url, {
             method: 'GET',
