@@ -17,7 +17,7 @@ export default function UserControls (props) {
                     // name={`composition-${track.id}`} 
                     name={track.id} 
                     value="private"
-                    checked={!track.public}
+                    checked={!track.visible}
                     onChange={e => props.onChange(e)}
 
                 />
@@ -28,7 +28,7 @@ export default function UserControls (props) {
                     type="radio" 
                     name={track.id}  
                     value="public"
-                    checked={track.public}
+                    checked={track.visible}
                     onChange={e => props.onChange(e)}
                 />
                 Public

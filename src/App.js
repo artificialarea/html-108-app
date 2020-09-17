@@ -37,15 +37,15 @@ export default class App extends React.Component {
             ],
             compositions: [],
            
-            public: true, // string instead of boolean (for now)
+            visible: true, // string instead of boolean (for now)
             error: null,
             new_composition: [
                 {
                     id: 0,
-                    user_id: '',
+                    user_id: '', 
                     title: '',
                     date_modified: '',
-                    public: true,
+                    visible: true,
                     tempo: 120,
                     sequence_length: 16,
                     mp3: '',
@@ -64,7 +64,7 @@ export default class App extends React.Component {
                     user_id: '',
                     title: '',
                     date_modified: '',
-                    public: true,
+                    visible: true,
                     tempo: 120,
                     sequence_length: 16,
                     mp3: '',
@@ -83,7 +83,7 @@ export default class App extends React.Component {
                 //     user_id: 1,
                 //     title: "Krautrock",
                 //     date_modified: "",
-                //     public: true,
+                //     visible: true,
                 //     tempo: 80,
                 //     sequence_length: 16,
                 //     mp3: "http://path-of-the-audio-preview.mp3",
@@ -100,7 +100,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        // fetch compositions.public = true automatically in anticipation of visiting /dashboard route
+        // fetch compositions.visible = true automatically in anticipation of visiting /dashboard route
         // HOWEVER LIFECYCLE ISSUE
         // fetch fails to execute in time (if at all) if enter site via particular /track/:trackId route URL, so tracks are undefined
         // e.g. http://http://localhost:3000/track/3
@@ -108,8 +108,8 @@ export default class App extends React.Component {
         const baseUrl = config.API_ENDPOINT;
         const path = `/api/compositions`;
         const params = [];
-        if (this.state.public) {
-            params.push(`public=${this.state.public}`);
+        if (this.state.visible) {
+            params.push(`visible=${this.state.visible}`);
         }
         const query = params.join('&');
         const url = `${baseUrl}${path}?${query}`
@@ -135,7 +135,66 @@ export default class App extends React.Component {
             })
             .catch(err => {
                 this.setState({
-                    error: 'Houston, we have a problem.'
+                    error: `Error: ${err}`
+                });
+            })
+    }
+
+    handleSubmitNewTrack = (changeEvent) => {
+        console.log('handleSubmitNewTrack fetch init...')
+        const {
+            // user_id,
+            title,
+            visible,
+            tempo,
+            sequence_length,
+            step_sequence,
+            mp3,
+        } = this.state.new_composition[0];
+
+        const user_id = 1;  // will be dynamic later 
+        const newComposition = {
+            user_id,
+            title,
+            visible,
+            tempo,
+            sequence_length,
+            step_sequence,
+            mp3,
+        };
+        const baseUrl = config.API_ENDPOINT;
+        const path = `/api/compositions`;
+        const url = `${baseUrl}${path}`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
+            },
+            body: JSON.stringify(newComposition)
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(res.statusText);
+                }
+                return res.json();
+            })
+            .then(data => {
+                // Uncertain how to proceed:
+                // make GET call at this point for 
+                // updated /api/compositions
+                // or /api/compositions/data.id ??
+                // to setState ??
+
+                // this.setState({
+                //     compositions: data,
+                //     error: null
+                // });
+            })
+            .catch(err => {
+                this.setState({
+                    error: `Error: ${err}`
                 });
             })
     }
@@ -193,7 +252,7 @@ export default class App extends React.Component {
         const newPrivacyBool = changeEvent.target.value === 'public' ? true : false;
 
         const newCompositions = [...compositions];
-        newCompositions.find(track => track.id == trackId).public = newPrivacyBool;
+        newCompositions.find(track => track.id == trackId).visible = newPrivacyBool;
 
         this.setState({
             // [f1]
@@ -219,6 +278,7 @@ export default class App extends React.Component {
         const { reset_composition } = this.state;
 
         // TODO: enable this functionality for saved tracks as well. Intially tried but failed.
+        // ALSO NOTE: Fails to reset new_composition if Reset Track invoked again after initial reset =/
         if (trackId === 0 ) {
             this.setState({
                 // [f1]
@@ -293,6 +353,7 @@ export default class App extends React.Component {
                             onChange={this.handleTempoChange}
                             onClick={this.handleBeatChange}
                             onClickReset={this.handleResetTrack}
+                            onClickSubmitNewTrack={this.handleSubmitNewTrack}
                         />
                     }   
                 />

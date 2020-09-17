@@ -79,7 +79,7 @@ _Components are **stateless** unless otherwise noted. In progress, as may introd
   * **user_id** (foreign key > Users.id)
   * **title** (defaults to 'Untitled')
   * **date_modified** (new Date()) 
-  * **public** (NOT NULL, boolean default false)
+  * **visible** (NOT NULL, boolean default false)
   * **tempo** (NOT NULL, numeric)
   * **sequence_length** (NOT NULL, numeric)
   * **mp3** **TBD** (location of file, e.g. "http://path-of-the-audio-preview.mp3")
@@ -110,7 +110,7 @@ API Documentation details of CRUD
   
 * **`GET`** 
   * **`/api/compositions`** get all compositions
-  * **`/api/compositions?public=true`** get all public compositions for community `/dashboard` URL
+  * **`/api/compositions?visible=true`** get all public compositions for community `/dashboard` URL
   * **`/api/compositions?userId=[:userId]`** get all compositions for signed-in user's `/my-dashboard` URL
   * **`/api/compositions/:compositionId`** get particular composition for `/track/:trackId` URL
   * **`/api/users`** get all users associated with an `/api/compositions` fetch _(presumably just id & username, sans sensitive info)_

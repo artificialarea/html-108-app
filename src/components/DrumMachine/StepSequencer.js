@@ -55,7 +55,7 @@ export default function StepSequencer (props) {
     let conditionalSaveButton;
     let conditionalResetButton;
     if (track.id === 0) {
-        conditionalSaveButton = <SaveTrack label={'Save'}/>
+        conditionalSaveButton = <SaveTrack label={'Save'} onClickSubmitNewTrack={e => props.onClickSubmitNewTrack(e)}/>
         // conditionalSaveButton = <FontAwesomeIcon icon={faCloudUploadAlt}/>
         conditionalResetButton = <ResetTrack track={track} onClickReset={e => props.onClickReset(e)} />
 

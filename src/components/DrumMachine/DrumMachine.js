@@ -24,6 +24,7 @@ export default function DrumMachine (props) {
                 users={users}
                 onClick={e => props.onClick(e)}
                 onClickReset={e => props.onClickReset(e)}
+                onClickSubmitNewTrack={e => props.onClickSubmitNewTrack(e)}
             />
         </div>
     )

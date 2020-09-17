@@ -11,7 +11,7 @@ export default function TrackList (props) {
         const trackUserId =  track.user_id
         if (track.title.toLowerCase().includes(searchTerm.toLowerCase())) {
             if (who !== 'private') {
-                if (track.public === true) {
+                if (track.visible === true) {
                     const trackUser = users.find(user => user.id === trackUserId).username;
                     publicTracks.push(
                         <TrackItem 
