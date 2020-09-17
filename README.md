@@ -1,27 +1,54 @@
-# HTML-108
+# Capstone: HTML-108
 
-Deployed to production: **https://html-108.vercel.app**
+The HTML-108 is a minimal beat machine in the browser.
 
-Corresponding server repo: **[html-108-server](https://github.com/artificialarea/html-108-server)**
-
-<br />
-
-## Docs 
-
-* [Screen Inventory](https://github.com/artificialarea/html-108-app/blob/master/docs/screen-inventory.md)
-* [User Flows](https://github.com/artificialarea/html-108-app/blob/master/docs/user-flow.pdf)
-* [HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)
-* [Component Composition Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-composition.pdf)
-
-* **[Questions](https://github.com/artificialarea/html-108-app/blob/master/docs/questions.md)**
-* **[Footnotes](https://github.com/artificialarea/html-108-app/blob/master/docs/footnotes.js)**
+A nostalgic nod to the seminal Roland TR-808 analog synthesizer drum machine of the 1980s that ushered in several genres of electronic music.
 
 
 <br />
 
-## Front-end Struture: React Components Map
+## 1. Working Prototype 
+You can access a working prototype of the React app here: **https://html-108.vercel.app**
 
-_Components are **stateless** unless otherwise noted_
+The corresponding Node Express Sever repo here: **[html-108-server](https://github.com/artificialarea/html-108-server)**
+
+
+<br />
+
+## 2. User Stories (to do later)
+This app is for two types of users: a visitor and a logged-in user
+
+**[User Flows](https://github.com/artificialarea/html-108-app/blob/master/docs/user-flow.pdf)**
+
+
+<br />
+
+## 3. Functionality (to do later)
+The app's functionality includes:
+* (Example) Every User has the ability to create an account
+
+**[Screen Inventory](https://github.com/artificialarea/html-108-app/blob/master/docs/screen-inventory.md)**
+
+
+<br />
+
+## 4. Technology
+* Front-End: HTML5, CSS3, JavaScript ES6, React, Tone.js
+* Back-End: Node.js, Express.js, Mocha, Chai, RESTful API Endpoints, Postgres
+* Development Environment: Vercel (client), Heroku (server), DBeaver
+
+
+<br />
+
+## 5. Wireframes (add images later)
+See: **['Greybox' HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)**
+
+
+<br />
+
+## 6. Front-end Struture: React Components Map
+
+_Components are **stateless** unless otherwise noted. In progress, as may introduce more stateful components._
 
 * **Index.js**
   * **APP.JS** **(STATEFUL:BRAIN)**
@@ -33,9 +60,12 @@ _Components are **stateless** unless otherwise noted_
     * **Dashboard.js**
     * **DrumMachine.js**
     
+**[Component Composition Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-composition.pdf)**
+
+
 <br />
 
-## Back-end Structure: Business Objects
+## 7. Back-end Structure: Business Objects
 
 * **Users** (database table)
   * **id** (primary key, auto-generated)
@@ -53,25 +83,89 @@ _Components are **stateless** unless otherwise noted_
   * **tempo** (NOT NULL, numeric)
   * **sequence_length** (NOT NULL, numeric)
   * **mp3** **TBD** (location of file, e.g. "http://path-of-the-audio-preview.mp3")
-  * **step-sequence** (NOT NULL, _**array of objects?**_)
-    * `{'hihat': [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},`
-    * `{'clap': [0,0,0,1,0,0,0,1,1,1,0,1,0,0,0,1]},`
-    * `{'trap': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},`
-    * `{'bass': [0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1]}`
-
+  
+  _Data structure associated with step sequence (and perhaps audio sequence) still TBD_
+  * **step_sequence** (NOT NULL, ARRAY[4])
+    * `[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],`
+    * `[0,0,0,1,0,0,0,1,1,1,0,1,0,0,0,1],`
+    * `[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],`
+    * `[0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1]`
+  * **audio_sequence** (NOT NULL, ARRAY)
 
 <br />
 
-**Schema** _(I think)_
+**Schema** _(WIP)_
 
 ![Schema](https://github.com/artificialarea/html-108-app/blob/master/docs/schema.png)
 
 
 <br />
 
-## Notes
+## 8. API Documentation (WIP)
+API Documentation details of CRUD
+
+* **`POST`**
+  * **`/api/compositions`** create/add new composition via `/track` URL
+  * **`/api/users`** create/add new user via `/register` URL
+  
+* **`GET`** 
+  * **`/api/compositions`** get all compositions
+  * **`/api/compositions?public=true`** get all public compositions for community `/dashboard` URL
+  * **`/api/compositions?userId=[:userId]`** get all compositions for signed-in user's `/my-dashboard` URL
+  * **`/api/compositions/:compositionId`** get particular composition for `/track/:trackId` URL
+  * **`/api/users`** get all users associated with an `/api/compositions` fetch _(presumably just id & username, sans sensitive info)_
+  * **`/api/users/:userId`** for user to log-in
+  
+* **`PATCH`**
+  * **`/api/compositions/:compositionId`** update composition via `/track/:trackId` or `/my-dashboard` URL
+  * **`/api/users`** update user profile (via `/register` URL?)
+  
+* **`DELETE`**
+  * **`/api/compositions/:compositionId`** delete own composition via `/my-dashboard` URL
+  * **`/api/users`** delete profile?
+  
+
+<br />
+
+## Screenshots (to do later)
+(Example) Landing Page
+:-------------------------:
+![Landing Page](/github-images/screenshots/landing-page-screenshot.png)
+Register Page
+![Register Page](/github-images/screenshots/register-page-screenshot.png)
+
+## Development Roadmap (to do later)
+This is v1.0 of the app, but future enhancements are expected to include:
+* (Example) add more functionality
+
+## How to run it (done)
+Use command line to navigate into the project folder and run the following in terminal
+
+### Local React scripts
+* To install the react project ===> `npm install`
+* To run react (on port 3000) ===> `npm start`
+* To run tests ===> `npm run test`
+
+### Local Node scripts
+* To install the node project ===> `npm install`
+* To migrate the database ===> `npm run migrate -- 1`
+* To run Node server (on port 8000) ===> `npm run dev`
+* To run tests ===> `npm run test`
+
+<hr />
+
+<br />
+
+# Personal Notes (to delete later...)
 
 Did some initial React integration studies in my [p5-reaction](https://github.com/artificialarea/p5-reaction) repo to explore integration of **p5.js library** as Web Audio API middleware. Was able to integrate `p5.js` sketch canvas, but encountered too many difficulties with `p5.sound.js` library. Looking at other audio optons, discovered **[Tone.js](https://tonejs.github.io/)** audio framework integrates with React, so will go that route.
+
+<br />
+
+## in /docs 
+
+* **[Questions](https://github.com/artificialarea/html-108-app/blob/master/docs/questions.md)**
+* **[Footnotes](https://github.com/artificialarea/html-108-app/blob/master/docs/footnotes.js)**
 
 <br />
 
