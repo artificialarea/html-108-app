@@ -36,8 +36,7 @@ export default class App extends React.Component {
                 },
             ],
             compositions: [],
-           
-            visible: true, // string instead of boolean (for now)
+            visible: true, 
             error: null,
             new_composition: [
                 {
@@ -77,26 +76,7 @@ export default class App extends React.Component {
                     ],
                 },
             ],
-            // pre_compositions: [ // guide-only
-                // {
-                //     id: 1,
-                //     user_id: 1,
-                //     title: "Krautrock",
-                //     date_modified: "",
-                //     visible: true,
-                //     tempo: 80,
-                //     sequence_length: 16,
-                //     mp3: "http://path-of-the-audio-preview.mp3",
-                //     step_sequence: {
-                //         hihat: [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                //         clap: [1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1],
-                //         trap: [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-                //         bass: [0,1,0,1,0,0,0,0,1,0,1,0,0,0,0,0],
-                //     },
-                // },
-            // ],
         }
-        
     }
 
     componentDidMount() {
@@ -140,11 +120,29 @@ export default class App extends React.Component {
             })
     }
 
+    handleTitleChange = (changeEvent, trackId) => {
+        const { compositions, new_composition } = this.state;
+
+        if (trackId === 0 ) {
+            const updateNewComposition = [...new_composition];
+            updateNewComposition.[trackId].title = changeEvent.target.value;
+        } 
+        // TODO:
+        // else {
+        //     const newCompositions = [...compositions];
+        //     newCompositions.find(track => track.id == trackId).title = changeEvent.target.value;
+        // }
+
+        this.setState({
+            // [f1]
+        })
+    }
+
     handleSubmitNewTrack = (changeEvent) => {
-        console.log('handleSubmitNewTrack fetch init...')
+        
         const {
             // user_id,
-            title,
+            // title,
             visible,
             tempo,
             sequence_length,
@@ -153,6 +151,12 @@ export default class App extends React.Component {
         } = this.state.new_composition[0];
 
         const user_id = 1;  // will be dynamic later 
+
+        let { title } = this.state.new_composition[0];
+        if (title.length === 0) {
+            title = 'Untitled'
+        }
+
         const newComposition = {
             user_id,
             title,
@@ -311,7 +315,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { users, compositions, new_composition } = this.state;
-        // console.log(this.state)
+        // console.log('state rendered:', this.state)
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
@@ -354,6 +358,7 @@ export default class App extends React.Component {
                             onClick={this.handleBeatChange}
                             onClickReset={this.handleResetTrack}
                             onClickSubmitNewTrack={this.handleSubmitNewTrack}
+                            titleChange={this.handleTitleChange}
                         />
                     }   
                 />
