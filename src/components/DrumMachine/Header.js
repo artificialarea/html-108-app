@@ -21,7 +21,7 @@ export default function Header (props) {
                                 id="title"
                                 placeholder="Untitled" 
                                 value={track.title}
-                                onChange={e => titleChange(e, track.id)}/>
+                                onChange={e => titleChange(e)}/>
                         </label>
                     </div>
                 </form>

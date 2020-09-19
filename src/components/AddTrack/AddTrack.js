@@ -130,10 +130,20 @@ export default class AddTrack extends React.Component {
             ? beatBoolean = 0
             : beatBoolean = 1;
 
-        const newTrack = track;
+        const newTrack = {...track};
         newTrack.step_sequence[instrumentSequence][beatIndex] = beatBoolean;
         this.setState({
             // [f1]
+            // track: newTrack
+        })
+    }
+
+    handleTitleChange = (changeEvent) => {
+        const { track } = this.state;
+        const newTrack = {...track};
+        newTrack.title = changeEvent.target.value;
+
+        this.setState({
             track: newTrack
         })
     }
@@ -150,6 +160,7 @@ export default class AddTrack extends React.Component {
                     track={track} 
                     editable={editable}
                     toggleBeat={this.handleBeatChange}
+                    titleChange={this.handleTitleChange}
                 />
             </div>
         )

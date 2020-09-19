@@ -23,7 +23,7 @@ export default function DrumMachine (props) {
             <Header 
                 track={track} 
                 editable={editable}
-                titleChange={e => titleChange(e, track.id)}
+                titleChange={e => titleChange(e)}
             />
             <Tempo 
                 track={track} 
