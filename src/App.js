@@ -70,72 +70,7 @@ export default class App extends React.Component {
             })
     }
 
-    getPublicTracks() {
-        const baseUrl = config.API_ENDPOINT;
-        const path = `/api/tracks`;
-        const params = [];
-        if (this.state.visible) {
-            params.push(`visible=${this.state.visible}`);
-        }
-        const query = params.join('&');
-        const url = `${baseUrl}${path}?${query}`
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${config.API_KEY}`
-            },
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(res.statusText);
-                }
-                return res.json();
-            })
-            .then(data => {
-                this.setState({
-                    tracks: data,
-                    error: null
-                });
-            })
-            .catch(err => {
-                this.setState({
-                    error: `Error: ${err}`
-                });
-            })
-    }
-
-    getAllUsers() {
-        const baseUrl = config.API_ENDPOINT;
-        const path = `/api/users`;
-        const url = `${baseUrl}${path}`
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${config.API_KEY}`
-            },
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(res.statusText);
-                }
-                return res.json();
-            })
-            .then(data => {
-                this.setState({
-                    users: data,
-                    error: null
-                });
-            })
-            .catch(err => {
-                this.setState({
-                    error: `Error: ${err}`
-                });
-            })
-    }
+    
 
     handleTitleChange = (changeEvent, trackId) => {
         const { tracks, new_track } = this.state;
@@ -155,102 +90,102 @@ export default class App extends React.Component {
         })
     }
 
-    handleSubmitNewTrack = (changeEvent) => {
+    // handleSubmitNewTrack = (changeEvent) => {
         
-        const {
-            // user_id,
-            // title,
-            visible,
-            tempo,
-            sequence_length,
-            step_sequence,
-            mp3,
-        } = this.state.new_track[0];
+    //     const {
+    //         // user_id,
+    //         // title,
+    //         visible,
+    //         tempo,
+    //         sequence_length,
+    //         step_sequence,
+    //         mp3,
+    //     } = this.state.new_track[0];
 
-        const user_id = 1;  // will be dynamic later 
+    //     const user_id = 1;  // will be dynamic later 
 
-        let { title } = this.state.new_track[0];
-        if (title.length === 0) {
-            title = 'Untitled'
-        }
+    //     let { title } = this.state.new_track[0];
+    //     if (title.length === 0) {
+    //         title = 'Untitled'
+    //     }
 
-        const newtrack = {
-            user_id,
-            title,
-            visible,
-            tempo,
-            sequence_length,
-            step_sequence,
-            mp3,
-        };
-        const baseUrl = config.API_ENDPOINT;
-        const path = `/api/tracks`;
-        const url = `${baseUrl}${path}`;
+    //     const newtrack = {
+    //         user_id,
+    //         title,
+    //         visible,
+    //         tempo,
+    //         sequence_length,
+    //         step_sequence,
+    //         mp3,
+    //     };
+    //     const baseUrl = config.API_ENDPOINT;
+    //     const path = `/api/tracks`;
+    //     const url = `${baseUrl}${path}`;
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${config.API_KEY}`
-            },
-            body: JSON.stringify(newtrack)
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(res.statusText);
-                }
-                return res.json();
-            })
-            .then(data => {
-                this.getPublicTracks();
+    //     fetch(url, {
+    //         method: 'POST',
+    //         headers: {
+    //             'content-type': 'application/json',
+    //             'Authorization': `Bearer ${config.API_KEY}`
+    //         },
+    //         body: JSON.stringify(newtrack)
+    //     })
+    //         .then(res => {
+    //             if (!res.ok) {
+    //                 throw new Error(res.statusText);
+    //             }
+    //             return res.json();
+    //         })
+    //         .then(data => {
+    //             this.getPublicTracks();
 
-                // Uncertain how to proceed:
-                // make GET call at this point for 
-                // updated /api/tracks
-                // or /api/tracks/data.id ??
-                // to setState ??
+    //             // Uncertain how to proceed:
+    //             // make GET call at this point for 
+    //             // updated /api/tracks
+    //             // or /api/tracks/data.id ??
+    //             // to setState ??
 
-                // this.setState({
-                //     tracks: data,
-                //     error: null
-                // });
-            })
-            .catch(err => {
-                this.setState({
-                    error: `Error: ${err}`
-                });
-            })
-    }
+    //             // this.setState({
+    //             //     tracks: data,
+    //             //     error: null
+    //             // });
+    //         })
+    //         .catch(err => {
+    //             this.setState({
+    //                 error: `Error: ${err}`
+    //             });
+    //         })
+    // }
 
-    handleBeatChange = (changeEvent) => {
-        const { tracks, new_track } = this.state;
-        // probably a less hacky way to do this, but...
-        // Extract target tag id information from string into array
-        // "trackId instrumentKey beatIndex beatBoolean" e.g. "2 hihat 5 0" // => ['2','hihat', 5, 0]
-        const targets = changeEvent.target.id.split(' ');
-        const trackId = targets[0];
-        const instrumentKey = targets[1];
-        const beatIndex = targets[2];
-        let beatBoolean = targets[3]; 
+    // handleBeatChange = (changeEvent) => {
+    //     const { tracks, new_track } = this.state;
+    //     // probably a less hacky way to do this, but...
+    //     // Extract target tag id information from string into array
+    //     // "trackId instrumentKey beatIndex beatBoolean" e.g. "2 hihat 5 0" // => ['2','hihat', 5, 0]
+    //     const targets = changeEvent.target.id.split(' ');
+    //     const trackId = targets[0];
+    //     const instrumentKey = targets[1];
+    //     const beatIndex = targets[2];
+    //     let beatBoolean = targets[3]; 
 
-        beatBoolean == 1        // fails if strict equality (===)
-            ? beatBoolean = 0
-            : beatBoolean = 1;
+    //     beatBoolean == 1        // fails if strict equality (===)
+    //         ? beatBoolean = 0
+    //         : beatBoolean = 1;
 
-        if (trackId === '0' ) {
-            const updateNewtrack = [...new_track];
-            updateNewtrack.[trackId].step_sequence[instrumentKey][beatIndex] = beatBoolean;
-        } else {
-            // [f1]
-            const newtracks = [...tracks];
-            newtracks.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
-        }
+    //     if (trackId === '0' ) {
+    //         const updateNewtrack = [...new_track];
+    //         updateNewtrack.[trackId].step_sequence[instrumentKey][beatIndex] = beatBoolean;
+    //     } else {
+    //         // [f1]
+    //         const newtracks = [...tracks];
+    //         newtracks.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
+    //     }
 
-        this.setState({
-            // [f1]
-            // tracks: newtracks
-        })
-    }
+    //     this.setState({
+    //         // [f1]
+    //         // tracks: newtracks
+    //     })
+    // }
 
     handleTempoChange = (changeEvent) => {
         const { tracks, new_track } = this.state;
@@ -334,7 +269,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { authUser, users, tracks } = this.state;
-        console.log('state:', this.state)
+        // console.log('state:', this.state)
 
         return (
             <Switch>
@@ -353,7 +288,7 @@ export default class App extends React.Component {
                 
                 <Route 
                     path='/add-track' 
-                    render={() => 
+                    render={(props) => 
                         <AddTrack 
                             authUser={authUser}
                         />

@@ -8,10 +8,12 @@ export default function DrumMachine (props) {
     const { 
         // users, 
         // userId, 
+        authUser,
         track, 
+        editable,
         titleChange,
         onChange,
-        onClick,
+        toggleBeat,
         onClickReset,
         onClickSubmitNewTrack, 
     } = props;
@@ -20,18 +22,22 @@ export default function DrumMachine (props) {
         <div className="component drum-machine">
             <Header 
                 track={track} 
+                editable={editable}
                 titleChange={e => titleChange(e, track.id)}
             />
             <Tempo 
                 track={track} 
+                editable={editable}
                 // userId={userId}
                 onChange={e => onChange(e)}
             />
             <StepSequencer 
-                track={track} 
                 // userId={userId}   
                 // users={users}
-                onClick={e => onClick(e)}
+                authUser={authUser}
+                track={track} 
+                editable={editable}
+                toggleBeat={e => toggleBeat(e)}
                 onClickReset={e => onClickReset(e)}
                 onClickSubmitNewTrack={e => onClickSubmitNewTrack(e)}
             />

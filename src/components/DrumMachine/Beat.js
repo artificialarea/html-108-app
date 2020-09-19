@@ -1,13 +1,13 @@
 import React from 'react';
 
 export default function Beat (props) {
-    const { track, id, userId, beat } = props;
+    const { id, beat, editable, toggleBeat } = props;
 
     let item;
     let itemChecked;
-    if (track.id === 0 || track.user_id === userId) {
-        item = <li id={id} onClick={e => props.onClick(e)}></li>
-        itemChecked = <li className="checked" id={id} onClick={e => props.onClick(e)}></li>
+    if (editable) {
+        item = <li id={id} onClick={e => toggleBeat(e)}></li>
+        itemChecked = <li className="checked" id={id} onClick={e => toggleBeat(e)}></li>
     } else {
         item = <li id={id}></li>
         itemChecked = <li className="checked" id={id}></li>
@@ -19,22 +19,6 @@ export default function Beat (props) {
                 ?   itemChecked
                 :   item
             }
-            {/* {beat
-                ?   <li 
-                        className="checked" 
-                        id={id}
-                        onClick={e => props.onClick(e)}
-                            
-                    >
-                            {beat}
-                    </li>
-                :   <li 
-                        id={id}
-                        onClick={e => props.onClick(e)}
-                    >
-                            {beat}
-                    </li>
-            } */}
         </>
     )
 }

@@ -11,7 +11,7 @@ import ResetTrack from './ResetTrack';
 
 
 export default function StepSequencer (props) {
-    const { track, userId } = props;
+    const { track, authUser, editable, toggleBeat } = props;
 
     const instrumentArr = [];
 
@@ -21,16 +21,17 @@ export default function StepSequencer (props) {
     // surprised this still works as in db step_sequence is an array 
     // but looks like react somehow converts them into sequentially numbered objects
     // so I'll persist with this for now
-    Object.keys(obj).forEach(key => 
+    Object.keys(obj).forEach((key, index) => 
         instrumentArr.push(
             <Instrument
                 key={key}
                 id={key}
-                userId={userId}
                 track={track}
-                sound={key}
+                editable={editable}
+                sound={track.audio_sequence[index]}
+                sequence={key}
                 steps={obj[key]}
-                onClick={e => props.onClick(e)}
+                toggleBeat={e => toggleBeat(e)}
             />
         )
     )
@@ -54,17 +55,14 @@ export default function StepSequencer (props) {
     
     let conditionalSaveButton;
     let conditionalResetButton;
-    if (track.id === 0) {
+    if (track.id === 0 && editable) {
         conditionalSaveButton = <SaveTrack label={'Save'} onClickSubmitNewTrack={e => props.onClickSubmitNewTrack(e)}/>
-        // conditionalSaveButton = <FontAwesomeIcon icon={faCloudUploadAlt}/>
         conditionalResetButton = <ResetTrack track={track} onClickReset={e => props.onClickReset(e)} />
 
-    } else if (track.user_id === userId) {
+    } else if (track.user_id === authUser && editable) {
         conditionalSaveButton = <SaveTrack label={'Update'}/>
-        // conditionalSaveButton = <FontAwesomeIcon icon={faCloudUploadAlt}/>
         conditionalResetButton = null
     } else {
-        // Because a user can't save another user's track at present.
         conditionalSaveButton = null
         conditionalResetButton = null
     }

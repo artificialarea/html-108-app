@@ -3,7 +3,7 @@ import Beat from './Beat';
 import InstrumentSound from './InstrumentSound'
 
 export default function Instrument (props) {
-    const { userId, track, steps, sound } = props;
+    const { track, steps, sound, sequence, editable, toggleBeat } = props;
 
     // const stepSequence = props.steps;
     const beatArr = [];
@@ -12,13 +12,13 @@ export default function Instrument (props) {
     for (let i = 0; i < steps.length; i++ ) {
         beatArr.push(
             <Beat 
-                // key={uuid()}
-                key={`${track.id} ${sound} ${i} ${steps[i]}`}
-                id={`${track.id} ${sound} ${i} ${steps[i]}`}
-                userId={userId}
-                track={track}
+                // key={`${track.id} ${sound} ${i} ${steps[i]}`}
+                // id={`${track.id} ${sound} ${i} ${steps[i]}`}
+                key={`${sequence} ${i} ${steps[i]}`}
+                id={`${sequence} ${i} ${steps[i]}`}
                 beat={steps[i]}
-                onClick={e => props.onClick(e)}
+                editable={editable}
+                toggleBeat={e => toggleBeat(e)}
             />
         )
     }
