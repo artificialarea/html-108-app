@@ -4,6 +4,23 @@ The HTML-108 is a minimal beat machine in the browser.
 
 A nostalgic nod to the seminal Roland TR-808 analog synthesizer drum machine of the 1980s that ushered in several genres of electronic music.
 
+## 00. Pivoting...
+Scaling back ambition and scope of project considerably for now, in order to get some semblance of an MVP and some "quick wins".
+
+This project will evolve in several phases in line with certain Thinkful project for guidance:
+* **Phase 1:** ala **Noteful**
+    * No user/sign-in
+        * **branch: `pivot-01-noteful`** purged all instances of users, user, userId (and refactored code to accomodate)... **but subseqeuntly realised this was the wrong approach.** In antipation of re-integrating users/auth at some later phase, at this initial phase I still need to have users table in dB and have a single primary and foreign key placeholder **`user.id - - - - track.user_id`** whilst handing data on client-side. Soooooooooo, will need to start a new branch that's probably in some ways closer to **`prior-to-pivot`** branch. Doh! >_<
+        * ergo, **branch: `pivot-02-noteful`**
+    * Community Dashboard with CRUD
+    * JSON server, then Postgres DB
+    * MVP upon completion 
+* **Phase 2 (?):** ala **Bookmarks**
+    * No user/sign-in, per se, although API_TOKEN required
+* **Phase 3:** Integrate Web Audio API / Tone.js
+
+* **Phase 4 Stretch:** Login with Auth and JWT, ala **Blogful**. Doubtful in timeframe, but will revisit later if necessary.
+
 
 <br />
 
