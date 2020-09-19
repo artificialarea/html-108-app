@@ -77,7 +77,7 @@ _Components are **stateless** unless otherwise noted. In progress, as may introd
     * **Dashboard.js**
     * **DrumMachine.js**
     
-**[Component Composition Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-composition.pdf)**
+**[Component track Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-track.pdf)**
 
 
 <br />
@@ -91,7 +91,7 @@ _Components are **stateless** unless otherwise noted. In progress, as may introd
   * **email** **TBD** (validation: includes @ character and .com, .org, or .net)
   * **date_login** (new Date())
   
-* **Compositions** (database table)
+* **tracks** (database table)
   * **id** (primary key, auto-generated)
   * **user_id** (foreign key > Users.id)
   * **title** (defaults to 'Untitled')
@@ -122,23 +122,23 @@ _Components are **stateless** unless otherwise noted. In progress, as may introd
 API Documentation details of CRUD
 
 * **`POST`**
-  * **`/api/compositions`** create/add new composition via `/track` URL
+  * **`/api/tracks`** create/add new track via `/track` URL
   * **`/api/users`** create/add new user via `/register` URL
   
 * **`GET`** 
-  * **`/api/compositions`** get all compositions
-  * **`/api/compositions?visible=true`** get all public compositions for community `/dashboard` URL
-  * **`/api/compositions?userId=[:userId]`** get all compositions for signed-in user's `/my-dashboard` URL
-  * **`/api/compositions/:compositionId`** get particular composition for `/track/:trackId` URL
-  * **`/api/users`** get all users associated with an `/api/compositions` fetch _(presumably just id & username, sans sensitive info)_
+  * **`/api/tracks`** get all tracks
+  * **`/api/tracks?visible=true`** get all public tracks for community `/dashboard` URL
+  * **`/api/tracks?userId=[:userId]`** get all tracks for signed-in user's `/my-dashboard` URL
+  * **`/api/tracks/:trackId`** get particular track for `/track/:trackId` URL
+  * **`/api/users`** get all users associated with an `/api/tracks` fetch _(presumably just id & username, sans sensitive info)_
   * **`/api/users/:userId`** for user to log-in
   
 * **`PATCH`**
-  * **`/api/compositions/:compositionId`** update composition via `/track/:trackId` or `/my-dashboard` URL
+  * **`/api/tracks/:trackId`** update track via `/track/:trackId` or `/my-dashboard` URL
   * **`/api/users`** update user profile (via `/register` URL?)
   
 * **`DELETE`**
-  * **`/api/compositions/:compositionId`** delete own composition via `/my-dashboard` URL
+  * **`/api/tracks/:trackId`** delete own track via `/my-dashboard` URL
   * **`/api/users`** delete profile?
   
 

@@ -7,15 +7,15 @@ export default function Nav (props) {
             <h3>HTML-108</h3>
             <Link to='/'>Intro</Link>
             {' '}
-            <Link to='/track'>New Track</Link>
+            <Link to='/add-track'>New Track</Link>
             {' '}
             <Link to='/dashboard'>Community Dashboard</Link>
             {' '}
             {/* <Link to='/my-dashboard'>My Dashboard</Link>
             {' '} */}
-            <Link to='/login'>Login</Link>
+            {/* <Link to='/login'>Login</Link>
             {' '}
-            <Link to='/register'>Register</Link>
+            <Link to='/register'>Register</Link> */}
         </nav>
     )
 }

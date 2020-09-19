@@ -14,7 +14,7 @@ export default function UserControls (props) {
             <label>
                 <input 
                     type="radio" 
-                    // name={`composition-${track.id}`} 
+                    // name={`track-${track.id}`} 
                     name={track.id} 
                     value="private"
                     checked={!track.visible}

@@ -7,12 +7,16 @@ import './App.css';
 import Nav from './components/Nav/Nav';
 import Intro from './components/Intro/Intro';
 import Dashboard from './components/Dashboard/Dashboard';
+import ViewTrack from './components/ViewTrack/ViewTrack';
+import AddTrack from './components/AddTrack/AddTrack';
+import EditTrack from './components/EditTrack/EditTrack';
 import DrumMachine from './components/DrumMachine/DrumMachine';
-import Login from './components/Login/Login';
-import Registration from './components/Registration/Registration';
-import EditTitle from './components/EditTitle/EditTitle';
 import Footer from './components/Footer/Footer';
-import NotFound from './components/NotFound/NotFound'
+import NotFound from './components/NotFound/NotFound';
+import ApiContext from './ApiContext';
+// import Login from './components/Login/Login';
+// import Registration from './components/Registration/Registration';
+// import EditTitle from './components/EditTitle/EditTitle';
 
 // console.log('process.env: ', process.env) // [f4] Re: Vercel `.env.local` issues
 
@@ -21,65 +25,54 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
-            compositions: [],
-            visible: true, 
+            authUser: [     // static placeholder at this phase
+                {
+                    id: 1,
+                    username: 'admin_react',
+                }
+            ],
+            users: [],                     
+            tracks: [],              
             error: null,
-            new_composition: [
-                {
-                    id: 0,
-                    user_id: '', 
-                    title: '',
-                    date_modified: '',
-                    visible: true,
-                    tempo: 120,
-                    sequence_length: 16,
-                    mp3: '',
-                    audio_sequence: [ 'hihat', 'clap', 'trap', 'bass'],     // TODO: Add to db
-                    step_sequence: [
-                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    ],
-                },
-            ],
-            reset_composition: [
-                {
-                    id: 0,
-                    user_id: '',
-                    title: '',
-                    date_modified: '',
-                    visible: true,
-                    tempo: 120,
-                    sequence_length: 16,
-                    mp3: '',
-                    audio_sequence: [ 'hihat', 'clap', 'trap', 'bass'],     // TODO: Add to db
-                    step_sequence: [
-                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    ],
-                },
-            ],
         }
     }
 
     componentDidMount() {
-        // fetch compositions.visible = true automatically in anticipation of visiting /dashboard route
-        // HOWEVER LIFECYCLE ISSUE
-        // fetch fails to execute in time (if at all) if enter site via particular /track/:trackId route URL, so tracks are undefined
-        // e.g. http://http://localhost:3000/track/3
 
-        this.getPublicTracks();
-        this.getAllUsers();
-        
+        const fetchOptions = {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
+            },
+        }
+
+        Promise.all([
+            fetch(`${config.API_ENDPOINT}/api/users`, fetchOptions),
+            fetch(`${config.API_ENDPOINT}/api/tracks`, fetchOptions),
+        ])
+            .then(([usersRes, tracksRes]) => {
+                if (!usersRes.ok)
+                    return usersRes.json().then(e => Promise.reject(e))
+                if (!tracksRes.ok)
+                    return tracksRes.json().then(e => Promise.reject(e))
+
+                return Promise.all([
+                    usersRes.json(),
+                    tracksRes.json(),
+                ])
+            })
+            .then(([users, tracks]) => {
+                this.setState({ users, tracks })
+            })
+            .catch(err => {
+                console.error({ err })
+            })
     }
 
     getPublicTracks() {
         const baseUrl = config.API_ENDPOINT;
-        const path = `/api/compositions`;
+        const path = `/api/tracks`;
         const params = [];
         if (this.state.visible) {
             params.push(`visible=${this.state.visible}`);
@@ -102,7 +95,7 @@ export default class App extends React.Component {
             })
             .then(data => {
                 this.setState({
-                    compositions: data,
+                    tracks: data,
                     error: null
                 });
             })
@@ -145,16 +138,16 @@ export default class App extends React.Component {
     }
 
     handleTitleChange = (changeEvent, trackId) => {
-        const { compositions, new_composition } = this.state;
+        const { tracks, new_track } = this.state;
 
         if (trackId === 0 ) {
-            const updateNewComposition = [...new_composition];
-            updateNewComposition.[trackId].title = changeEvent.target.value;
+            const updateNewtrack = [...new_track];
+            updateNewtrack.[trackId].title = changeEvent.target.value;
         } 
         // TODO:
         // else {
-        //     const newCompositions = [...compositions];
-        //     newCompositions.find(track => track.id == trackId).title = changeEvent.target.value;
+        //     const newtracks = [...tracks];
+        //     newtracks.find(track => track.id == trackId).title = changeEvent.target.value;
         // }
 
         this.setState({
@@ -172,16 +165,16 @@ export default class App extends React.Component {
             sequence_length,
             step_sequence,
             mp3,
-        } = this.state.new_composition[0];
+        } = this.state.new_track[0];
 
         const user_id = 1;  // will be dynamic later 
 
-        let { title } = this.state.new_composition[0];
+        let { title } = this.state.new_track[0];
         if (title.length === 0) {
             title = 'Untitled'
         }
 
-        const newComposition = {
+        const newtrack = {
             user_id,
             title,
             visible,
@@ -191,7 +184,7 @@ export default class App extends React.Component {
             mp3,
         };
         const baseUrl = config.API_ENDPOINT;
-        const path = `/api/compositions`;
+        const path = `/api/tracks`;
         const url = `${baseUrl}${path}`;
 
         fetch(url, {
@@ -200,7 +193,7 @@ export default class App extends React.Component {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${config.API_KEY}`
             },
-            body: JSON.stringify(newComposition)
+            body: JSON.stringify(newtrack)
         })
             .then(res => {
                 if (!res.ok) {
@@ -213,12 +206,12 @@ export default class App extends React.Component {
 
                 // Uncertain how to proceed:
                 // make GET call at this point for 
-                // updated /api/compositions
-                // or /api/compositions/data.id ??
+                // updated /api/tracks
+                // or /api/tracks/data.id ??
                 // to setState ??
 
                 // this.setState({
-                //     compositions: data,
+                //     tracks: data,
                 //     error: null
                 // });
             })
@@ -230,7 +223,7 @@ export default class App extends React.Component {
     }
 
     handleBeatChange = (changeEvent) => {
-        const { compositions, new_composition } = this.state;
+        const { tracks, new_track } = this.state;
         // probably a less hacky way to do this, but...
         // Extract target tag id information from string into array
         // "trackId instrumentKey beatIndex beatBoolean" e.g. "2 hihat 5 0" // => ['2','hihat', 5, 0]
@@ -245,30 +238,30 @@ export default class App extends React.Component {
             : beatBoolean = 1;
 
         if (trackId === '0' ) {
-            const updateNewComposition = [...new_composition];
-            updateNewComposition.[trackId].step_sequence[instrumentKey][beatIndex] = beatBoolean;
+            const updateNewtrack = [...new_track];
+            updateNewtrack.[trackId].step_sequence[instrumentKey][beatIndex] = beatBoolean;
         } else {
             // [f1]
-            const newCompositions = [...compositions];
-            newCompositions.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
+            const newtracks = [...tracks];
+            newtracks.find(track => track.id == trackId).step_sequence[instrumentKey][beatIndex] = beatBoolean;
         }
 
         this.setState({
             // [f1]
-            // compositions: newCompositions
+            // tracks: newtracks
         })
     }
 
     handleTempoChange = (changeEvent) => {
-        const { compositions, new_composition } = this.state;
+        const { tracks, new_track } = this.state;
         const trackId = changeEvent.target.name;
 
         if (trackId === '0' ) {
-            const updateNewComposition = [...new_composition];
-            updateNewComposition.find(track => track.id == trackId).tempo = changeEvent.target.value;
+            const updateNewtrack = [...new_track];
+            updateNewtrack.find(track => track.id == trackId).tempo = changeEvent.target.value;
         } else {
-            const newCompositions = [...compositions];
-            newCompositions.find(track => track.id == trackId).tempo = changeEvent.target.value;
+            const newtracks = [...tracks];
+            newtracks.find(track => track.id == trackId).tempo = changeEvent.target.value;
         }
 
         this.setState({
@@ -277,42 +270,42 @@ export default class App extends React.Component {
     }
 
     handlePrivacyChange = (changeEvent) => {
-        const { compositions } = this.state;
+        const { tracks } = this.state;
         const trackId = changeEvent.target.name;  
         const newPrivacyBool = changeEvent.target.value === 'public' ? true : false;
 
-        const newCompositions = [...compositions];
-        newCompositions.find(track => track.id == trackId).visible = newPrivacyBool;
+        const newtracks = [...tracks];
+        newtracks.find(track => track.id == trackId).visible = newPrivacyBool;
 
         this.setState({
             // [f1]
-            // compositions: newCompositions
+            // tracks: newtracks
         })
     }
 
     handleDeleteTrack = (trackId) => {
-        const { compositions } = this.state;
+        const { tracks } = this.state;
         // [f3] + [f1]
-        const newCompositions = [...compositions]
-        const index = newCompositions.findIndex(track => track.id === trackId)
+        const newtracks = [...tracks]
+        const index = newtracks.findIndex(track => track.id === trackId)
         if (index > -1) {
-            newCompositions.splice(index, 1);
+            newtracks.splice(index, 1);
         }
 
         this.setState({
-            compositions: newCompositions
+            tracks: newtracks
         })
     }
 
     handleResetTrack = (trackId) => {
-        const { reset_composition } = this.state;
+        const { reset_track } = this.state;
 
         // TODO: enable this functionality for saved tracks as well. Intially tried but failed.
-        // ALSO NOTE: Fails to reset new_composition if Reset Track invoked again after initial reset =/
+        // ALSO NOTE: Fails to reset new_track if Reset Track invoked again after initial reset =/
         if (trackId === 0 ) {
             this.setState({
                 // [f1]
-                new_composition: [...reset_composition]
+                new_track: [...reset_track]
             })
         }
     }
@@ -340,15 +333,12 @@ export default class App extends React.Component {
     }
 
     renderMainRoutes () {
-        const { users, compositions, new_composition } = this.state;
+        const { authUser, users, tracks } = this.state;
         console.log('state:', this.state)
+
         return (
             <Switch>
                 <Route exact path='/' component={Intro} />
-                <Route path='/login' component={Login} />
-                <Route path='/register' component={Registration} />
-                <Route path='/profile' component={Registration} />
-                <Route path='/edit-title' component={EditTitle} />
 
                 <Route 
                     path='/dashboard' 
@@ -356,43 +346,60 @@ export default class App extends React.Component {
                         <Dashboard 
                             who={'public'}
                             users={users}
-                            tracks={compositions}
+                            tracks={tracks}
                         />
                     } 
                 />
+                
                 <Route 
-                    path='/my-dashboard'
+                    path='/add-track' 
                     render={() => 
-                        <Dashboard 
-                            who={'private'} 
-                            userId={1}    // this will be dynamic once login auth set up
-                            users={users}
-                            tracks={compositions}
-                            onChange={this.handlePrivacyChange}
-                            onClickDelete={this.handleDeleteTrack}
+                        <AddTrack 
+                            authUser={authUser}
                         />
-                    }  
+                    }
                 />
 
                 <Route 
-                    exact 
-                    path='/track' 
-                    render={() => 
-                        <DrumMachine 
-                            track={new_composition[0]}
-                            onChange={this.handleTempoChange}
-                            onClick={this.handleBeatChange}
-                            onClickReset={this.handleResetTrack}
-                            onClickSubmitNewTrack={this.handleSubmitNewTrack}
-                            titleChange={this.handleTitleChange}
-                        />
-                    }   
+                    path='/tracks/:trackId'
+                    component={ViewTrack}    
                 />
-                <Route 
-                    path='/track/:trackId' 
+
+                {/* <Route 
+                    path='/tracks/:trackId' 
                     component={(props) => {
                         // console.log('props.match: ', props.match)
-                        const trackViaParams = compositions.find(track => track.id == props.match.params.trackId)
+                        const trackViaParams = tracks.find(track => track.id == props.match.params.trackId)
+                        
+                        return <ViewTrack 
+                                    authUser={authUser}
+                                    users={users}
+                                    // tracks={tracks}
+                                    track={trackViaParams}
+                                />
+                    }}
+                /> */}
+
+                <Route 
+                    path='/edit/:trackId' 
+                    component={(props) => {
+                        // console.log('props.match: ', props.match)
+                        const trackViaParams = tracks.find(track => track.id == props.match.params.trackId)
+                        
+                        return <EditTrack 
+                                    authUser={authUser}
+                                    users={users}
+                                    // tracks={tracks}
+                                    track={trackViaParams}
+                                />
+                    }}
+                />
+                
+                {/* <Route 
+                    path='/tracks/:trackId' 
+                    component={(props) => {
+                        // console.log('props.match: ', props.match)
+                        const trackViaParams = tracks.find(track => track.id == props.match.params.trackId)
                         return <DrumMachine 
                                     track={trackViaParams}  
                                     userId={1}    // this will be dynamic once login auth set up
@@ -402,7 +409,22 @@ export default class App extends React.Component {
                                     onClickReset={this.handleResetTrack}
                                 />
                     }}
-                />
+                /> */}
+
+                  {/* <Route 
+                    exact 
+                    path='/track' 
+                    render={() => 
+                        <DrumMachine 
+                            track={new_track[0]}
+                            onChange={this.handleTempoChange}
+                            onClick={this.handleBeatChange}
+                            onClickReset={this.handleResetTrack}
+                            onClickSubmitNewTrack={this.handleSubmitNewTrack}
+                            titleChange={this.handleTitleChange}
+                        />
+                    }   
+                /> */}
 
                 <Route component={NotFound} />
             </Switch>
@@ -410,17 +432,26 @@ export default class App extends React.Component {
     }
 
     render() {
-        
+        const value = {
+            authUser: this.state.authUser,
+            users: this.state.users,
+            tracks: this.state.tracks,
+            addTrack: this.handleAddTrackReprise,
+            deleteTrack: this.handleDeleteTrackReprise,
+            updateTrack: this.handleUpdateTrackReprise,
+        }
         return (
-            <div className="App">
-                {this.renderNavRoutes()}
+            <ApiContext.Provider value={value}>
+                <div className="App">
+                    {this.renderNavRoutes()}
 
-                <main className="App__main">
-                    {this.renderMainRoutes()}
-                </main>
-                
-                {this.renderFooterRoutes()}
-            </div>
+                    <main className="App__main">
+                        {this.renderMainRoutes()}
+                    </main>
+                    
+                    {this.renderFooterRoutes()}
+                </div>
+            </ApiContext.Provider>
         );
     }
 }

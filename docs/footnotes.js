@@ -10,10 +10,10 @@
 // Upon discusion, my error was pointed out to me and the solution
 
 // This directly mutate state
-const newCompositions = this.state.compositions;
+const newtracks = this.state.tracks;
 
 // Whereas apparently this does not: adding a spread operator to the instrumentArray I made a copy/clone of that array in state, allowing me to manipulate it prior to setState without directly mutating state...
-const newCompositions = [...this.state.compositions];
+const newtracks = [...this.state.tracks];
 
 // BUT... it still seems to update state without the need of setState, tho? =/
 
@@ -23,7 +23,7 @@ const newCompositions = [...this.state.compositions];
 // Use objects not arrays for organizing data in state to conduct CRUD operations
 // src: https://medium.com/javascript-in-plain-english/https-medium-com-javascript-in-plain-english-why-you-should-use-an-object-not-an-array-for-lists-bee4a1fbc8bd
            
-// Once I switched this.state.compositions and this.state.users 
+// Once I switched this.state.tracks and this.state.users 
 // from an array (of nameless objects) to an object
 // suddenly CRUD operations to access state and setState became so much simpler.
 // BAD?:     [ {id:'1'}, {id:'2'}, ... ]
@@ -32,14 +32,14 @@ const newCompositions = [...this.state.compositions];
 // READ example
 const trackId = '2';
 // array
-this.state.compositions.find((track) => track.id === trackId)
+this.state.tracks.find((track) => track.id === trackId)
 // object (sooo much easier)
-this.state.compositions[trackId];
+this.state.tracks[trackId];
 
 // POST-SCRIPT!!!! 
 // Unfortunately, it appears Marius recommends the opposite. Ugh.
 // I failed to capture all the pros and cons he gave, but essentially he said 99% of databases are configured as an array of object. It's easier to access data (via mapping, etc) and also something about deleting data.
-// For now I will leave as is, but may likely need to refactor again back to how I previously had it =/e e.g. compositions: [ {}, {}, {} ]
+// For now I will leave as is, but may likely need to refactor again back to how I previously had it =/e e.g. tracks: [ {}, {}, {} ]
 
 
 
@@ -57,9 +57,9 @@ this.setState({
 
 // However, I was unable to implement via the suggested GOOD method.
 // So, resorted to the BAD approach:
-// deleting composition key/value by directly mutating state, 
+// deleting track key/value by directly mutating state, 
 // then empty setState({ }) to trigger render in the DOM
-delete this.state.compositions[trackId]
+delete this.state.tracks[trackId]
 this.setState({ })
 
 // James suggests this approach may not be that bad, tho. 
@@ -68,18 +68,18 @@ this.setState({ })
 // POST-SCRIPT!!!!
 // was able to pull it off in branch 'state-with-objects'
 // co-opted this from somewhere else...
-let {[trackId]: _, ...rest} = this.state.compositions;
+let {[trackId]: _, ...rest} = this.state.tracks;
 this.setState({
-    compositions: rest
+    tracks: rest
 })
 // Note: the underscore (_) indicates to ignore.
 // and in master state with arrays
-const newCompositions = [...this.state.compositions]
-const index = newCompositions.findIndex(track => track.id === trackId)
-newCompositions.splice(index, 1);
+const newtracks = [...this.state.tracks]
+const index = newtracks.findIndex(track => track.id === trackId)
+newtracks.splice(index, 1);
 
 this.setState({
-    compositions: newCompositions
+    tracks: newtracks
 })
 
 

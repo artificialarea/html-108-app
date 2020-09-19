@@ -7,7 +7,7 @@ export default function TrackItem (props) {
     // console.log('TrackItem props: ', props)
 
     return (
-        <li className="composition track-item">
+        <li className="track track-item">
             <h2>{track.title}</h2>
             { who !== 'private' 
                 ? <p className="public-user">by {user}</p> 
@@ -23,7 +23,7 @@ export default function TrackItem (props) {
                 />
             }
             
-            <Link to={`/track/${track.id}`}>See Drum Machine Configuration</Link>
+            <Link to={`/tracks/${track.id}`}>See Drum Machine Configuration</Link>
 
             {/* <button>Listen to Audio Sample</button> // revisit once dealing with sound */}
             
