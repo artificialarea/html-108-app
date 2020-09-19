@@ -138,6 +138,16 @@ export default class AddTrack extends React.Component {
         })
     }
 
+    handleTempoChange = (changeEvent) => {
+        const { track } = this.state;
+        const newTrack = {...track};
+        newTrack.tempo = changeEvent.target.value;
+
+        this.setState({
+            track: newTrack
+        })
+    }
+
     handleTitleChange = (changeEvent) => {
         const { track } = this.state;
         const newTrack = {...track};
@@ -161,6 +171,7 @@ export default class AddTrack extends React.Component {
                     editable={editable}
                     toggleBeat={this.handleBeatChange}
                     titleChange={this.handleTitleChange}
+                    tempoChange={this.handleTempoChange}
                 />
             </div>
         )

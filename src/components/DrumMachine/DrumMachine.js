@@ -12,7 +12,7 @@ export default function DrumMachine (props) {
         track, 
         editable,
         titleChange,
-        onChange,
+        tempoChange,
         toggleBeat,
         onClickReset,
         onClickSubmitNewTrack, 
@@ -29,7 +29,7 @@ export default function DrumMachine (props) {
                 track={track} 
                 editable={editable}
                 // userId={userId}
-                onChange={e => onChange(e)}
+                tempoChange={e => tempoChange(e)}
             />
             <StepSequencer 
                 // userId={userId}   

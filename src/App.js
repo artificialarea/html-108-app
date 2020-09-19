@@ -70,37 +70,6 @@ export default class App extends React.Component {
             })
     }
 
-    handleTempoChange = (changeEvent) => {
-        const { tracks, new_track } = this.state;
-        const trackId = changeEvent.target.name;
-
-        if (trackId === '0' ) {
-            const updateNewtrack = [...new_track];
-            updateNewtrack.find(track => track.id == trackId).tempo = changeEvent.target.value;
-        } else {
-            const newtracks = [...tracks];
-            newtracks.find(track => track.id == trackId).tempo = changeEvent.target.value;
-        }
-
-        this.setState({
-            // [f1]
-        })
-    }
-
-    handlePrivacyChange = (changeEvent) => {
-        const { tracks } = this.state;
-        const trackId = changeEvent.target.name;  
-        const newPrivacyBool = changeEvent.target.value === 'public' ? true : false;
-
-        const newtracks = [...tracks];
-        newtracks.find(track => track.id == trackId).visible = newPrivacyBool;
-
-        this.setState({
-            // [f1]
-            // tracks: newtracks
-        })
-    }
-
     handleDeleteTrack = (trackId) => {
         const { tracks } = this.state;
         // [f3] + [f1]

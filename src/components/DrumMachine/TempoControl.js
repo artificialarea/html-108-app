@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function TempoControl (props) {
-    const { track } = props;
+    const { track, tempoChange } = props;
 
     return (
         <>
@@ -12,7 +12,7 @@ export default function TempoControl (props) {
                 min="30"
                 max="300"
                 value={track.tempo}
-                onChange={e => props.onChange(e)}
+                onChange={e => tempoChange(e)}
             />
         </>
     )

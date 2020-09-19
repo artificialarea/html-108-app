@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function TempoDisplay (props) {
-    const { track } = props;
+    const { track, tempoChange } = props;
 
     return (
         <>
@@ -12,7 +12,7 @@ export default function TempoDisplay (props) {
                     // id={track.id}
                     name={track.id}
                     value={track.tempo}
-                    onChange={e => props.onChange(e)}
+                    onChange={e => tempoChange(e)}
                 />
             </label>
         </>
