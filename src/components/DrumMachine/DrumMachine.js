@@ -6,16 +6,14 @@ import StepSequencer from './StepSequencer';
 
 export default function DrumMachine (props) {
     const { 
-        // users, 
-        // userId, 
         authUser,
         track, 
         editable,
         titleChange,
         tempoChange,
         toggleBeat,
-        onClickReset,
-        onClickSubmitNewTrack, 
+        resetTrack,
+        submitNewTrack, 
     } = props;
 
     return (
@@ -28,18 +26,15 @@ export default function DrumMachine (props) {
             <Tempo 
                 track={track} 
                 editable={editable}
-                // userId={userId}
                 tempoChange={e => tempoChange(e)}
             />
             <StepSequencer 
-                // userId={userId}   
-                // users={users}
                 authUser={authUser}
                 track={track} 
                 editable={editable}
                 toggleBeat={e => toggleBeat(e)}
-                onClickReset={e => onClickReset(e)}
-                onClickSubmitNewTrack={e => onClickSubmitNewTrack(e)}
+                resetTrack={e => resetTrack(e)}
+                submitNewTrack={e => submitNewTrack(e)}
             />
         </div>
     )

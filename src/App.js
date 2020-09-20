@@ -25,12 +25,10 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            authUser: [     // static placeholder at this phase
-                {
-                    id: 1,
-                    username: 'admin_react',
-                }
-            ],
+            authUser: {     // static placeholder at this phase
+                id: 1,
+                username: 'admin_react',
+            },
             users: [],                     
             tracks: [],              
             error: null,
@@ -82,19 +80,6 @@ export default class App extends React.Component {
         this.setState({
             tracks: newtracks
         })
-    }
-
-    handleResetTrack = (trackId) => {
-        const { reset_track } = this.state;
-
-        // TODO: enable this functionality for saved tracks as well. Intially tried but failed.
-        // ALSO NOTE: Fails to reset new_track if Reset Track invoked again after initial reset =/
-        if (trackId === 0 ) {
-            this.setState({
-                // [f1]
-                new_track: [...reset_track]
-            })
-        }
     }
 
     renderNavRoutes () {
@@ -198,7 +183,7 @@ export default class App extends React.Component {
                     }}
                 /> */}
 
-                  {/* <Route 
+                {/* <Route 
                     exact 
                     path='/track' 
                     render={() => 

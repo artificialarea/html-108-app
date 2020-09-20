@@ -2,15 +2,13 @@ import React from 'react';
 
 export default function ResetTrack (props) {
 
-    const { track } = props
+    const { resetTrack } = props;
+
     return (
         <>
             <button 
                 type="submit"
-                // onClick={e => props.onClickReset(e)}
-                onClick={() => props.onClickReset(track.id)}
-
-            >
+                onClick={(e) => resetTrack(e)} >
                 Reset Track
             </button>
         </>

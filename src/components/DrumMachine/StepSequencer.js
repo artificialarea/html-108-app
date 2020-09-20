@@ -11,7 +11,14 @@ import ResetTrack from './ResetTrack';
 
 
 export default function StepSequencer (props) {
-    const { track, authUser, editable, toggleBeat } = props;
+    const { 
+        track, 
+        authUser, 
+        editable, 
+        toggleBeat, 
+        resetTrack,
+        submitNewTrack, 
+    } = props;
 
     const instrumentArr = [];
 
@@ -35,31 +42,14 @@ export default function StepSequencer (props) {
             />
         )
     )
-
-    // thought I would need to switch to this
-    // track.step_sequence.map(item => 
-    //     instrumentArr.push(
-    //         <Instrument
-    //             key={item}
-    //             id={item}
-    //             userId={userId}
-    //             track={track}
-    //             sound={item}
-    //             steps={item}
-    //             onClick={e => props.onClick(e)}
-    //         />
-    //     )
-    // )
-
-
     
     let conditionalSaveButton;
     let conditionalResetButton;
     if (track.id === 0 && editable) {
-        conditionalSaveButton = <SaveTrack label={'Save'} onClickSubmitNewTrack={e => props.onClickSubmitNewTrack(e)}/>
-        conditionalResetButton = <ResetTrack track={track} onClickReset={e => props.onClickReset(e)} />
+        conditionalSaveButton = <SaveTrack label={'Save'} submitNewTrack={e => submitNewTrack(e)}/>
+        conditionalResetButton = <ResetTrack resetTrack={e => resetTrack(e)} />
 
-    } else if (track.user_id === authUser && editable) {
+    } else if (track.user_id === authUser.id && editable) {
         conditionalSaveButton = <SaveTrack label={'Update'}/>
         conditionalResetButton = null
     } else {

@@ -9,7 +9,7 @@ export default class AddTrack extends React.Component {
         history: {
             push: () => {}
         },
-        authUser: ''
+        authUser: {}
     }
     static contextType = ApiContext;
 
@@ -22,7 +22,7 @@ export default class AddTrack extends React.Component {
             error: null,
             track: {
                 id: 0,
-                user_id: this.props.authUser, 
+                user_id: this.props.authUser.id, 
                 title: '',
                 // date_modified: new Date(),
                 visible: true,
@@ -39,21 +39,6 @@ export default class AddTrack extends React.Component {
         }
     }
 
-    resettrack () {
-        const { step_sequence, ...arr } = this.state.track;
-        this.setState({
-            track: {
-                ...arr,
-                step_sequence: [
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                ],
-            }
-        })
-    }
-
     handleSubmitNewTrack = (changeEvent) => {
         
         const {
@@ -66,14 +51,14 @@ export default class AddTrack extends React.Component {
             step_sequence,
         } = this.state.track;
 
-        // const user_id = this.props.authUser; 
+        // const user_id = this.props.authUser.id; 
 
         let { title } = this.state.track;
         if (title.length === 0) {
             title = 'Untitled'
         }
 
-        const newtrack = {
+        const newTrack = {
             user_id,
             title,
             visible,
@@ -83,13 +68,15 @@ export default class AddTrack extends React.Component {
             step_sequence,
         };
 
+        console.log("pre-fetch body: ", newTrack)
+
         fetch(`${config.API_ENDPOINT}/api/tracks`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${config.API_KEY}`
             },
-            body: JSON.stringify(newtrack)
+            body: JSON.stringify(newTrack)
         })
             .then(res => {
                 if (!res.ok) {
@@ -158,6 +145,22 @@ export default class AddTrack extends React.Component {
         })
     }
 
+    handleResetTrack = (changeEvent) => {
+        const { track } = this.state;
+        const { step_sequence, ...arr } = track;
+        this.setState({
+            track: {
+                ...arr,
+                step_sequence: [
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                ],
+            }
+        })
+    }
+
 
     render () {
         const { authUser } = this.props;
@@ -172,6 +175,8 @@ export default class AddTrack extends React.Component {
                     toggleBeat={this.handleBeatChange}
                     titleChange={this.handleTitleChange}
                     tempoChange={this.handleTempoChange}
+                    resetTrack={this.handleResetTrack}
+                    submitNewTrack={this.handleSubmitNewTrack}
                 />
             </div>
         )
