@@ -82,6 +82,26 @@ export default class App extends React.Component {
         })
     }
 
+    handleAddTrack = track => {
+        this.setState({
+            tracks: [
+                ...this.state.tracks,
+                track
+            ]
+        })
+    }
+
+    handleUpdateTrack = updatedTrack => {
+        const newTracks = this.state.tracks.map(track =>
+            (track.id !== updatedTrack.id)
+                ? track
+                : updatedTrack    
+        )
+        this.setState({
+            tracks: newTracks
+        })
+    }
+
     renderNavRoutes () {
         return (
             <>
@@ -166,9 +186,9 @@ export default class App extends React.Component {
             authUser: this.state.authUser,
             users: this.state.users,
             tracks: this.state.tracks,
-            addTrack: this.handleAddTrackReprise,
+            addTrack: this.handleAddTrack,
             deleteTrack: this.handleDeleteTrackReprise,
-            updateTrack: this.handleUpdateTrackReprise,
+            updateTrack: this.handleUpdateTrack,
         }
         return (
             <ApiContext.Provider value={value}>

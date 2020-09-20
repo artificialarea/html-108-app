@@ -11,7 +11,7 @@ export default function TrackItem (props) {
             { who !== 'private' 
                 ? <p className="public-user">by {user}</p> 
                 : null }
-            <p>3 Sept 2020</p>
+            <p>{track.date_modified}</p>
             
             { who === 'private' && 
                 <UserControls 

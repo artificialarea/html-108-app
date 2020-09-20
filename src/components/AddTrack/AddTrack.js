@@ -25,7 +25,7 @@ export default class AddTrack extends React.Component {
                 id: 0,
                 user_id: this.props.authUser.id, 
                 title: '',
-                // date_modified: new Date(),
+                date_modified: '',
                 visible: true,
                 tempo: 120,
                 sequence_length: 16,
@@ -86,7 +86,9 @@ export default class AddTrack extends React.Component {
             })
             .then(track => {
                 this.context.addTrack(track)
-                this.props.history.push(`/edit/${track.id}`)
+                console.log('this.props.history:', this.props.history)
+                // this.props.history.push(`/edit/${track.id}`)
+                this.props.history.push(`/dashboard`)
             })
             .catch(err => {
                 this.setState({
