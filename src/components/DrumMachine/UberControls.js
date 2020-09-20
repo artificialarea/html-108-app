@@ -15,7 +15,7 @@ export default function UberControls (props) {
         authUser = {}, 
         track, 
         editable, 
-        submitNewTrack, 
+        submitTrack, 
         resetTrack 
     } = props;
 
@@ -24,7 +24,7 @@ export default function UberControls (props) {
 
     if (editable) {
         if (track.id === 0) {
-            conditionalSaveButton = <SaveTrack label={'Save'} submitNewTrack={e => submitNewTrack(e)}/>
+            conditionalSaveButton = <SaveTrack label={'Save'} submitTrack={e => submitTrack(e)}/>
             conditionalResetButton = <ResetTrack resetTrack={e => resetTrack(e)} />
         } else if (track.user_id === authUser.id) {
             conditionalSaveButton = <SaveTrack label={'Update'}/>

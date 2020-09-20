@@ -36,19 +36,6 @@ export default class EditTrack extends React.Component {
         }
     }
 
-    resettrack () {
-        const { step_sequence, ...arr } = this.state;
-        this.setState({
-            ...arr,
-            step_sequence: [
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            ],
-        })
-    }
-
     componentDidMount () {
         const { id } = this.props.track;
 
@@ -76,6 +63,128 @@ export default class EditTrack extends React.Component {
             })
     }
 
+    handleSubmitTrack = (changeEvent) => {
+        console.log('hi')
+        // const {
+        //     user_id,
+        //     // title,
+        //     visible,
+        //     tempo,
+        //     sequence_length,
+        //     audio_sequence,
+        //     step_sequence,
+        // } = this.state.track;
+
+        // // const user_id = this.props.authUser.id; 
+
+        // let { title } = this.state.track;
+        // if (title.length === 0) {
+        //     title = 'Untitled'
+        // }
+
+        // const newTrack = {
+        //     user_id,
+        //     title,
+        //     visible,
+        //     tempo,
+        //     sequence_length,
+        //     audio_sequence,
+        //     step_sequence,
+        // };
+
+        // fetch(`${config.API_ENDPOINT}/api/tracks`, {
+        //     method: 'PATCH',
+        //     headers: {
+        //         'content-type': 'application/json',
+        //         'Authorization': `Bearer ${config.API_KEY}`
+        //     },
+        //     body: JSON.stringify(newTrack)
+        // })
+        //     .then(res => {
+        //         if (!res.ok) {
+        //             // throw new Error(res.statusText);
+        //             return res.json().then(err => Promise.reject(err))
+        //         }
+        //         return res.json();
+        //     })
+        //     .then(track => {
+        //         this.context.addTrack(track)
+        //         console.log('this.props.history:', this.props.history)
+        //         // this.props.history.push(`/edit/${track.id}`)
+        //         this.props.history.push(`/dashboard`)
+        //     })
+        //     .catch(err => {
+        //         this.setState({
+        //             error: `Error: ${err}`
+        //         });
+        //     })
+    }
+
+    // TODO: Refactor so DRY
+    // Since these eventhandler are required in EditTrack component, too
+    // Should either: 
+    //// [a] have this in DrumMachine; or 
+    //// [b] use some sort of context or service object
+
+    handleBeatChange = (changeEvent) => {
+        const { track } = this.state;
+        // REFACTOR? 
+        // Extract target tag id information from string into array
+        // "instrumentSequence beatIndex beatBoolean" 
+        // e.g. "2 5 0" // => [2, 5, 0]
+        const targets = changeEvent.target.id.split(' ');
+        const instrumentSequence = targets[0];
+        const beatIndex = targets[1];
+        let beatBoolean = targets[2]; 
+
+        beatBoolean == 1        // fails if strict equality (===)
+            ? beatBoolean = 0
+            : beatBoolean = 1;
+
+        const newTrack = {...track};
+        newTrack.step_sequence[instrumentSequence][beatIndex] = beatBoolean;
+        this.setState({
+            // [f1]
+            // track: newTrack
+        })
+    }
+
+    handleTempoChange = (changeEvent) => {
+        const { track } = this.state;
+        const newTrack = {...track};
+        newTrack.tempo = changeEvent.target.value;
+
+        this.setState({
+            track: newTrack
+        })
+    }
+
+    handleTitleChange = (changeEvent) => {
+        const { track } = this.state;
+        const newTrack = {...track};
+        newTrack.title = changeEvent.target.value;
+
+        this.setState({
+            track: newTrack
+        })
+    }
+
+    handleResetTrack = (changeEvent) => {
+        const { track } = this.state;
+        const { step_sequence, ...arr } = track;
+        this.setState({
+            track: {
+                ...arr,
+                step_sequence: [
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                ],
+            }
+        })
+    }
+
 
     render () {
         const { authUser } = this.props;
@@ -91,7 +200,7 @@ export default class EditTrack extends React.Component {
                     titleChange={this.handleTitleChange}
                     tempoChange={this.handleTempoChange}
                     resetTrack={this.handleResetTrack}
-                    submitNewTrack={this.handleSubmitNewTrack}
+                    submitTrack={this.handleSubmitTrack}
                 />
             </div>
         )

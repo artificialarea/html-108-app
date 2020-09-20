@@ -40,8 +40,7 @@ export default class AddTrack extends React.Component {
         }
     }
 
-    handleSubmitNewTrack = (changeEvent) => {
-        
+    handleSubmitTrack = (changeEvent) => {
         const {
             user_id,
             // title,
@@ -101,7 +100,7 @@ export default class AddTrack extends React.Component {
     // Since these eventhandler are required in EditTrack component, too
     // Should either: 
     //// [a] have this in DrumMachine; or 
-    //// [b] use context or service object
+    //// [b] use some sort of context or service object
 
     handleBeatChange = (changeEvent) => {
         const { track } = this.state;
@@ -177,7 +176,7 @@ export default class AddTrack extends React.Component {
                     titleChange={this.handleTitleChange}
                     tempoChange={this.handleTempoChange}
                     resetTrack={this.handleResetTrack}
-                    submitNewTrack={this.handleSubmitNewTrack}
+                    submitTrack={this.handleSubmitTrack}
                 />
             </div>
         )
