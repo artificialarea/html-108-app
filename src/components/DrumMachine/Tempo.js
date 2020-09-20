@@ -4,10 +4,9 @@ import TempoDisplay from './TempoDisplay';
 import TempoControl from './TempoControl';
 
 
-
 export default function Tempo (props) {
     const { track, editable, tempoChange } = props;
-    // console.log(track)
+
     return (
         <div className="tempo__controls">
             <PlayButton />

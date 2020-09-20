@@ -1,38 +1,38 @@
 import React from 'react';
 import DrumMachine from '../DrumMachine/DrumMachine';
+import ApiContext from '../../ApiContext';
+import config from '../../config';
 
-export default class AddTrack extends React.Component {
+export default class EditTrack extends React.Component {
 
     static defaultProps = {
-        id: '',
-        user_id: '', 
-        title: '',
-        date_modified: '',
-        visible: true,
-        tempo: 120,
-        sequence_length: 16,
-        audio_sequence: [ 'hihat', 'clap', 'trap', 'bass'],
-        step_sequence: [
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        ],
+        history: {
+            push: () => {}
+        },
+        track: {},
+        // match: {
+        //     params: {}
+        // },
+        authUser: {}
     }
+    static contextType = ApiContext;
 
     constructor(props) {
         super(props)
         this.state = {
-            editable: true,     // Conditional logic concerning functionality. In <ViewTrack /> will be set to `false`.
-            id: '',
-            user_id: '', 
-            title: '',
-            date_modified: '',
-            visible: true,
-            tempo: null,
-            sequence_length: '',
-            audio_sequence: [],
-            step_sequence: [],
+            editable: true, 
+            error: null,
+            track: {
+                id: '',
+                user_id: '', 
+                title: '',
+                date_modified: '',
+                visible: true,
+                tempo: '',
+                sequence_length: '',
+                audio_sequence: [],
+                step_sequence: [],
+            }
         }
     }
 
@@ -49,12 +49,50 @@ export default class AddTrack extends React.Component {
         })
     }
 
+    componentDidMount () {
+        const { id } = this.props.track;
+
+        fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
+            },
+        })
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(err => Promise.reject(err))
+                }
+                return res.json();
+            })
+            .then(track => {
+                this.setState({
+                    track
+                })
+            })
+            .catch(error => {
+                console.error(error);
+                this.setState({ error });
+            })
+    }
+
 
     render () {
-        const { ...props } = this.state;
+        const { authUser } = this.props;
+        const { editable, track } = this.state;
+
         return (
             <div className="track-edit">
-                <DrumMachine track={props} />
+                <DrumMachine 
+                    authUser={authUser}
+                    track={track} 
+                    editable={editable}
+                    // toggleBeat={this.handleBeatChange}
+                    // titleChange={this.handleTitleChange}
+                    // tempoChange={this.handleTempoChange}
+                    // resetTrack={this.handleResetTrack}
+                    // submitNewTrack={this.handleSubmitNewTrack}
+                />
             </div>
         )
     }

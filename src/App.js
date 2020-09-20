@@ -10,7 +10,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import ViewTrack from './components/ViewTrack/ViewTrack';
 import AddTrack from './components/AddTrack/AddTrack';
 import EditTrack from './components/EditTrack/EditTrack';
-import DrumMachine from './components/DrumMachine/DrumMachine';
+// import DrumMachine from './components/DrumMachine/DrumMachine';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound';
 import ApiContext from './ApiContext';
@@ -110,7 +110,10 @@ export default class App extends React.Component {
 
         return (
             <Switch>
-                <Route exact path='/' component={Intro} />
+                <Route exact 
+                    path='/' 
+                    component={Intro} 
+                />
 
                 <Route 
                     path='/dashboard' 
@@ -122,7 +125,7 @@ export default class App extends React.Component {
                         />
                     } 
                 />
-                
+
                 <Route 
                     path='/add-track' 
                     render={(props) => 
@@ -136,69 +139,24 @@ export default class App extends React.Component {
                     path='/tracks/:trackId'
                     component={ViewTrack}    
                 />
-
+                
                 {/* <Route 
-                    path='/tracks/:trackId' 
-                    component={(props) => {
-                        // console.log('props.match: ', props.match)
-                        const trackViaParams = tracks.find(track => track.id == props.match.params.trackId)
-                        
-                        return <ViewTrack 
-                                    authUser={authUser}
-                                    users={users}
-                                    // tracks={tracks}
-                                    track={trackViaParams}
-                                />
-                    }}
+                    path='/edit/:trackId'
+                    component={EditTrack}    
                 /> */}
 
                 <Route 
                     path='/edit/:trackId' 
-                    component={(props) => {
-                        // console.log('props.match: ', props.match)
-                        const trackViaParams = tracks.find(track => track.id == props.match.params.trackId)
-                        
-                        return <EditTrack 
-                                    authUser={authUser}
-                                    users={users}
-                                    // tracks={tracks}
-                                    track={trackViaParams}
-                                />
-                    }}
-                />
-                
-                {/* <Route 
-                    path='/tracks/:trackId' 
-                    component={(props) => {
-                        // console.log('props.match: ', props.match)
-                        const trackViaParams = tracks.find(track => track.id == props.match.params.trackId)
-                        return <DrumMachine 
-                                    track={trackViaParams}  
-                                    userId={1}    // this will be dynamic once login auth set up
-                                    users={users}
-                                    onChange={this.handleTempoChange}
-                                    onClick={this.handleBeatChange}
-                                    onClickReset={this.handleResetTrack}
-                                />
-                    }}
-                /> */}
-
-                {/* <Route 
-                    exact 
-                    path='/track' 
-                    render={() => 
-                        <DrumMachine 
-                            track={new_track[0]}
-                            onChange={this.handleTempoChange}
-                            onClick={this.handleBeatChange}
-                            onClickReset={this.handleResetTrack}
-                            onClickSubmitNewTrack={this.handleSubmitNewTrack}
-                            titleChange={this.handleTitleChange}
+                    render={(props) => 
+                        <EditTrack 
+                            authUser={authUser}
+                            track={tracks.find(track => track.id == props.match.params.trackId)} 
                         />
-                    }   
-                /> */}
+                    }
+                />
 
                 <Route component={NotFound} />
+
             </Switch>
         )
     }

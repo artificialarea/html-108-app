@@ -9,12 +9,13 @@ export default class AddTrack extends React.Component {
         history: {
             push: () => {}
         },
-        authUser: {}
+        // match: {
+        //     params: {}
+        // },
+        authUser: {},
     }
     static contextType = ApiContext;
 
-    // OPEN QUESTION RE: STATE
-    // App level? This level? DrumMachine level?... attempting the latter
     constructor(props) {
         super(props)
         this.state = {
@@ -67,8 +68,6 @@ export default class AddTrack extends React.Component {
             audio_sequence,
             step_sequence,
         };
-
-        console.log("pre-fetch body: ", newTrack)
 
         fetch(`${config.API_ENDPOINT}/api/tracks`, {
             method: 'POST',
@@ -165,7 +164,7 @@ export default class AddTrack extends React.Component {
     render () {
         const { authUser } = this.props;
         const { editable, track } = this.state;
-        console.log(track)
+
         return (
             <div className="track-add">
                 <DrumMachine 
