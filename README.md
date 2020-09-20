@@ -4,7 +4,11 @@ The HTML-108 is a minimal beat machine in the browser.
 
 A nostalgic nod to the seminal Roland TR-808 analog synthesizer drum machine of the 1980s that ushered in several genres of electronic music.
 
+
+
 ## 00. Pivoting...
+<img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/plan---release.jpg" alt="situation" width="400"/>
+
 Scaling back ambition and scope of project considerably for now, in order to get some semblance of an MVP and some "quick wins".
 
 This project will evolve in several phases in line with certain Thinkful project for guidance:
