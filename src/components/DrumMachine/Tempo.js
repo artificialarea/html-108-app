@@ -9,7 +9,6 @@ export default function Tempo (props) {
 
     return (
         <div className="tempo__controls">
-            <PlayButton />
             { editable &&
                 <>
                     <TempoDisplay 

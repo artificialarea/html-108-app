@@ -21,7 +21,7 @@ export default class AddTrack extends React.Component {
         const { editable } = this.state;
         const { tracks=[] } = this.context;
         const { trackId } = this.props.match.params;
-        const track = tracks.find(track => track.id === parseInt(trackId))
+        const track = tracks.find(track => track.id == trackId)
 
         return (
             <div className="track-view">
@@ -29,7 +29,7 @@ export default class AddTrack extends React.Component {
                     track={track} 
                     editable={editable}
                 />
-                <NavLink to={`/edit/${trackId}`}>Edit Track</NavLink>
+                {/* <NavLink to={`/edit/${trackId}`}>Edit Track</NavLink> */}
             </div>
         )
     }

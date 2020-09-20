@@ -3,6 +3,8 @@ import './DrumMachine.css';
 import Header from './Header';
 import Tempo from './Tempo';
 import StepSequencer from './StepSequencer';
+import UberControls from './UberControls';
+
 
 export default function DrumMachine (props) {
     const { 
@@ -15,7 +17,7 @@ export default function DrumMachine (props) {
         resetTrack,
         submitNewTrack, 
     } = props;
-
+    console.log('DrumMachine track: ', track)
     return (
         <div className="component drum-machine">
             <Header 
@@ -23,18 +25,22 @@ export default function DrumMachine (props) {
                 editable={editable}
                 titleChange={e => titleChange(e)}
             />
+            <UberControls 
+                authUser={authUser}
+                track={track}
+                editable={editable}
+                resetTrack={e => resetTrack(e)}
+                submitNewTrack={e => submitNewTrack(e)}
+            />
             <Tempo 
                 track={track} 
                 editable={editable}
                 tempoChange={e => tempoChange(e)}
             />
             <StepSequencer 
-                authUser={authUser}
                 track={track} 
                 editable={editable}
                 toggleBeat={e => toggleBeat(e)}
-                resetTrack={e => resetTrack(e)}
-                submitNewTrack={e => submitNewTrack(e)}
             />
         </div>
     )

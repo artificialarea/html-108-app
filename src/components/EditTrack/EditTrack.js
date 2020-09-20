@@ -87,11 +87,11 @@ export default class EditTrack extends React.Component {
                     authUser={authUser}
                     track={track} 
                     editable={editable}
-                    // toggleBeat={this.handleBeatChange}
-                    // titleChange={this.handleTitleChange}
-                    // tempoChange={this.handleTempoChange}
-                    // resetTrack={this.handleResetTrack}
-                    // submitNewTrack={this.handleSubmitNewTrack}
+                    toggleBeat={this.handleBeatChange}
+                    titleChange={this.handleTitleChange}
+                    tempoChange={this.handleTempoChange}
+                    resetTrack={this.handleResetTrack}
+                    submitNewTrack={this.handleSubmitNewTrack}
                 />
             </div>
         )

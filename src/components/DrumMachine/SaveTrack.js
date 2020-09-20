@@ -2,14 +2,14 @@ import React from 'react';
 
 export default function SaveTrack (props) {
 
-    const { submitNewTrack } = props;
+    const { label, submitNewTrack } = props;
 
     return (
         <>
             <button 
                 type="submit"
                 onClick={(e) => submitNewTrack(e)} >
-                Save Track
+                {label} Track
             </button>
         </>
     )
