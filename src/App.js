@@ -126,7 +126,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { authUser, users, tracks } = this.state;
-        // console.log('state:', this.state)
+        console.log('state:', this.state)
 
         return (
             <Switch>
