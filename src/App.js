@@ -41,7 +41,8 @@ export default class App extends React.Component {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
-                'Authorization': `Bearer ${config.API_KEY}`
+                'Authorization': `Bearer ${config.API_KEY}`,
+                mode: 'no-cors' // per: https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api#cross-origin_requests
             },
         }
 
