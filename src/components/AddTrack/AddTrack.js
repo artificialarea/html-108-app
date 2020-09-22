@@ -31,7 +31,6 @@ export default class AddTrack extends React.Component {
                 <DrumMachine 
                     authUser={authUser}
                     track={track} 
-                    routeType={'add'}
                     editable={editable}
                 />
             </div>

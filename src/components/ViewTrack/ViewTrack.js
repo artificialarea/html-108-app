@@ -33,7 +33,6 @@ export default class ViewTrack extends React.Component {
             <div className="track-view">
                 <DrumMachine 
                     track={track} 
-                    routeType={'view'}
                     editable={editable}
                 />
             </div>

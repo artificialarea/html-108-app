@@ -20,7 +20,6 @@ export default class DrumMachine extends React.Component {
         // match: {
         //     params: {}
         // },
-        routeType: '',
         authUser: {},
         editable: '',
         track: {

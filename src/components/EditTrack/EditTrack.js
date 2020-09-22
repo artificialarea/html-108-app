@@ -19,18 +19,6 @@ export default class EditTrack extends React.Component {
         super(props)
         this.state = {
             editable: true, 
-            // error: null,
-            track: {
-                id: '',
-                user_id: '', 
-                title: '',
-                date_modified: '',
-                visible: true,
-                tempo: '',
-                sequence_length: '',
-                audio_sequence: [],
-                step_sequence: [],
-            }
         }
     }
 
@@ -43,7 +31,6 @@ export default class EditTrack extends React.Component {
                 <DrumMachine 
                     authUser={authUser}
                     track={track} 
-                    routeType={'edit'}
                     editable={editable}
                 />
             </div>
