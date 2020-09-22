@@ -18,7 +18,6 @@ import ApiContext from './ApiContext';
 // import Registration from './components/Registration/Registration';
 // import EditTitle from './components/EditTitle/EditTitle';
 
-// console.log('process.env: ', process.env) // [f4] Re: Vercel `.env.local` issues
 
 export default class App extends React.Component {
 
@@ -127,7 +126,6 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { authUser, users, tracks } = this.state;
-        console.log('state:', this.state)
 
         return (
             <Switch>

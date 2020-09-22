@@ -18,7 +18,7 @@ export default class Login extends React.Component {
     }
 
     render () {
-        // console.log(this.state)
+
         return (
             <div className="component login">
                 <header role="banner">

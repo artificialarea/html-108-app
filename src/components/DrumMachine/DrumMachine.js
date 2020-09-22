@@ -18,7 +18,7 @@ export default function DrumMachine (props) {
         submitTrack, 
         deleteTrack,
     } = props;
-    // console.log('DrumMachine track: ', track)
+
     return (
         <div className="component drum-machine">
             <Header 
