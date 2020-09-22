@@ -1,14 +1,14 @@
 import React from 'react';
 
-export default function SaveTrack (props) {
+export default function UpdateTrack (props) {
 
-    const { label, createTrack } = props;
+    const { label, updateTrack } = props;
 
     return (
         <>
             <button 
                 type="submit"
-                onClick={(e) => createTrack(e)} >
+                onClick={(e) => updateTrack(e)} >
                 {label}
             </button>
         </>

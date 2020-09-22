@@ -1,14 +1,15 @@
 import React from 'react';
 import ApiContext from '../../ApiContext';
-import { NavLink, navLink } from 'react-router-dom';
 import DrumMachine from '../DrumMachine/DrumMachine';
+
 
 export default class ViewTrack extends React.Component {
 
     static defaultProps = {
         match: {
             params: {}
-        }
+        },
+        track: {},
     }
 
     state = {
@@ -23,13 +24,18 @@ export default class ViewTrack extends React.Component {
         const { trackId } = this.props.match.params;
         const track = tracks.find(track => track.id == trackId)
 
+        // WORKS AS IT SHOULD
+        // console.log('tracks (via context): ', tracks)
+        // console.log('trackId (via match.params): ', trackId)
+        // console.log('track to view: ', track)
+
         return (
             <div className="track-view">
                 <DrumMachine 
                     track={track} 
+                    routeType={'view'}
                     editable={editable}
                 />
-                {/* <NavLink to={`/edit/${trackId}`}>Edit Track</NavLink> */}
             </div>
         )
     }
