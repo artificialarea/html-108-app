@@ -6,11 +6,12 @@ export default function TrackItem (props) {
     const { track, user, who } = props;
 
     return (
+        <Link to={`/tracks/${track.id}`}>
         <li className="track track-item">
             <h2>{track.title}</h2>
-            { who !== 'private' 
+            {/* { who !== 'private' 
                 ? <p className="public-user">by {user}</p> 
-                : null }
+                : null } */}
             <p>{track.date_modified}</p>
             
             { who === 'private' && 
@@ -22,10 +23,11 @@ export default function TrackItem (props) {
                 />
             }
             
-            <Link to={`/tracks/${track.id}`}>See Drum Machine Configuration</Link>
+            {/* <Link to={`/tracks/${track.id}`}>See Drum Machine Configuration</Link> */}
 
             {/* <button>Listen to Audio Sample</button> // revisit once dealing with sound */}
             
         </li>
+        </Link>
     )
 }

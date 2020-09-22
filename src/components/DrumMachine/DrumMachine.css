@@ -11,6 +11,10 @@
     cursor: pointer;
 }
 
+.drum-machine li.inert {
+    cursor: initial;
+}
+
 .drum-machine li.checked {
     background-color: rgb(13, 228, 243)
 }

@@ -9,7 +9,7 @@ export default function ResetTrack (props) {
             <button 
                 type="submit"
                 onClick={(e) => resetTrack(e)} >
-                Reset Track
+                RESET
             </button>
         </>
     )

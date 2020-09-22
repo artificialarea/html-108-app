@@ -64,60 +64,94 @@ export default class EditTrack extends React.Component {
     }
 
     handleSubmitTrack = (changeEvent) => {
-        console.log('hi')
-        // const {
-        //     user_id,
-        //     // title,
-        //     visible,
-        //     tempo,
-        //     sequence_length,
-        //     audio_sequence,
-        //     step_sequence,
-        // } = this.state.track;
 
-        // // const user_id = this.props.authUser.id; 
+        const {
+            id,
+            user_id,
+            // title,
+            date_modified,
+            visible,
+            tempo,
+            sequence_length,
+            audio_sequence,
+            step_sequence,
+        } = this.state.track;
 
-        // let { title } = this.state.track;
-        // if (title.length === 0) {
-        //     title = 'Untitled'
-        // }
+        // const user_id = this.props.authUser.id; 
 
-        // const newTrack = {
-        //     user_id,
-        //     title,
-        //     visible,
-        //     tempo,
-        //     sequence_length,
-        //     audio_sequence,
-        //     step_sequence,
-        // };
+        let { title } = this.state.track;
+        if (title.length === 0) {
+            title = 'Untitled'
+        }
 
-        // fetch(`${config.API_ENDPOINT}/api/tracks`, {
-        //     method: 'PATCH',
-        //     headers: {
-        //         'content-type': 'application/json',
-        //         'Authorization': `Bearer ${config.API_KEY}`
-        //     },
-        //     body: JSON.stringify(newTrack)
-        // })
-        //     .then(res => {
-        //         if (!res.ok) {
-        //             // throw new Error(res.statusText);
-        //             return res.json().then(err => Promise.reject(err))
-        //         }
-        //         return res.json();
-        //     })
-        //     .then(track => {
-        //         this.context.addTrack(track)
-        //         console.log('this.props.history:', this.props.history)
-        //         // this.props.history.push(`/edit/${track.id}`)
-        //         this.props.history.push(`/dashboard`)
-        //     })
-        //     .catch(err => {
-        //         this.setState({
-        //             error: `Error: ${err}`
-        //         });
-        //     })
+        const newTrack = {
+            id,
+            user_id,
+            title,
+            date_modified,
+            visible,
+            tempo,
+            sequence_length,
+            audio_sequence,
+            step_sequence,
+        };
+
+        fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
+            },
+            body: JSON.stringify(newTrack)
+        })
+            .then(res => {
+                if (!res.ok) {
+                    // throw new Error(res.statusText);
+                    return res.json().then(err => Promise.reject(err))
+                }
+            })
+            .then(() => {
+                this.context.updateTrack(newTrack)
+                // console.log('this.props.history:', this.props.history)
+                // this.props.history.push(`/edit/${track.id}`)
+                this.props.history.push(`/tracks/${newTrack.id}`)
+            })
+            .catch(err => {
+                console.error({ err });
+                this.setState({
+                    error: `Error: ${err}`
+                });
+            })
+    }
+
+    handleDeleteTrack = (changeEvent) => {
+        const { id } = this.state.track;
+
+        fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
+            },
+        })
+            .then(res => {
+                if (!res.ok) {
+                    // throw new Error(res.statusText);
+                    return res.json().then(err => Promise.reject(err))
+                }
+            })
+            .then(() => {
+                this.context.deleteTrack(id)
+                // console.log('this.props.history:', this.props.history)
+                // this.props.history.push(`/edit/${track.id}`)
+                this.props.history.push(`/`)
+            })
+            .catch(err => {
+                console.error({ err });
+                this.setState({
+                    error: `Error: ${err}`
+                });
+            })
     }
 
     // TODO: Refactor so DRY
@@ -201,6 +235,7 @@ export default class EditTrack extends React.Component {
                     tempoChange={this.handleTempoChange}
                     resetTrack={this.handleResetTrack}
                     submitTrack={this.handleSubmitTrack}
+                    deleteTrack={this.handleDeleteTrack}
                 />
             </div>
         )

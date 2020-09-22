@@ -9,7 +9,7 @@ export default function SaveTrack (props) {
             <button 
                 type="submit"
                 onClick={(e) => submitTrack(e)} >
-                {label} Track
+                {label}
             </button>
         </>
     )

@@ -31,7 +31,7 @@ export default function StepSequencer (props) {
     return (
         <div className="step-sequencer">
                         
-            <InstrumentSelector />
+            {/* <InstrumentSelector /> */}
 
             {instrumentArr}
 

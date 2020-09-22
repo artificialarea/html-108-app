@@ -9,7 +9,7 @@ export default function Nav (props) {
             {' '}
             <Link to='/add-track'>New Track</Link>
             {' '}
-            <Link to='/dashboard'>Community Dashboard</Link>
+            <Link to='/dashboard'>Dashboard</Link>
             {' '}
             {/* <Link to='/my-dashboard'>My Dashboard</Link>
             {' '} */}

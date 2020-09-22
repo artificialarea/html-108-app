@@ -25,7 +25,10 @@ export default function Instrument (props) {
 
     return (
         <div className="instrument" id={props.id}>
-            <InstrumentSound type={sound} />
+            {editable 
+                ? <InstrumentSound type={sound} />
+                : null
+            }
             <ul>
                 {beatArr}
             </ul>

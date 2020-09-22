@@ -9,8 +9,8 @@ export default function Beat (props) {
         item = <li id={id} onClick={e => toggleBeat(e)}></li>
         itemChecked = <li className="checked" id={id} onClick={e => toggleBeat(e)}></li>
     } else {
-        item = <li id={id}></li>
-        itemChecked = <li className="checked" id={id}></li>
+        item = <li className="inert" id={id}></li>
+        itemChecked = <li className="inert checked" id={id}></li>
     }
 
     return (

@@ -188,7 +188,7 @@ export default class App extends React.Component {
             users: this.state.users,
             tracks: this.state.tracks,
             addTrack: this.handleAddTrack,
-            deleteTrack: this.handleDeleteTrackReprise,
+            deleteTrack: this.handleDeleteTrack,
             updateTrack: this.handleUpdateTrack,
         }
         return (

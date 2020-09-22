@@ -87,7 +87,7 @@ export default class AddTrack extends React.Component {
                 this.context.addTrack(track)
                 console.log('this.props.history:', this.props.history)
                 // this.props.history.push(`/edit/${track.id}`)
-                this.props.history.push(`/dashboard`)
+                this.props.history.push(`/`)
             })
             .catch(err => {
                 this.setState({

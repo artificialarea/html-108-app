@@ -3,7 +3,7 @@ import ApiContext from '../../ApiContext';
 import { NavLink, navLink } from 'react-router-dom';
 import DrumMachine from '../DrumMachine/DrumMachine';
 
-export default class AddTrack extends React.Component {
+export default class ViewTrack extends React.Component {
 
     static defaultProps = {
         match: {

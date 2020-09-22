@@ -16,6 +16,7 @@ export default function DrumMachine (props) {
         toggleBeat,
         resetTrack,
         submitTrack, 
+        deleteTrack,
     } = props;
     // console.log('DrumMachine track: ', track)
     return (
@@ -31,6 +32,7 @@ export default function DrumMachine (props) {
                 editable={editable}
                 resetTrack={e => resetTrack(e)}
                 submitTrack={e => submitTrack(e)}
+                deleteTrack={e => deleteTrack(e)}
             />
             <Tempo 
                 track={track} 
