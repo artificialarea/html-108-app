@@ -79,42 +79,50 @@ export default class DrumMachine extends React.Component {
         // 'BACKDOOR' HACK
         // to determine what current URL :trackId is if accessed directly, not from Router via App
         // Resolved my issue of loading URL route /track/:trackId or /edit/:trackId
-        // but now have an issue if from there goto /add-track via Nav... retains data from :trackId in that view >_<
+        // BUT by doing so I have created a seperate issue,
+        // if from t/here goto route='/add-track' via Nav, this component does not remount 
+        // and so retains data from the :trackId  of the previous view >_<
+        // Putting this on hold for now, but...
+        // TODO: Figure out a way to detect route change, but not using componentDidMount or deprecated componentWill____
         const fullpath = window.location.pathname;
         const splitPathArr = fullpath.split('/');
         const id = window.location.pathname.split('/')[2];
         console.log('window.location.path: ', window.location.pathname)
         console.log('split path:', splitPathArr);
         console.log('id:', window.location.pathname.split('/')[2]);
-
+        // console.log(typeof id == 'string')
         if (id) {
-            fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
-                method: 'GET',
-                headers: {
-                    'content-type': 'application/json',
-                    'Authorization': `Bearer ${config.API_KEY}`
-                },
-            })
-                .then(res => {
-                    if (!res.ok) {
-                        return res.json().then(err => Promise.reject(err))
-                    }
-                    return res.json();
-                })
-                .then(track => {
-                    this.setState({
-                        track
-                    })
-                })
-                .catch(error => {
-                    console.error(error);
-                    this.setState({ error });
-                })
+            this.fetchTrack(id);
         } else {
             // by deduction we are in /add-track view, 
             // so leave this.state as is (for new track)  
             this.handleResetTrack()
         }
+    }
+
+    fetchTrack(id) {
+        fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${config.API_KEY}`
+            },
+        })
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(err => Promise.reject(err))
+                }
+                return res.json();
+            })
+            .then(track => {
+                this.setState({
+                    track
+                })
+            })
+            .catch(error => {
+                console.error(error);
+                this.setState({ error });
+            })
     }
 
     handleCreateTrack = (changeEvent) => {
@@ -329,9 +337,7 @@ export default class DrumMachine extends React.Component {
     }
 
 
-
     render() {
-
         // console.log('DrumMachine state: ', this.state)
 
         const { 
