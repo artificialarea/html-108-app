@@ -7,16 +7,17 @@ import './App.css';
 import Nav from './components/Nav/Nav';
 import Intro from './components/Intro/Intro';
 import Dashboard from './components/Dashboard/Dashboard';
-import ViewTrack from './components/ViewTrack/ViewTrack';
-import AddTrack from './components/AddTrack/AddTrack';
-import EditTrack from './components/EditTrack/EditTrack';
+import DrumMachine from './components/DrumMachine/DrumMachine';
+
+import ViewTrack from './components/ARCHIVE/ViewTrack/ViewTrack';
+import AddTrack from './components/ARCHIVE/AddTrack/AddTrack';
+import EditTrack from './components//ARCHIVEEditTrack/EditTrack';
 // import DrumMachine from './components/DrumMachine/DrumMachine';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound';
 import ApiContext from './ApiContext';
 // import Login from './components/Login/Login';
 // import Registration from './components/Registration/Registration';
-// import EditTitle from './components/EditTitle/EditTitle';
 
 
 export default class App extends React.Component {
@@ -126,7 +127,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { authUser, users, tracks } = this.state;
-
+        console.log ("App state: ", this.state)
         return (
             <Switch>
                 <Route exact 
@@ -148,29 +149,33 @@ export default class App extends React.Component {
                 <Route 
                     path='/add-track' 
                     render={(props) => 
-                        <AddTrack 
+                        <DrumMachine 
                             authUser={authUser}
+                            editable={true}
                         />
                     }
                 />
 
                 <Route 
                     path='/tracks/:trackId'
-                    component={ViewTrack}    
+                    render={(props) => 
+                        <DrumMachine 
+                            authUser={authUser}
+                            editable={false}
+                            track={tracks.find(track => track.id == props.match.params.trackId)}
+                        />
+                    }
                 />
                 
-                {/* <Route 
-                    path='/edit/:trackId'
-                    component={EditTrack}    
-                /> */}
-
                 <Route 
                     path='/edit/:trackId' 
                     render={(props) => 
-                        <EditTrack 
+                        <DrumMachine 
                             authUser={authUser}
-                            track={tracks.find(track => track.id == props.match.params.trackId)} 
+                            editable={true}
+                            track={tracks.find(track => track.id == props.match.params.trackId)}
                         />
+                        
                     }
                 />
 

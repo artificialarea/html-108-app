@@ -1,6 +1,6 @@
 import React from 'react';
-import ApiContext from '../../ApiContext';
-import DrumMachine from '../DrumMachine/DrumMachine';
+import ApiContext from '../../../ApiContext';
+import DrumMachine from '../../DrumMachine/DrumMachine';
 
 
 export default class ViewTrack extends React.Component {
@@ -17,6 +17,8 @@ export default class ViewTrack extends React.Component {
     }
     
     static contextType = ApiContext;
+
+
 
     render () {
         const { editable } = this.state;

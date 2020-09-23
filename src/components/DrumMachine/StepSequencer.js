@@ -12,7 +12,7 @@ export default function StepSequencer (props) {
 
     const instrumentArr = [];
     const obj = track.step_sequence;
-    console.log('obj: ', obj)
+    // console.log('obj: ', obj)
 
     Object.keys(obj).forEach((key, index) => 
         instrumentArr.push(

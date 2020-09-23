@@ -26,6 +26,8 @@ export default class AddTrack extends React.Component {
         const { authUser, track } = this.props;
         const { editable } = this.state;
 
+        console.log ("AddTrack state: ", this.state)
+
         return (
             <div className="track-add">
                 <DrumMachine 

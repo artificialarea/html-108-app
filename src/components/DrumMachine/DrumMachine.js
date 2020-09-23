@@ -214,7 +214,8 @@ export default class DrumMachine extends React.Component {
                 this.context.updateTrack(newTrack)
                 // console.log('this.props.history:', this.props.history)
                 // this.props.history.push(`/edit/${track.id}`)
-                this.props.history.push(`/tracks/${newTrack.id}`)
+                window.location = `/tracks/${newTrack.id}`;
+                // this.props.history.push(`/tracks/${newTrack.id}`)
             })
             .catch(err => {
                 console.error({ err });
@@ -317,7 +318,7 @@ export default class DrumMachine extends React.Component {
 
     render() {
 
-        console.log('DrumMachine state: ', this.state)
+        // console.log('DrumMachine state: ', this.state)
 
         const { 
             track,
