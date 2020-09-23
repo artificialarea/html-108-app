@@ -8,11 +8,6 @@ import Nav from './components/Nav/Nav';
 import Intro from './components/Intro/Intro';
 import Dashboard from './components/Dashboard/Dashboard';
 import DrumMachine from './components/DrumMachine/DrumMachine';
-
-import ViewTrack from './components/ARCHIVE/ViewTrack/ViewTrack';
-import AddTrack from './components/ARCHIVE/AddTrack/AddTrack';
-import EditTrack from './components//ARCHIVEEditTrack/EditTrack';
-// import DrumMachine from './components/DrumMachine/DrumMachine';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound';
 import ApiContext from './ApiContext';
@@ -148,7 +143,7 @@ export default class App extends React.Component {
 
                 <Route 
                     path='/add-track' 
-                    render={(props) => 
+                    render={(routerProps) => 
                         <DrumMachine 
                             authUser={authUser}
                             editable={true}
@@ -158,22 +153,22 @@ export default class App extends React.Component {
 
                 <Route 
                     path='/tracks/:trackId'
-                    render={(props) => 
+                    render={(routerProps) => 
                         <DrumMachine 
                             authUser={authUser}
                             editable={false}
-                            track={tracks.find(track => track.id == props.match.params.trackId)}
+                            track={tracks.find(track => track.id == routerProps.match.params.trackId)}
                         />
                     }
                 />
                 
                 <Route 
                     path='/edit/:trackId' 
-                    render={(props) => 
+                    render={(routerProps) => 
                         <DrumMachine 
                             authUser={authUser}
                             editable={true}
-                            track={tracks.find(track => track.id == props.match.params.trackId)}
+                            track={tracks.find(track => track.id == routerProps.match.params.trackId)}
                         />
                         
                     }

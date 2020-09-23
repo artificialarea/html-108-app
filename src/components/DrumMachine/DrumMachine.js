@@ -73,8 +73,19 @@ export default class DrumMachine extends React.Component {
 
    
     componentDidMount = () => {
-        const { id } = this.props.track;
+        // const { id } = this.props.track;
         // const { id } = this.state;
+
+        // 'BACKDOOR' HACK
+        // to determine what current URL :trackId is if accessed directly, not from Router via App
+        // Resolved my issue of loading URL route /track/:trackId or /edit/:trackId
+        // but now have an issue if from there goto /add-track via Nav... retains data from :trackId in that view >_<
+        const fullpath = window.location.pathname;
+        const splitPathArr = fullpath.split('/');
+        const id = window.location.pathname.split('/')[2];
+        console.log('window.location.path: ', window.location.pathname)
+        console.log('split path:', splitPathArr);
+        console.log('id:', window.location.pathname.split('/')[2]);
 
         if (id) {
             fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
@@ -102,6 +113,7 @@ export default class DrumMachine extends React.Component {
         } else {
             // by deduction we are in /add-track view, 
             // so leave this.state as is (for new track)  
+            this.handleResetTrack()
         }
     }
 
@@ -150,9 +162,10 @@ export default class DrumMachine extends React.Component {
             })
             .then(track => {
                 this.context.addTrack(track)
+                window.location = `/dashboard`;
                 // console.log('this.props.history:', this.props.history)
                 // this.props.history.push(`/edit/${track.id}`)
-                this.props.history.push(`/`)
+                // this.props.history.push(`/`)
             })
             .catch(err => {
                 console.error({ err });
@@ -212,9 +225,9 @@ export default class DrumMachine extends React.Component {
             })
             .then(() => {
                 this.context.updateTrack(newTrack)
+                window.location = `/tracks/${newTrack.id}`;
                 // console.log('this.props.history:', this.props.history)
                 // this.props.history.push(`/edit/${track.id}`)
-                window.location = `/tracks/${newTrack.id}`;
                 // this.props.history.push(`/tracks/${newTrack.id}`)
             })
             .catch(err => {
@@ -299,6 +312,7 @@ export default class DrumMachine extends React.Component {
     }
 
     handleResetTrack = (changeEvent) => {
+        console.log('reset')
         const { track } = this.state;
         const { step_sequence, ...arr } = track;
         this.setState({
