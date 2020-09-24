@@ -1,0 +1,19 @@
+.root {
+  padding: 1em 0.5em;
+  background: #28282c;
+  border-radius: 4px;
+  display: flex;
+  margin-bottom: 1%;
+  justify-content: space-between;
+}
+.wrapperTop {
+  display: inline-flex;
+}
+.wrapperBottom {
+  display: inline-flex;
+}
+@media (max-width: 640px) {
+  .root {
+    display: grid;
+  }
+}

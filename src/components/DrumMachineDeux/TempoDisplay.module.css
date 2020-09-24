@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  height: 60px;
+  background: hsl(240, 5%, 22%);
+  border-radius: 4px;
+  margin: 5px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  color: white;
+  align-items: center;
+}
+.label {
+  margin: auto;
+  font-family: "Orbitron", sans-serif;
+  font-size: 18px;
+  width: 60px;
+  /* Disables text selection on on span */
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+@media (min-width: 900px) {
+  .label {
+    font-size: 22px;
+  }
+}

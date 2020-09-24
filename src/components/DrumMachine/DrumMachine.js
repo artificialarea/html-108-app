@@ -13,8 +13,8 @@ import UberControls from './UberControls';
 // what are correct places for these?
 // creates a global synth and context
 // const synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
-// const synth = new Tone.PolySynth(Tone.Synth).toDestination(); 
-// const context = new AudioContext();
+const synth = new Tone.PolySynth(Tone.Synth).toDestination(); 
+const context = new AudioContext();
 
 export default class DrumMachine extends React.Component {
 
@@ -27,37 +27,37 @@ export default class DrumMachine extends React.Component {
         // },
         authUser: {},
         editable: '',
-        // track: {
-            id: 0,
-            user_id: '', 
-            title: '',
-            date_modified: '',
-            visible: true,
-            tempo: 120,
-            sequence_length: 16,
-            notes: [ "G5", "Eb5", "C5", "G4"],
-            checked: [
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-            ],
-            // // ADDITIONALLY /////////////////////////
-            // isPlaying: false,
-            // // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
-            // maxTempo: 300,
-            // isActive: [ // used for highlighting during step-sequence visualization
-            //     [1, 0, 0, 0, 0, 0, 0, 0], 
-            //     [1, 0, 0, 0, 0, 0, 0, 0],
-            //     [1, 0, 0, 0, 0, 0, 0, 0],
-            //     [1, 0, 0, 0, 0, 0, 0, 0],
-            // ], 
-            // renderedNotes: [],
-            // partContainer: [], // store Part object for future removal
-            // timeContainer: [], // tap tempo array
-            // landscape: false,
-            // velocity: 0.1,
-        // },
+
+        id: 0,
+        user_id: '', 
+        title: '',
+        date_modified: '',
+        visible: true,
+        tempo: 120,
+        sequence_length: 16,
+        notes: [ "G5", "Eb5", "C5", "G4"],
+        checked: [
+            [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+            [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+            [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+            [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+        ],
+        // ADDITIONALLY /////////////////////////
+        isPlaying: false,
+        // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
+        maxTempo: 300,
+        isActive: [ // used for highlighting during step-sequence visualization
+            [1, 0, 0, 0, 0, 0, 0, 0], 
+            [1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0],
+        ], 
+        renderedNotes: [],
+        partContainer: [], // store Part object for future removal
+        timeContainer: [], // tap tempo array
+        landscape: false,
+        velocity: 0.1,
+
     }
 
     static contextType = ApiContext;
@@ -151,46 +151,46 @@ export default class DrumMachine extends React.Component {
             this.handleResetTrack()
         }
 
-        // // TONE WEB AUDIO API ////////////////////////////////////////////
-        // this.generateMetronome();
+        // TONE WEB AUDIO API ////////////////////////////////////////////
+        this.generateMetronome();
 
-        // // starts both audio contexts on mounting
-        // StartAudioContext(Tone.context);
-        // StartAudioContext(context);
+        // starts both audio contexts on mounting
+        StartAudioContext(Tone.context);
+        StartAudioContext(context);
 
-        // // event listener for space, enter and 't'
-        // window.addEventListener("keydown", e => {
-        //     if (e.keyCode === 32 || e.keyCode === 13) {
-        //         try {
-        //             e.preventDefault(); // prevents space bar from triggering selected checkboxes
-        //             this.onTogglePlay();
-        //         } catch (e) {
-        //             console.log(e);
-        //         }
-        //     } else if (e.keyCode === 84) {
-        //         try {
-        //             e.preventDefault(); // prevents space bar from triggering selected checkboxes
-        //             this.handleTap();
-        //         } catch (e) {
-        //             console.log(e);
-        //         }
-        //     }
-        // });
+        // event listener for space, enter and 't'
+        window.addEventListener("keydown", e => {
+            if (e.keyCode === 32 || e.keyCode === 13) {
+                try {
+                    e.preventDefault(); // prevents space bar from triggering selected checkboxes
+                    this.onTogglePlay();
+                } catch (e) {
+                    console.log(e);
+                }
+            } else if (e.keyCode === 84) {
+                try {
+                    e.preventDefault(); // prevents space bar from triggering selected checkboxes
+                    this.handleTap();
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        });
 
-        // // check for orientation, add event listener
-        // if (
-        //     window.screen.orientation &&
-        //     Math.abs(window.screen.orientation.angle) === 90 &&
-        //     window.screen.height < 500
-        // )
-        //     this.setState({ landscape: true });
-        // window.addEventListener("orientationchange", () => {
-        //     if (Math.abs(window.screen.orientation.angle) !== 90) {
-        //         this.setState({ landscape: false });
-        //     } else if (window.screen.height < 500) {
-        //         this.setState({ landscape: true });
-        //     }
-        // });
+        // check for orientation, add event listener
+        if (
+            window.screen.orientation &&
+            Math.abs(window.screen.orientation.angle) === 90 &&
+            window.screen.height < 500
+        )
+            this.setState({ landscape: true });
+        window.addEventListener("orientationchange", () => {
+            if (Math.abs(window.screen.orientation.angle) !== 90) {
+                this.setState({ landscape: false });
+            } else if (window.screen.height < 500) {
+                this.setState({ landscape: true });
+            }
+        });
     }
 
     // API EVENT HANDLERS ////////////////////////////////////////////
@@ -433,66 +433,65 @@ export default class DrumMachine extends React.Component {
         })
     }
 
-    // // v2 DRUM + AUDIO EVENT HANDLERS ///////////////////////////////
+    // v2 DRUM + AUDIO EVENT HANDLERS ///////////////////////////////
 
-    // generateMetronome = () => {
-    //     // erase or stop all previous parts
-    //     const partContainer = this.state.partContainer;
-    //     // console.log('this.state.partContainer: ', partContainer)
-    //     partContainer.forEach(part => part.removeAll());
+    generateMetronome = () => {
+        // erase or stop all previous parts
+        const partContainer = this.state.partContainer;
+        // console.log('this.state.partContainer: ', partContainer)
+        partContainer.forEach(part => part.removeAll());
 
-    //     // metronome vitals
-    //     const [note1, note2] = this.state.notes,
-    //         seqLength = this.state.sequenceLength,
-    //         matrix = this.state.checked,
-    //         velocity = this.state.velocity;
+        // metronome vitals
+        const [note1, note2] = this.state.notes,
+            seqLength = this.state.sequenceLength,
+            matrix = this.state.checked,
+            velocity = this.state.velocity;
 
-    //     // new renderedNotes array, populate
-    //     const renderedNotes = [];
-    //     for (let i = 0; i < seqLength; i++) {
-    //         const time = i / 2;
-    //         if (matrix[0][i]) {
-    //             renderedNotes.push({
-    //                 note: note1,
-    //                 time: `0:${time}`,
-    //                 velocity: velocity,
-    //                 index: i
-    //             });
-    //         } else if (!matrix[1][i]) {
-    //             renderedNotes.push({
-    //                 note: note1,
-    //                 time: `0:${time}`,
-    //                 velocity: 0,
-    //                 index: i
-    //             });
-    //         }
-    //         if (matrix[1][i]) {
-    //             renderedNotes.push({
-    //                 note: note2,
-    //                 time: `0:${time}`,
-    //                 velocity: velocity,
-    //                 index: i
-    //             });
-    //         }
-    //     }
+        // new renderedNotes array, populate
+        const renderedNotes = [];
+        for (let i = 0; i < seqLength; i++) {
+            const time = i / 2;
+            if (matrix[0][i]) {
+                renderedNotes.push({
+                    note: note1,
+                    time: `0:${time}`,
+                    velocity: velocity,
+                    index: i
+                });
+            } else if (!matrix[1][i]) {
+                renderedNotes.push({
+                    note: note1,
+                    time: `0:${time}`,
+                    velocity: 0,
+                    index: i
+                });
+            }
+            if (matrix[1][i]) {
+                renderedNotes.push({
+                    note: note2,
+                    time: `0:${time}`,
+                    velocity: velocity,
+                    index: i
+                });
+            }
+        }
 
-    //     // create new Part, start Part, push Part to container
-    //     const part = new Tone.Part((time, value) => {
-    //         this.triggerVisualize(value.index);
-    //         synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
-    //     }, renderedNotes).start(0);
-    //     partContainer.push(part);
+        // create new Part, start Part, push Part to container
+        const part = new Tone.Part((time, value) => {
+            this.triggerVisualize(value.index);
+            synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
+        }, renderedNotes).start(0);
+        partContainer.push(part);
 
-    //     this.setState({
-    //         renderedNotes,
-    //         partContainer
-    //     });
-    // };
+        this.setState({
+            renderedNotes,
+            partContainer
+        });
+    };
 
 
     render() {
         // console.log('DrumMachine state: ', this.state)
-
         const { 
             // track,
             id,
