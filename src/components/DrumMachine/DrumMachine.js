@@ -82,42 +82,42 @@ export default class DrumMachine extends React.Component {
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                 ],
-                // // ADDITIONALLY /////////////////////////
-                // isPlaying: false,
-                // // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
-                // maxTempo: 300,
-                // isActive: [ // used for highlighting during step-sequence visualization
-                //     [1, 0, 0, 0, 0, 0, 0, 0], 
-                //     [1, 0, 0, 0, 0, 0, 0, 0],
-                //     [1, 0, 0, 0, 0, 0, 0, 0],
-                //     [1, 0, 0, 0, 0, 0, 0, 0],
-                // ], 
-                // renderedNotes: [],
-                // partContainer: [], // store Part object for future removal
-                // timeContainer: [], // tap tempo array
-                // landscape: false,
-                // velocity: 0.1,
-                // defaults: {
-                //     tempo: 120,
-                //     sequenceLength: 16,
-                //     isPlaying: false,
-                //     elapsedTime: 0,
-                //     numberOfTaps: 0,
-                //     averageBPM: 0,
-                //     checked: [
-                //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                //     ],
-                //     notes: [ "G5", "Eb5", "C5", "G4"],
-                //     isActive: [ 
-                //         [1, 0, 0, 0, 0, 0, 0, 0], 
-                //         [1, 0, 0, 0, 0, 0, 0, 0],
-                //         [1, 0, 0, 0, 0, 0, 0, 0],
-                //         [1, 0, 0, 0, 0, 0, 0, 0],
-                //     ], 
-                // },
+                // ADDITIONALLY /////////////////////////
+                isPlaying: false,
+                // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
+                maxTempo: 300,
+                isActive: [ // used for highlighting during step-sequence visualization
+                    [1, 0, 0, 0, 0, 0, 0, 0], 
+                    [1, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0],
+                ], 
+                renderedNotes: [],
+                partContainer: [], // store Part object for future removal
+                timeContainer: [], // tap tempo array
+                landscape: false,
+                velocity: 0.1,
+                defaults: {
+                    tempo: 120,
+                    sequenceLength: 16,
+                    isPlaying: false,
+                    elapsedTime: 0,
+                    numberOfTaps: 0,
+                    averageBPM: 0,
+                    checked: [
+                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                    ],
+                    notes: [ "G5", "Eb5", "C5", "G4"],
+                    isActive: [ 
+                        [1, 0, 0, 0, 0, 0, 0, 0], 
+                        [1, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0],
+                    ], 
+                },
             },
         }
     }
