@@ -122,7 +122,7 @@ export default class App extends React.Component {
 
     renderMainRoutes () {
         const { authUser, users, tracks } = this.state;
-        console.log ("App state: ", this.state)
+        
         return (
             <Switch>
                 <Route exact 
@@ -181,6 +181,7 @@ export default class App extends React.Component {
     }
 
     render() {
+        // console.log ("App state: ", this.state)
         const value = {
             authUser: this.state.authUser,
             users: this.state.users,

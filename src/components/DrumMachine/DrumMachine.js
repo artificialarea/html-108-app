@@ -1,15 +1,20 @@
 import React from 'react';
 import ApiContext from '../../ApiContext';
 import config from '../../config';
-// import Tone from 'tone';
-// import _ from 'lodash'; 
-// import StartAudioContext from 'startaudiocontext'; 
+import * as Tone from 'tone';
+import _ from 'lodash'; 
+import StartAudioContext from 'startaudiocontext'; 
 import './DrumMachine.css';
 import Header from './Header';
 import Tempo from './Tempo';
 import StepSequencer from './StepSequencer';
 import UberControls from './UberControls';
 
+// what are correct places for these?
+// creates a global synth and context
+// const synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
+// const synth = new Tone.PolySynth(Tone.Synth).toDestination(); 
+// const context = new AudioContext();
 
 export default class DrumMachine extends React.Component {
 
@@ -22,7 +27,7 @@ export default class DrumMachine extends React.Component {
         // },
         authUser: {},
         editable: '',
-        track: {
+        // track: {
             id: 0,
             user_id: '', 
             title: '',
@@ -52,7 +57,7 @@ export default class DrumMachine extends React.Component {
             // timeContainer: [], // tap tempo array
             // landscape: false,
             // velocity: 0.1,
-        },
+        // },
     }
 
     static contextType = ApiContext;
@@ -67,7 +72,7 @@ export default class DrumMachine extends React.Component {
         this.state = {
             editable: editable, 
             error: null,
-            track: {
+            // track: {
                 id: 0,
                 user_id: '', 
                 title: '',
@@ -118,29 +123,25 @@ export default class DrumMachine extends React.Component {
                         [1, 0, 0, 0, 0, 0, 0, 0],
                     ], 
                 },
-            },
+            // },
         }
     }
 
    
     componentDidMount = () => {
-        // const { id } = this.props.track;
-        // const { id } = this.state;
-
-        // 'BACKDOOR' HACK
-        // to determine what current URL :trackId is if accessed directly, not from Router via App
-        // Resolved my issue of loading URL route /track/:trackId or /edit/:trackId
+        // FETCH API ////////////////////////////////////////////////////
+        // 'BACKDOOR' HACK TO DETERMINE VIEW
+        // to determine what current URL :trackId is if accessed directly -- not from Router via App user flow -- using window.location.pathname to make a fetch call for /tracks/:track
         // BUT by doing so I have created a seperate issue,
-        // if from t/here goto route='/add-track' via Nav, this component does not remount 
-        // and so retains data from the :trackId  of the previous view >_<
+        // if from t/here goto route='/add-track' via Nav, this component does not remount and so retains data from the :trackId of the previous view >_<
         // Putting this on hold for now, but...
         // TODO: Figure out a way to detect route change, but not using componentDidMount or deprecated componentWill____
         const fullpath = window.location.pathname;
         const splitPathArr = fullpath.split('/');
         const id = window.location.pathname.split('/')[2];
-        console.log('window.location.path: ', window.location.pathname)
-        console.log('split path:', splitPathArr);
-        console.log('id:', window.location.pathname.split('/')[2]);
+        // console.log('window.location.path: ', window.location.pathname)
+        // console.log('split path:', splitPathArr);
+        // console.log('id:', window.location.pathname.split('/')[2]);
         // console.log(typeof id == 'string')
         if (id) {
             this.fetchTrack(id);
@@ -149,7 +150,50 @@ export default class DrumMachine extends React.Component {
             // so leave this.state as is (for new track)  
             this.handleResetTrack()
         }
+
+        // // TONE WEB AUDIO API ////////////////////////////////////////////
+        // this.generateMetronome();
+
+        // // starts both audio contexts on mounting
+        // StartAudioContext(Tone.context);
+        // StartAudioContext(context);
+
+        // // event listener for space, enter and 't'
+        // window.addEventListener("keydown", e => {
+        //     if (e.keyCode === 32 || e.keyCode === 13) {
+        //         try {
+        //             e.preventDefault(); // prevents space bar from triggering selected checkboxes
+        //             this.onTogglePlay();
+        //         } catch (e) {
+        //             console.log(e);
+        //         }
+        //     } else if (e.keyCode === 84) {
+        //         try {
+        //             e.preventDefault(); // prevents space bar from triggering selected checkboxes
+        //             this.handleTap();
+        //         } catch (e) {
+        //             console.log(e);
+        //         }
+        //     }
+        // });
+
+        // // check for orientation, add event listener
+        // if (
+        //     window.screen.orientation &&
+        //     Math.abs(window.screen.orientation.angle) === 90 &&
+        //     window.screen.height < 500
+        // )
+        //     this.setState({ landscape: true });
+        // window.addEventListener("orientationchange", () => {
+        //     if (Math.abs(window.screen.orientation.angle) !== 90) {
+        //         this.setState({ landscape: false });
+        //     } else if (window.screen.height < 500) {
+        //         this.setState({ landscape: true });
+        //     }
+        // });
     }
+
+    // API EVENT HANDLERS ////////////////////////////////////////////
 
     fetchTrack(id) {
         fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
@@ -166,20 +210,17 @@ export default class DrumMachine extends React.Component {
                 return res.json();
             })
             .then(resTrack => {
-                console.log('resTrack via fetch')
                 this.setState({
-                    track: {
-                        ...this.state.track,
-                        id: resTrack.id,
-                        user_id: resTrack.user_id, 
-                        title: resTrack.title,
-                        date_modified: resTrack.date_modified,
-                        visible: resTrack.visible,
-                        tempo: resTrack.tempo,
-                        sequence_length: resTrack.sequence_length,
-                        notes: resTrack.notes,
-                        checked: resTrack.checked,
-                    }
+                    ...this.state,
+                    id: resTrack.id,
+                    user_id: resTrack.user_id, 
+                    title: resTrack.title,
+                    date_modified: resTrack.date_modified,
+                    visible: resTrack.visible,
+                    tempo: resTrack.tempo,
+                    sequence_length: resTrack.sequence_length,
+                    notes: resTrack.notes,
+                    checked: resTrack.checked,
                 })
             })
             .catch(error => {
@@ -197,11 +238,11 @@ export default class DrumMachine extends React.Component {
             sequence_length,
             notes,
             checked,
-        } = this.state.track;
+        } = this.state;
 
         const user_id = this.props.authUser.id; 
 
-        let { title } = this.state.track;
+        let { title } = this.state;
         if (title.length === 0) {
             title = 'Untitled'
         }
@@ -256,11 +297,11 @@ export default class DrumMachine extends React.Component {
             sequence_length,
             notes,
             checked,
-        } = this.state.track;
+        } = this.state;
 
         // const user_id = this.props.authUser.id; 
 
-        let { title } = this.state.track;
+        let { title } = this.state;
         if (title.length === 0) {
             title = 'Untitled'
         }
@@ -304,7 +345,7 @@ export default class DrumMachine extends React.Component {
     }
 
     handleDeleteTrack = (changeEvent) => {
-        const { id } = this.state.track;
+        const { id } = this.state;
 
         fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
             method: 'DELETE',
@@ -331,8 +372,10 @@ export default class DrumMachine extends React.Component {
             })
     }
 
+    // v1 DRUM EVENT HANDLERS ///////////////////////////////////////
+
     handleBeatChange = (changeEvent) => {
-        const { track } = this.state;
+        // const { track } = this.state;
         // REFACTOR? 
         // Extract target tag id information from string into array
         // "instrumentSequence beatIndex beatBoolean" 
@@ -341,87 +384,143 @@ export default class DrumMachine extends React.Component {
         const instrumentSequence = targets[0];
         const beatIndex = targets[1];
         let beatBoolean = targets[2]; 
-        console.log('beatBoolean (pre): ', beatBoolean)
+
         beatBoolean === "true"
             ? beatBoolean = false
             : beatBoolean = true;
 
-        const newTrack = {...track};
-        newTrack.checked[instrumentSequence][beatIndex] = beatBoolean;
-        console.log(newTrack.checked[0])
+        const newState = this.state;
+        newState.checked[instrumentSequence][beatIndex] = beatBoolean;
+
         this.setState({
             // [f1]
-            track: newTrack
+            // newState
         })
     }
 
     handleTempoChange = (changeEvent) => {
-        const { track } = this.state;
-        const newTrack = {...track};
-        newTrack.tempo = changeEvent.target.value;
-
+        console.log('handleTempoChange')
+        console.log(changeEvent.target.value)
+        const newState = this.state;
+        newState.tempo = parseInt(changeEvent.target.value);
+        console.log('newState: ', newState)
         this.setState({
-            track: newTrack
+            // [f1]
+            // newState
         })
     }
 
     handleTitleChange = (changeEvent) => {
-        const { track } = this.state;
-        const newTrack = {...track};
-        newTrack.title = changeEvent.target.value;
-
+        const newState = this.state;
+        newState.title = changeEvent.target.value;
         this.setState({
-            track: newTrack
+            // [f1]
+            // newState
         })
     }
 
     handleResetTrack = (changeEvent) => {
-        console.log('reset')
-        const { track } = this.state;
-        const { checked, ...arr } = track;
+        const newState = this.state;
+        const { checked, ...arr } = newState;
         this.setState({
-            track: {
-                ...arr,
-                checked: [
-                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                ],
-            }
+            ...arr,
+            checked: [
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+            ],
         })
     }
 
+    // // v2 DRUM + AUDIO EVENT HANDLERS ///////////////////////////////
+
+    // generateMetronome = () => {
+    //     // erase or stop all previous parts
+    //     const partContainer = this.state.partContainer;
+    //     // console.log('this.state.partContainer: ', partContainer)
+    //     partContainer.forEach(part => part.removeAll());
+
+    //     // metronome vitals
+    //     const [note1, note2] = this.state.notes,
+    //         seqLength = this.state.sequenceLength,
+    //         matrix = this.state.checked,
+    //         velocity = this.state.velocity;
+
+    //     // new renderedNotes array, populate
+    //     const renderedNotes = [];
+    //     for (let i = 0; i < seqLength; i++) {
+    //         const time = i / 2;
+    //         if (matrix[0][i]) {
+    //             renderedNotes.push({
+    //                 note: note1,
+    //                 time: `0:${time}`,
+    //                 velocity: velocity,
+    //                 index: i
+    //             });
+    //         } else if (!matrix[1][i]) {
+    //             renderedNotes.push({
+    //                 note: note1,
+    //                 time: `0:${time}`,
+    //                 velocity: 0,
+    //                 index: i
+    //             });
+    //         }
+    //         if (matrix[1][i]) {
+    //             renderedNotes.push({
+    //                 note: note2,
+    //                 time: `0:${time}`,
+    //                 velocity: velocity,
+    //                 index: i
+    //             });
+    //         }
+    //     }
+
+    //     // create new Part, start Part, push Part to container
+    //     const part = new Tone.Part((time, value) => {
+    //         this.triggerVisualize(value.index);
+    //         synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
+    //     }, renderedNotes).start(0);
+    //     partContainer.push(part);
+
+    //     this.setState({
+    //         renderedNotes,
+    //         partContainer
+    //     });
+    // };
+
 
     render() {
-        console.log('DrumMachine state: ', this.state)
+        // console.log('DrumMachine state: ', this.state)
 
         const { 
-            track,
+            // track,
+            id,
+            user_id,
+            title,
+            tempo,
+            sequence_length,
+            notes,
+            checked,
         } = this.state;
 
         const {
             authUser,
-            // track,
             editable,
-            // titleChange,
-            // tempoChange,
-            // toggleBeat,
-            // resetTrack,
-            // submitTrack,
-            // deleteTrack,
         } = this.props;
 
         return (
             <div className="component drum-machine">
                 <Header
-                    track={track}
+                    // track={track}
+                    track={this.state}
                     editable={editable}
                     titleChange={this.handleTitleChange}
                 />
                 <UberControls
                     authUser={authUser}
-                    track={track}
+                    // track={track}
+                    track={this.state}
                     editable={editable}
                     resetTrack={this.handleResetTrack}
                     createTrack={this.handleCreateTrack}
@@ -429,12 +528,14 @@ export default class DrumMachine extends React.Component {
                     deleteTrack={this.handleDeleteTrack}
                 />
                 <Tempo
-                    track={track}
+                    // track={track}
+                    track={this.state}
                     editable={editable}
                     tempoChange={this.handleTempoChange}
                 />
                 <StepSequencer
-                    track={track}
+                    // track={track}
+                    track={this.state}
                     editable={editable}
                     toggleBeat={this.handleBeatChange}
                 />

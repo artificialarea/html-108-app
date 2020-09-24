@@ -1,12 +1,10 @@
 import React from 'react';
-import PlayButton from './PlayButton';
 import TempoDisplay from './TempoDisplay';
 import TempoControl from './TempoControl';
 
 
 export default function Tempo (props) {
     const { track, editable, tempoChange } = props;
-
     return (
         <div className="tempo__controls">
             { editable &&
