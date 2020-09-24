@@ -30,13 +30,28 @@ export default class DrumMachine extends React.Component {
             visible: true,
             tempo: 120,
             sequence_length: 16,
-            audio_sequence: [ 'hihat', 'clap', 'trap', 'bass'],
-            step_sequence: [
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            notes: [ "G5", "Eb5", "C5", "G4"],
+            checked: [
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
             ],
+            // // ADDITIONALLY /////////////////////////
+            // isPlaying: false,
+            // // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
+            // maxTempo: 300,
+            // isActive: [ // used for highlighting during step-sequence visualization
+            //     [1, 0, 0, 0, 0, 0, 0, 0], 
+            //     [1, 0, 0, 0, 0, 0, 0, 0],
+            //     [1, 0, 0, 0, 0, 0, 0, 0],
+            //     [1, 0, 0, 0, 0, 0, 0, 0],
+            // ], 
+            // renderedNotes: [],
+            // partContainer: [], // store Part object for future removal
+            // timeContainer: [], // tap tempo array
+            // landscape: false,
+            // velocity: 0.1,
         },
     }
 
@@ -54,20 +69,56 @@ export default class DrumMachine extends React.Component {
             error: null,
             track: {
                 id: 0,
-                user_id: this.props.authUser.id, 
+                user_id: '', 
                 title: '',
                 date_modified: '',
                 visible: true,
                 tempo: 120,
                 sequence_length: 16,
-                audio_sequence: [ 'hihat', 'clap', 'trap', 'bass'],
-                step_sequence: [
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                notes: [ "G5", "Eb5", "C5", "G4"],
+                checked: [
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                 ],
-            }
+                // // ADDITIONALLY /////////////////////////
+                // isPlaying: false,
+                // // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
+                // maxTempo: 300,
+                // isActive: [ // used for highlighting during step-sequence visualization
+                //     [1, 0, 0, 0, 0, 0, 0, 0], 
+                //     [1, 0, 0, 0, 0, 0, 0, 0],
+                //     [1, 0, 0, 0, 0, 0, 0, 0],
+                //     [1, 0, 0, 0, 0, 0, 0, 0],
+                // ], 
+                // renderedNotes: [],
+                // partContainer: [], // store Part object for future removal
+                // timeContainer: [], // tap tempo array
+                // landscape: false,
+                // velocity: 0.1,
+                // defaults: {
+                //     tempo: 120,
+                //     sequenceLength: 16,
+                //     isPlaying: false,
+                //     elapsedTime: 0,
+                //     numberOfTaps: 0,
+                //     averageBPM: 0,
+                //     checked: [
+                //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                //     ],
+                //     notes: [ "G5", "Eb5", "C5", "G4"],
+                //     isActive: [ 
+                //         [1, 0, 0, 0, 0, 0, 0, 0], 
+                //         [1, 0, 0, 0, 0, 0, 0, 0],
+                //         [1, 0, 0, 0, 0, 0, 0, 0],
+                //         [1, 0, 0, 0, 0, 0, 0, 0],
+                //     ], 
+                // },
+            },
         }
     }
 
@@ -114,9 +165,21 @@ export default class DrumMachine extends React.Component {
                 }
                 return res.json();
             })
-            .then(track => {
+            .then(resTrack => {
+                console.log('resTrack via fetch')
                 this.setState({
-                    track
+                    track: {
+                        ...this.state.track,
+                        id: resTrack.id,
+                        user_id: resTrack.user_id, 
+                        title: resTrack.title,
+                        date_modified: resTrack.date_modified,
+                        visible: resTrack.visible,
+                        tempo: resTrack.tempo,
+                        sequence_length: resTrack.sequence_length,
+                        notes: resTrack.notes,
+                        checked: resTrack.checked,
+                    }
                 })
             })
             .catch(error => {
@@ -127,31 +190,32 @@ export default class DrumMachine extends React.Component {
 
     handleCreateTrack = (changeEvent) => {
         const {
-            user_id,
+            // user_id,
             // title,
             visible,
             tempo,
             sequence_length,
-            audio_sequence,
-            step_sequence,
+            notes,
+            checked,
         } = this.state.track;
 
-        // const user_id = this.props.authUser.id; 
+        const user_id = this.props.authUser.id; 
 
         let { title } = this.state.track;
         if (title.length === 0) {
             title = 'Untitled'
         }
-
+        
         const newTrack = {
             user_id,
             title,
             visible,
             tempo,
             sequence_length,
-            audio_sequence,
-            step_sequence,
+            notes,
+            checked,
         };
+        console.log('new track pre POSST', newTrack)
 
         fetch(`${config.API_ENDPOINT}/api/tracks`, {
             method: 'POST',
@@ -170,10 +234,7 @@ export default class DrumMachine extends React.Component {
             })
             .then(track => {
                 this.context.addTrack(track)
-                window.location = `/dashboard`;
-                // console.log('this.props.history:', this.props.history)
-                // this.props.history.push(`/edit/${track.id}`)
-                // this.props.history.push(`/`)
+                window.location = `/tracks/${track.id}`;
             })
             .catch(err => {
                 console.error({ err });
@@ -183,9 +244,8 @@ export default class DrumMachine extends React.Component {
             })
     }
 
-
     handleUpdateTrack = (changeEvent) => {
-
+        console.log('handleUpdateTrack')
         const {
             id,
             user_id,
@@ -194,8 +254,8 @@ export default class DrumMachine extends React.Component {
             visible,
             tempo,
             sequence_length,
-            audio_sequence,
-            step_sequence,
+            notes,
+            checked,
         } = this.state.track;
 
         // const user_id = this.props.authUser.id; 
@@ -213,8 +273,8 @@ export default class DrumMachine extends React.Component {
             visible,
             tempo,
             sequence_length,
-            audio_sequence,
-            step_sequence,
+            notes,
+            checked,
         };
 
         fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
@@ -234,9 +294,6 @@ export default class DrumMachine extends React.Component {
             .then(() => {
                 this.context.updateTrack(newTrack)
                 window.location = `/tracks/${newTrack.id}`;
-                // console.log('this.props.history:', this.props.history)
-                // this.props.history.push(`/edit/${track.id}`)
-                // this.props.history.push(`/tracks/${newTrack.id}`)
             })
             .catch(err => {
                 console.error({ err });
@@ -264,9 +321,7 @@ export default class DrumMachine extends React.Component {
             })
             .then(() => {
                 this.context.deleteTrack(id)
-                // console.log('this.props.history:', this.props.history)
-                // this.props.history.push(`/edit/${track.id}`)
-                this.props.history.push(`/`)
+                window.location = `/dashboard`;
             })
             .catch(err => {
                 console.error({ err });
@@ -286,16 +341,17 @@ export default class DrumMachine extends React.Component {
         const instrumentSequence = targets[0];
         const beatIndex = targets[1];
         let beatBoolean = targets[2]; 
-
-        beatBoolean == 1        // fails if strict equality (===)
-            ? beatBoolean = 0
-            : beatBoolean = 1;
+        console.log('beatBoolean (pre): ', beatBoolean)
+        beatBoolean === "true"
+            ? beatBoolean = false
+            : beatBoolean = true;
 
         const newTrack = {...track};
-        newTrack.step_sequence[instrumentSequence][beatIndex] = beatBoolean;
+        newTrack.checked[instrumentSequence][beatIndex] = beatBoolean;
+        console.log(newTrack.checked[0])
         this.setState({
             // [f1]
-            // track: newTrack
+            track: newTrack
         })
     }
 
@@ -322,15 +378,15 @@ export default class DrumMachine extends React.Component {
     handleResetTrack = (changeEvent) => {
         console.log('reset')
         const { track } = this.state;
-        const { step_sequence, ...arr } = track;
+        const { checked, ...arr } = track;
         this.setState({
             track: {
                 ...arr,
-                step_sequence: [
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                checked: [
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                 ],
             }
         })
@@ -338,7 +394,7 @@ export default class DrumMachine extends React.Component {
 
 
     render() {
-        // console.log('DrumMachine state: ', this.state)
+        console.log('DrumMachine state: ', this.state)
 
         const { 
             track,

@@ -11,7 +11,7 @@ export default function StepSequencer (props) {
     } = props;
 
     const instrumentArr = [];
-    const obj = track.step_sequence;
+    const obj = track.checked;
     // console.log('obj: ', obj)
 
     Object.keys(obj).forEach((key, index) => 
@@ -21,7 +21,7 @@ export default function StepSequencer (props) {
                 id={key}
                 track={track}
                 editable={editable}
-                sound={track.audio_sequence[index]}
+                sound={track.notes[index]}
                 sequence={key}
                 steps={obj[key]}
                 toggleBeat={e => toggleBeat(e)}
@@ -46,5 +46,5 @@ StepSequencer.defaultProps = {
     // No Help
     // track: {},  
     // or
-    // track: { step_sequence: [ [], [], [], [] ] },
+    // track: { checked: [ [], [], [], [] ] },
 }

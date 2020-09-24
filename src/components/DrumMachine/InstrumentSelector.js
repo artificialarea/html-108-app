@@ -6,10 +6,10 @@ export default function InstrumentSelector (props) {
             <label>
                 Display:
                 <select id="instrument-selector">
-                    <option value="hahat">HiHat</option>
-                    <option value="clap">Clap</option>
-                    <option value="trap">Trap</option>
-                    <option value="bass">Bass</option>
+                    <option value="G5">G5</option>
+                    <option value="Eb5">Eb5</option>
+                    <option value="C5">C5</option>
+                    <option value="G4">G4</option>
                 </select>
             </label>
         </div>
