@@ -5,7 +5,7 @@ import _ from "lodash";
 const Box = props => {
 
     let { editable } = props;
-
+    console.log('editable?', editable)
     return (
 
         <div className={styles.root}>
