@@ -12,6 +12,9 @@ import DrumMachineDeux from './components/DrumMachineDeux/DrumMachineDeux'
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound';
 import ApiContext from './ApiContext';
+import AddTrack from './components/AddTrack/AddTrack';
+import EditTrack from './components/EditTrack/EditTrack';
+import ViewTrack from './components/ViewTrack/ViewTrack';
 // import Login from './components/Login/Login';
 // import Registration from './components/Registration/Registration';
 
@@ -145,7 +148,8 @@ export default class App extends React.Component {
                 <Route 
                     path='/add-track' 
                     render={(routerProps) => 
-                        <DrumMachineDeux 
+                        // <DrumMachineDeux 
+                        <AddTrack 
                             authUser={authUser}
                             editable={true}
                         />
@@ -156,7 +160,8 @@ export default class App extends React.Component {
                 <Route 
                     path='/tracks/:trackId'
                     render={(routerProps) => 
-                        <DrumMachineDeux 
+                        // <DrumMachineDeux 
+                        <ViewTrack 
                             authUser={authUser}
                             editable={false}
                             track={tracks.find(track => track.id == routerProps.match.params.trackId)}
@@ -167,7 +172,8 @@ export default class App extends React.Component {
                 <Route 
                     path='/edit/:trackId' 
                     render={(routerProps) => 
-                        <DrumMachineDeux 
+                        // <DrumMachineDeux 
+                        <EditTrack 
                             authUser={authUser}
                             editable={true}
                             track={tracks.find(track => track.id == routerProps.match.params.trackId)}
