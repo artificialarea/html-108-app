@@ -15,7 +15,7 @@ const Buttons = props => (
         onTogglePlay={props.onTogglePlay}
       />
       <TimeSignature
-        sequenceLength={props.sequenceLength}
+        sequence_length={props.sequence_length}
         onLengthChange={props.onLengthChange}
       />
       <ResetButton onReset={props.onReset} />

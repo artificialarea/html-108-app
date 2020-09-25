@@ -17,7 +17,7 @@
     "react-scripts": "3.4.3",
     "react-uuid": "^1.0.2",
     "startaudiocontext": "^1.2.1",
-    "tone": "^14.7.39"
+    "tone": "^13.4.9"
   },
   "scripts": {
     "start": "react-scripts start",

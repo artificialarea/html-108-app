@@ -7,7 +7,8 @@ import './App.css';
 import Nav from './components/Nav/Nav';
 import Intro from './components/Intro/Intro';
 import Dashboard from './components/Dashboard/Dashboard';
-import DrumMachine from './components/DrumMachine/DrumMachine';
+// import DrumMachine from './components/DrumMachine/DrumMachine';
+import DrumMachineDeux from './components/DrumMachineDeux/DrumMachineDeux'
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound';
 import ApiContext from './ApiContext';
@@ -144,7 +145,7 @@ export default class App extends React.Component {
                 <Route 
                     path='/add-track' 
                     render={(routerProps) => 
-                        <DrumMachine 
+                        <DrumMachineDeux 
                             authUser={authUser}
                             editable={true}
                         />
@@ -154,7 +155,7 @@ export default class App extends React.Component {
                 <Route 
                     path='/tracks/:trackId'
                     render={(routerProps) => 
-                        <DrumMachine 
+                        <DrumMachineDeux 
                             authUser={authUser}
                             editable={false}
                             track={tracks.find(track => track.id == routerProps.match.params.trackId)}
@@ -165,7 +166,7 @@ export default class App extends React.Component {
                 <Route 
                     path='/edit/:trackId' 
                     render={(routerProps) => 
-                        <DrumMachine 
+                        <DrumMachineDeux 
                             authUser={authUser}
                             editable={true}
                             track={tracks.find(track => track.id == routerProps.match.params.trackId)}
@@ -192,15 +193,18 @@ export default class App extends React.Component {
         }
         return (
             <ApiContext.Provider value={value}>
-                <div className="App">
+                <>
                     {this.renderNavRoutes()}
 
-                    <main className="App__main">
+                    {/* <main className="App__main">
                         {this.renderMainRoutes()}
-                    </main>
+                    </main> */}
+                    {this.renderMainRoutes()}
                     
                     {this.renderFooterRoutes()}
-                </div>
+
+                    
+                </>
             </ApiContext.Provider>
         );
     }

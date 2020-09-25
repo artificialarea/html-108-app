@@ -1,64 +1,18 @@
-body {
-    /* margin: 2%; */
-    margin: 0;
-    padding: 0;
-}
-
 .App {
-  text-align: center;
-  margin: 0px;
+    text-align: center;
 }
 
-div {
-    /* padding: 1%; */
-}
-
-.component {
-    /* border: 2px solid black;
-    margin: 10px 10px 30px 10px;
-    padding: 2%; */
-}
-
-.track {
-    border: 2px solid grey;
-    margin: 10px;
-    padding: 2%;
-    background-color: rgb(240, 241, 241, 0.2);
-}
-
-.user-controls {
-    border: 2px solid aquamarine;
-    padding: 2%;
-    background-color: rgb(0, 153, 255, 0.3);
-}
-
-.public-user {
-    color: rgb(0, 153, 255);
-    border: 2px solid aquamarine;
-    background-color: rgb(0, 153, 255, 0.3);
-    font-weight: bold;
-    padding: 5px;
-}
-
-nav,
-.footer {
-    background-color: aqua;
-    padding: 10px;
-}
-
-button {
-    margin: 2%;
+.App-header {
+    background-color: #1e1e21;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .error {
     color: red;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-h1, h2, h3 {
-    margin: 0;
 }

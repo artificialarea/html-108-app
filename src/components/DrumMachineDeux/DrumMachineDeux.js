@@ -1,20 +1,37 @@
 import React from 'react';
 import ApiContext from '../../ApiContext';
 import config from '../../config';
-import * as Tone from 'tone';
+import * as Tone from 'tone';   // NOTE: using older version (^13.4.9), not the latest (^14.7.39) b/c incompatiblity issues yet to be resolved.
 import _ from 'lodash'; 
 import StartAudioContext from 'startaudiocontext'; 
-import './DrumMachine.css';
-import Header from './Header';
-import Tempo from './Tempo';
-import StepSequencer from './StepSequencer';
-import UberControls from './UberControls';
+// import Title from "./Title";
+import Buttons from "./Buttons";
+import StepSequence from "./StepSequence";
+import './DrumMachineDeux.css';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+    faPlay,
+    faStop,
+    faRecycle,
+    faInfoCircle
+} from "@fortawesome/free-solid-svg-icons";
+
+function toggleBox(priorChecked, i, row) {
+    const checked = [...priorChecked];
+    checked[row][i] = !checked[row][i];
+    return checked;
+}
+
+// fontawesome library setup
+library.add(faPlay);
+library.add(faStop);
+library.add(faRecycle);
+library.add(faInfoCircle);
 
 // what are correct places for these?
 // creates a global synth and context
-// const synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
-// const synth = new Tone.PolySynth(Tone.Synth).toDestination(); 
-// const context = new AudioContext();
+const synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
+const context = new AudioContext();
 
 export default class DrumMachine extends React.Component {
 
@@ -47,10 +64,10 @@ export default class DrumMachine extends React.Component {
         // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
         maxTempo: 300,
         isActive: [ // used for highlighting during step-sequence visualization
-            [1, 0, 0, 0, 0, 0, 0, 0], 
-            [1, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ], 
         renderedNotes: [],
         partContainer: [], // store Part object for future removal
@@ -92,10 +109,10 @@ export default class DrumMachine extends React.Component {
                 // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
                 maxTempo: 300,
                 isActive: [ // used for highlighting during step-sequence visualization
-                    [1, 0, 0, 0, 0, 0, 0, 0], 
-                    [1, 0, 0, 0, 0, 0, 0, 0],
-                    [1, 0, 0, 0, 0, 0, 0, 0],
-                    [1, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 ], 
                 renderedNotes: [],
                 partContainer: [], // store Part object for future removal
@@ -104,7 +121,7 @@ export default class DrumMachine extends React.Component {
                 velocity: 0.1,
                 defaults: {
                     tempo: 120,
-                    sequenceLength: 16,
+                    sequence_length: 16,
                     isPlaying: false,
                     elapsedTime: 0,
                     numberOfTaps: 0,
@@ -117,10 +134,10 @@ export default class DrumMachine extends React.Component {
                     ],
                     notes: [ "G5", "Eb5", "C5", "G4"],
                     isActive: [ 
-                        [1, 0, 0, 0, 0, 0, 0, 0], 
-                        [1, 0, 0, 0, 0, 0, 0, 0],
-                        [1, 0, 0, 0, 0, 0, 0, 0],
-                        [1, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     ], 
                 },
             // },
@@ -148,7 +165,8 @@ export default class DrumMachine extends React.Component {
         } else {
             // by deduction we are in /add-track view, 
             // so leave this.state as is (for new track)  
-            this.handleResetTrack()
+
+            // this.handleResetTrack()
         }
 
         // TONE WEB AUDIO API ////////////////////////////////////////////
@@ -372,53 +390,6 @@ export default class DrumMachine extends React.Component {
             })
     }
 
-    // DM1 EVENT HANDLERS ///////////////////////////////////////
-
-    handleBeatChange = (changeEvent) => {
-        // const { track } = this.state;
-        // REFACTOR? 
-        // Extract target tag id information from string into array
-        // "instrumentSequence beatIndex beatBoolean" 
-        // e.g. "2 5 0" // => [2, 5, 0]
-        const targets = changeEvent.target.id.split(' ');
-        const instrumentSequence = targets[0];
-        const beatIndex = targets[1];
-        let beatBoolean = targets[2]; 
-
-        beatBoolean === "true"
-            ? beatBoolean = false
-            : beatBoolean = true;
-
-        const newState = this.state;
-        newState.checked[instrumentSequence][beatIndex] = beatBoolean;
-
-        this.setState({
-            // [f1]
-            // newState
-        })
-    }
-
-    handleTempoChange = (changeEvent) => {
-        console.log('handleTempoChange')
-        console.log(changeEvent.target.value)
-        const newState = this.state;
-        newState.tempo = parseInt(changeEvent.target.value);
-        console.log('newState: ', newState)
-        this.setState({
-            // [f1]
-            // newState
-        })
-    }
-
-    handleTitleChange = (changeEvent) => {
-        const newState = this.state;
-        newState.title = changeEvent.target.value;
-        this.setState({
-            // [f1]
-            // newState
-        })
-    }
-
     handleResetTrack = (changeEvent) => {
         const newState = this.state;
         const { checked, ...arr } = newState;
@@ -433,17 +404,180 @@ export default class DrumMachine extends React.Component {
         })
     }
 
-    // DM2 AUDIO EVENT HANDLERS ///////////////////////////////
+
+ 
+
+    // DM2 with AUDIO EVENT HANDLERS ///////////////////////////////
+
+    
+    onToggleBox = (i, row) => {
+        this.setState(
+            prior => ({
+                checked: toggleBox(prior.checked, i, row)
+            }),
+            () => {
+                this.generateMetronome();
+            }
+        );
+    };
+
+    onTogglePlay = () => {
+        this.setState(
+            prior => ({
+                isPlaying: !prior.isPlaying
+            }),
+            () => {
+                if (!this.state.isPlaying) {
+                    //stop transport, turn off looping - prevents collision with measure sequence loop
+                    Tone.Transport.stop();
+                    Tone.Transport.loop = false;
+                    Tone.Transport.loopEnd = 0;
+                    // isActive array zeroed out
+                    this.setState({ isActive: [[], [], [], []] }, () => console.log("stopped"));
+                } else {
+                    // configure looping for step sequencer
+                    Tone.Transport.loop = true;
+                    Tone.Transport.loopStart = 0;
+                    Tone.Transport.loopEnd =
+                        (this.state.sequence_length * 30) / this.state.tempo;
+                    Tone.Transport.start("+0.0");
+                    console.log("playing");
+                }
+            }
+        );
+    };
+
+    restartPlaying = () => {
+        if (this.state.isPlaying) {
+            this.setState({ isPlaying: this.state.isPlaying }, () => {
+                Tone.Transport.stop();
+                Tone.Transport.loopStart = 0;
+                Tone.Transport.loopEnd =
+                    (this.state.sequence_length * 30) / this.state.tempo;
+                Tone.Transport.loop = true;
+                Tone.Transport.start("+0.0");
+                console.log("playing restarted");
+            });
+        } else {
+            console.error("restartPlaying called while not playing");
+        }
+    };
+
+    onLengthChange = sequence_length => {
+        // create a new checked array
+        const checked = [[], [], [], []];
+        for (let i = 0; i < sequence_length; i++) {
+            checked[0].push(false);
+            checked[1].push(false);
+            checked[2].push(false);
+            checked[3].push(false);
+        }
+        this.setState(
+            () => ({
+                sequence_length,
+                checked
+            }),
+            () => {
+                Tone.Transport.loopEnd = (sequence_length * 30) / this.state.tempo;
+                this.generateMetronome();
+            }
+        );
+    };
+
+    onTempoChange = tempo => {
+        this.setState(
+            {
+                tempo
+            },
+            () => {
+                Tone.Transport.bpm.value = tempo;
+            }
+        );
+    };
+
+    onReset = () => {
+        this.setState(
+            prior => ({
+                tempo: prior.defaults.tempo,
+                sequence_length: prior.defaults.sequence_length,
+                isPlaying: prior.defaults.isPlaying,
+                checked: prior.defaults.checked,
+                notes: prior.defaults.notes,
+                isActive: prior.defaults.isActive
+            }),
+            () => {
+                this.resetTempo();
+                this.forceStop();
+                this.onLengthChange(this.state.sequence_length);
+                this.onPitchSelect(this.state.notes[0], 0);
+                this.onPitchSelect(this.state.notes[1], 0);
+                this.onPitchSelect(this.state.notes[2], 0);
+                this.onPitchSelect(this.state.notes[3], 0);
+            }
+        );
+    };
+
+    forceStop = () => {
+        Tone.Transport.stop();
+        Tone.Transport.loop = false;
+        Tone.Transport.loopEnd = 0;
+        console.log("force stopped");
+    };
+
+    resetTempo = () => {
+        Tone.Transport.bpm.value = this.state.defaults.tempo;
+    };
+
+    handleTap = () => {
+        // timeContainer maintenance - shift and push
+        const timeContainer = this.state.timeContainer;
+        if (timeContainer.length > 2) timeContainer.shift();
+        timeContainer.push(context.currentTime.toFixed(3));
+
+        // calculate tempo
+        const tempo = Math.round(
+            60 /
+            (timeContainer
+                .slice(1)
+                .map((time, i) => time - timeContainer[i])
+                .reduce((a, b) => a + b, 0) /
+                (timeContainer.length - 1))
+        );
+
+        // make sure tempo is within acceptable bounds
+        if (tempo > 40 && tempo < 301) {
+            this.setState({ tempo }, () => this.onTempoChange(tempo));
+        } else if (tempo > 300) {
+            this.setState({ tempo: this.state.maxTempo }, () =>
+                this.onTempoChange(this.state.tempo)
+            );
+        }
+    };
+
+    onPitchSelect = (note, row) => {
+        console.log('onPitchSelect (note, row): ', note, row)
+        this.setState(
+            {
+                notes:
+                    row === "0" // refactor this conditional
+                        ? [note, this.state.notes[1]]
+                        : [this.state.notes[0], note]
+            },
+            () => {
+                this.generateMetronome();
+            }
+        );
+    };
 
     generateMetronome = () => {
         // erase or stop all previous parts
         const partContainer = this.state.partContainer;
         // console.log('this.state.partContainer: ', partContainer)
-        partContainer.forEach(part => part.removeAll());
+        partContainer.forEach(part => part.removeAll());  
 
         // metronome vitals
-        const [note1, note2] = this.state.notes,
-            seqLength = this.state.sequenceLength,
+        const [note1, note2, note3, note4] = this.state.notes,
+            seqLength = this.state.sequence_length,
             matrix = this.state.checked,
             velocity = this.state.velocity;
 
@@ -458,14 +592,15 @@ export default class DrumMachine extends React.Component {
                     velocity: velocity,
                     index: i
                 });
-            } else if (!matrix[1][i]) {
+            } 
+            if (!matrix[0][i]) {
                 renderedNotes.push({
                     note: note1,
                     time: `0:${time}`,
                     velocity: 0,
                     index: i
                 });
-            }
+            } 
             if (matrix[1][i]) {
                 renderedNotes.push({
                     note: note2,
@@ -473,13 +608,52 @@ export default class DrumMachine extends React.Component {
                     velocity: velocity,
                     index: i
                 });
-            }
+            } else if (!matrix[1][i]) {
+                renderedNotes.push({
+                    note: note2,
+                    time: `0:${time}`,
+                    velocity: 0,
+                    index: i
+                });
+            } 
+            if (matrix[2][i]) {
+                renderedNotes.push({
+                    note: note3,
+                    time: `0:${time}`,
+                    velocity: velocity,
+                    index: i
+                });
+            } else if (!matrix[2][i]) {
+                renderedNotes.push({
+                    note: note3,
+                    time: `0:${time}`,
+                    velocity: 0,
+                    index: i
+                });
+            } 
+            if (matrix[3][i]) {
+                renderedNotes.push({
+                    note: note4,
+                    time: `0:${time}`,
+                    velocity: velocity,
+                    index: i
+                });
+            } else if (!matrix[3][i]) {
+                renderedNotes.push({
+                    note: note4,
+                    time: `0:${time}`,
+                    velocity: 0,
+                    index: i
+                });
+            } 
+           
         }
 
         // create new Part, start Part, push Part to container
         const part = new Tone.Part((time, value) => {
             this.triggerVisualize(value.index);
             synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
+            // synth.triggerAttackRelease([ "G5", "Eb5", "C5", "G4"], 0.05, time, value.velocity);
         }, renderedNotes).start(0);
         partContainer.push(part);
 
@@ -488,6 +662,20 @@ export default class DrumMachine extends React.Component {
             partContainer
         });
     };
+
+    triggerVisualize = index => {
+        // generate array of 0's
+        const length = this.state.sequence_length;
+        const isActive = [_.fill(Array(length), 0), _.fill(Array(length), 0), _.fill(Array(length), 0), _.fill(Array(length), 0)];
+
+        // set particular index as active
+        isActive[0][index] = 1;
+        isActive[1][index] = 1;
+        isActive[2][index] = 1;
+        isActive[3][index] = 1;
+        this.setState({ isActive });
+    };
+
 
 
     render() {
@@ -509,35 +697,30 @@ export default class DrumMachine extends React.Component {
         } = this.props;
 
         return (
-            <div className="component drum-machine">
-                <Header
-                    // track={track}
-                    track={this.state}
-                    editable={editable}
-                    titleChange={this.handleTitleChange}
-                />
-                <UberControls
-                    authUser={authUser}
-                    // track={track}
-                    track={this.state}
-                    editable={editable}
-                    resetTrack={this.handleResetTrack}
-                    createTrack={this.handleCreateTrack}
-                    updateTrack={this.handleUpdateTrack}
-                    deleteTrack={this.handleDeleteTrack}
-                />
-                <Tempo
-                    // track={track}
-                    track={this.state}
-                    editable={editable}
-                    tempoChange={this.handleTempoChange}
-                />
-                <StepSequencer
-                    // track={track}
-                    track={this.state}
-                    editable={editable}
-                    toggleBeat={this.handleBeatChange}
-                />
+            // DM2
+            <div className="App">
+                <header className="App-header">
+                    {/* <Title landscape={this.state.landscape} /> */}
+                    <Buttons
+                        isPlaying={this.state.isPlaying}
+                        onTogglePlay={this.onTogglePlay}
+                        sequence_length={this.state.sequence_length}
+                        onLengthChange={this.onLengthChange}
+                        tempo={this.state.tempo}
+                        onTempoChange={this.onTempoChange}
+                        onReset={this.onReset}
+                        handleTap={this.handleTap}
+                        />
+                    <StepSequence
+                        checked={this.state.checked}
+                        onToggle={this.onToggleBox}
+                        sequence_length={this.state.sequence_length}
+                        onPitchSelect={this.onPitchSelect}
+                        notes={this.state.notes}
+                        isActive={this.state.isActive}
+                        />
+                </header>
+
             </div>
         )
     }
