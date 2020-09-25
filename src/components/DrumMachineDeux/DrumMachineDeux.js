@@ -510,9 +510,9 @@ export default class DrumMachine extends React.Component {
                 this.forceStop();
                 this.onLengthChange(this.state.sequence_length);
                 this.onPitchSelect(this.state.notes[0], 0);
-                this.onPitchSelect(this.state.notes[1], 0);
-                this.onPitchSelect(this.state.notes[2], 0);
-                this.onPitchSelect(this.state.notes[3], 0);
+                this.onPitchSelect(this.state.notes[1], 1);
+                this.onPitchSelect(this.state.notes[2], 2);
+                this.onPitchSelect(this.state.notes[3], 3);
             }
         );
     };
@@ -555,13 +555,12 @@ export default class DrumMachine extends React.Component {
     };
 
     onPitchSelect = (note, row) => {
-        console.log('onPitchSelect (note, row): ', note, row)
+        let newNotes = this.state.notes;
+        newNotes.splice(row, 1, note);
+
         this.setState(
             {
-                notes:
-                    row === "0" // refactor this conditional
-                        ? [note, this.state.notes[1]]
-                        : [this.state.notes[0], note]
+                notes: newNotes
             },
             () => {
                 this.generateMetronome();
