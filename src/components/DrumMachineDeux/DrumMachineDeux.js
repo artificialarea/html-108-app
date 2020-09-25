@@ -39,11 +39,6 @@ library.add(faSave);
 library.add(faCloudUploadAlt);
 library.add(faPencilAlt);
 
-// what are correct places for these?
-// creates a global synth and context
-const synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
-// const synth = new Tone.PolySynth().toMaster(); 
-const context = new AudioContext();
 
 export default class DrumMachine extends React.Component {
     _isMounted = false; // per: https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component
@@ -102,59 +97,63 @@ export default class DrumMachine extends React.Component {
         this.state = {
             editable: editable, 
             error: null,
-            // track: {
-                id: 0,
-                user_id: '', 
-                title: '',
-                date_modified: '',
-                visible: true,
+            id: 0,
+            user_id: '', 
+            title: '',
+            date_modified: '',
+            visible: true,
+            tempo: 120,
+            sequence_length: 8,
+            notes: [ "G5", "Eb5", "C5", "G4"],
+            checked: [
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+            ],
+            // ADDITIONALLY /////////////////////////
+            isPlaying: false,
+            // sequenceLength: 8, // Reminder to change all references to this key to 'sequence_length'
+            maxTempo: 300,
+            isActive: [ // used for highlighting during step-sequence visualization
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ], 
+            renderedNotes: [],
+            partContainer: [], // store Part object for future removal
+            timeContainer: [], // tap tempo array
+            landscape: false,
+            velocity: 0.1,
+            defaults: {
                 tempo: 120,
                 sequence_length: 8,
-                notes: [ "G5", "Eb5", "C5", "G4"],
+                isPlaying: false,
+                elapsedTime: 0,
+                numberOfTaps: 0,
+                averageBPM: 0,
                 checked: [
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                 ],
-                // ADDITIONALLY /////////////////////////
-                isPlaying: false,
-                // sequenceLength: 8, // Reminder to change all references to this key to 'sequence_length'
-                maxTempo: 300,
-                isActive: [ // used for highlighting during step-sequence visualization
+                notes: [ "G5", "Eb5", "C5", "G4"],
+                isActive: [ 
                     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
                     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 ], 
-                renderedNotes: [],
-                partContainer: [], // store Part object for future removal
-                timeContainer: [], // tap tempo array
-                landscape: false,
-                velocity: 0.1,
-                defaults: {
-                    tempo: 120,
-                    sequence_length: 8,
-                    isPlaying: false,
-                    elapsedTime: 0,
-                    numberOfTaps: 0,
-                    averageBPM: 0,
-                    checked: [
-                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                        [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                    ],
-                    notes: [ "G5", "Eb5", "C5", "G4"],
-                    isActive: [ 
-                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    ], 
-                },
-            // },
-        }
+            },
+        };
+
+        // moved these into constructor, so no more test fail
+        // although still get the warning
+        // console.warn node_modules/tone/build/Tone.js:7 => This browser does not support Tone.js
+        this.synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
+        this.context = new AudioContext();
     }
 
    
@@ -189,7 +188,7 @@ export default class DrumMachine extends React.Component {
 
         // starts both audio contexts on mounting
         StartAudioContext(Tone.context);
-        StartAudioContext(context);
+        // StartAudioContext(this.context);
 
         // event listener for space, enter and 't'
         window.addEventListener("keydown", e => {
@@ -568,7 +567,7 @@ export default class DrumMachine extends React.Component {
         // timeContainer maintenance - shift and push
         const timeContainer = this.state.timeContainer;
         if (timeContainer.length > 2) timeContainer.shift();
-        timeContainer.push(context.currentTime.toFixed(3));
+        timeContainer.push(this.context.currentTime.toFixed(3));
 
         // calculate tempo
         const tempo = Math.round(
@@ -687,7 +686,7 @@ export default class DrumMachine extends React.Component {
         // create new Part, start Part, push Part to container
         const part = new Tone.Part((time, value) => {
             this.triggerVisualize(value.index);
-            synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
+            this.synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
         }, renderedNotes).start(0);
         partContainer.push(part);
 
