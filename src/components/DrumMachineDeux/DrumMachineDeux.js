@@ -63,7 +63,7 @@ export default class DrumMachine extends React.Component {
         date_modified: '',
         visible: true,
         tempo: 120,
-        sequence_length: 16,
+        sequence_length: 8,
         notes: [ "G5", "Eb5", "C5", "G4"],
         checked: [
             [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
@@ -73,7 +73,7 @@ export default class DrumMachine extends React.Component {
         ],
         // ADDITIONALLY /////////////////////////
         isPlaying: false,
-        // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
+        // sequenceLength: 8, // Reminder to change all references to this key to 'sequence_length'
         maxTempo: 300,
         isActive: [ // used for highlighting during step-sequence visualization
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
@@ -108,7 +108,7 @@ export default class DrumMachine extends React.Component {
                 date_modified: '',
                 visible: true,
                 tempo: 120,
-                sequence_length: 16,
+                sequence_length: 8,
                 notes: [ "G5", "Eb5", "C5", "G4"],
                 checked: [
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
@@ -118,7 +118,7 @@ export default class DrumMachine extends React.Component {
                 ],
                 // ADDITIONALLY /////////////////////////
                 isPlaying: false,
-                // sequenceLength: 16, // Reminder to change all references to this key to 'sequence_length'
+                // sequenceLength: 8, // Reminder to change all references to this key to 'sequence_length'
                 maxTempo: 300,
                 isActive: [ // used for highlighting during step-sequence visualization
                     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
@@ -133,7 +133,7 @@ export default class DrumMachine extends React.Component {
                 velocity: 0.1,
                 defaults: {
                     tempo: 120,
-                    sequence_length: 16,
+                    sequence_length: 8,
                     isPlaying: false,
                     elapsedTime: 0,
                     numberOfTaps: 0,
@@ -243,18 +243,24 @@ export default class DrumMachine extends React.Component {
                 return res.json();
             })
             .then(resTrack => {
-                this.setState({
-                    ...this.state,
-                    id: resTrack.id,
-                    user_id: resTrack.user_id, 
-                    title: resTrack.title,
-                    date_modified: resTrack.date_modified,
-                    visible: resTrack.visible,
-                    tempo: resTrack.tempo,
-                    sequence_length: resTrack.sequence_length,
-                    notes: resTrack.notes,
-                    checked: resTrack.checked,
-                })
+                this.setState(
+                    prior => ({
+                        ...this.state,
+                        id: resTrack.id,
+                        user_id: resTrack.user_id, 
+                        title: resTrack.title,
+                        date_modified: resTrack.date_modified,
+                        visible: resTrack.visible,
+                        tempo: resTrack.tempo,
+                        sequence_length: resTrack.sequence_length,
+                        notes: resTrack.notes,
+                        checked: resTrack.checked,
+                     }),
+                    () => {
+                        // this ensures audio plays without having to interact
+                        this.generateMetronome();
+                    }
+                )
             })
             .catch(error => {
                 console.error(error);
@@ -681,7 +687,6 @@ export default class DrumMachine extends React.Component {
         const part = new Tone.Part((time, value) => {
             this.triggerVisualize(value.index);
             synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
-            // synth.triggerAttackRelease([ "G5", "Eb5", "C5", "G4"], 0.05, time, value.velocity);
         }, renderedNotes).start(0);
         partContainer.push(part);
 
@@ -740,15 +745,6 @@ export default class DrumMachine extends React.Component {
                         editable={editable}
                         titleChange={this.handleTitleChange}
                     />
-                    {/* <UberControls
-                        authUser={authUser}
-                        track={this.state}
-                        editable={editable}
-                        resetTrack={this.handleResetTrack}
-                        createTrack={this.handleCreateTrack}
-                        updateTrack={this.handleUpdateTrack}
-                        deleteTrack={this.handleDeleteTrack}
-                    /> */}
                     <Buttons
                         authUser={this.props.authUser}
                         editable={this.state.editable}
@@ -768,6 +764,7 @@ export default class DrumMachine extends React.Component {
                         // handleTap={this.handleTap}
                         />
                     <StepSequence
+                        editable={this.state.editable}
                         checked={this.state.checked}
                         onToggle={this.onToggleBox}
                         sequence_length={this.state.sequence_length}

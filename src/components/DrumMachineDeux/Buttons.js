@@ -17,9 +17,8 @@ const Buttons = props => {
         editable, 
         track 
     } = props;
+    // console.log('editable?: ', editable)
 
-
-    console.log('editable?: ', editable)
     return (
         <div id="buttons" className={styles.root}>
             {editable 
@@ -37,9 +36,11 @@ const Buttons = props => {
                         <ResetButton onReset={props.onReset} />
                         {track.id === 0
                             ?   <CreateButton onCreate={props.onCreate} />
-                            :   <UpdateButton onUpdate={props.onUpdate} />
+                            :   <>
+                                    <UpdateButton onUpdate={props.onUpdate} />
+                                    <DeleteButton onDelete={props.onDelete} />
+                                </>
                         }
-                        <DeleteButton onDelete={props.onDelete} />
                     </div>
                     <div className={styles.wrapperBottom}>
                         <TempoDisplay tempo={props.tempo} />
