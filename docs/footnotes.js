@@ -96,3 +96,22 @@ Changing the file name to just `.env` and redeploying to Vercel solved that prob
 
 Aside: https://medium.com/@tacomanator/environments-with-create-react-app-7b645312c09d
 */
+
+
+
+
+
+
+// [f#] ///////////////////////////////////////////////
+/* Opting to use CSS Modules 
+
+As usual, Mosh explains it best:
+https://programmingwithmosh.com/react/css-modules-react/
+
+"A CSS module is, in simple words, a CSS file. But with a key difference: 
+
+1. by default, when imported, every class name and animation inside a CSS module is scoped locally to the component that is importing it. This allows you to use virtually any valid name for your classes, without worrying about conflicts with other class names in your application.
+ 
+2. CSS modules also allow you to extend one or more classes, inheriting their styles. This concept is called class composition."
+
+*/

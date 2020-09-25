@@ -1,19 +1,26 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import ApiContext from '../../ApiContext';
 import config from '../../config';
 import * as Tone from 'tone';   // NOTE: using older version (^13.4.9), not the latest (^14.7.39) b/c incompatiblity issues yet to be resolved.
 import _ from 'lodash'; 
 import StartAudioContext from 'startaudiocontext'; 
 // import Title from "./Title";
+import Header from '../DrumMachine/Header'
+import UberControls from '../DrumMachine/UberControls'
 import Buttons from "./Buttons";
 import StepSequence from "./StepSequence";
-import './DrumMachineDeux.css';
+import './DrumMachineDeux.module.css';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
     faPlay,
     faStop,
     faRecycle,
-    faInfoCircle
+    faInfoCircle,
+    faTrashAlt,
+    faSave,
+    faCloudUploadAlt,
+    faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 function toggleBox(priorChecked, i, row) {
@@ -27,6 +34,10 @@ library.add(faPlay);
 library.add(faStop);
 library.add(faRecycle);
 library.add(faInfoCircle);
+library.add(faTrashAlt);
+library.add(faSave);
+library.add(faCloudUploadAlt);
+library.add(faPencilAlt);
 
 // what are correct places for these?
 // creates a global synth and context
@@ -34,6 +45,7 @@ const synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // if Tone v14.7 => 
 const context = new AudioContext();
 
 export default class DrumMachine extends React.Component {
+    _isMounted = false; // per: https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component
 
     static defaultProps = {
         history: {
@@ -146,6 +158,7 @@ export default class DrumMachine extends React.Component {
 
    
     componentDidMount = () => {
+        this._isMounted = true;
         // FETCH API ////////////////////////////////////////////////////
         // 'BACKDOOR' HACK TO DETERMINE VIEW
         // to determine what current URL :trackId is if accessed directly -- not from Router via App user flow -- using window.location.pathname to make a fetch call for /tracks/:track
@@ -167,6 +180,7 @@ export default class DrumMachine extends React.Component {
             // so leave this.state as is (for new track)  
 
             // this.handleResetTrack()
+            this.onReset();
         }
 
         // TONE WEB AUDIO API ////////////////////////////////////////////
@@ -185,14 +199,15 @@ export default class DrumMachine extends React.Component {
                 } catch (e) {
                     console.log(e);
                 }
-            } else if (e.keyCode === 84) {
-                try {
-                    e.preventDefault(); // prevents space bar from triggering selected checkboxes
-                    this.handleTap();
-                } catch (e) {
-                    console.log(e);
-                }
-            }
+            } 
+            // else if (e.keyCode === 84) {
+            //     try {
+            //         e.preventDefault(); 
+            //         this.handleTap();
+            //     } catch (e) {
+            //         console.log(e);
+            //     }
+            // }
         });
 
         // check for orientation, add event listener
@@ -247,7 +262,7 @@ export default class DrumMachine extends React.Component {
             })
     }
 
-    handleCreateTrack = (changeEvent) => {
+    handleCreateTrack = () => {
         const {
             // user_id,
             // title,
@@ -303,7 +318,7 @@ export default class DrumMachine extends React.Component {
             })
     }
 
-    handleUpdateTrack = (changeEvent) => {
+    handleUpdateTrack = () => {
         console.log('handleUpdateTrack')
         const {
             id,
@@ -362,7 +377,7 @@ export default class DrumMachine extends React.Component {
             })
     }
 
-    handleDeleteTrack = (changeEvent) => {
+    handleDeleteTrack = () => {
         const { id } = this.state;
 
         fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
@@ -390,6 +405,8 @@ export default class DrumMachine extends React.Component {
             })
     }
 
+    // DM1 EVENT HANDLERS ///////////////////////////////
+
     handleResetTrack = (changeEvent) => {
         const newState = this.state;
         const { checked, ...arr } = newState;
@@ -404,7 +421,19 @@ export default class DrumMachine extends React.Component {
         })
     }
 
+    handleTitleChange = (changeEvent) => {
+        const newState = this.state;
+        newState.title = changeEvent.target.value;
+        this.setState({
+            // [f1]
+            // newState
+        })
+    }
 
+    onEdit = () => {
+        console.log('redirect')
+        return <Redirect to={`/edit/${this.state.id}`} />
+    }
  
 
     // DM2 with AUDIO EVENT HANDLERS ///////////////////////////////
@@ -656,10 +685,12 @@ export default class DrumMachine extends React.Component {
         }, renderedNotes).start(0);
         partContainer.push(part);
 
-        this.setState({
-            renderedNotes,
-            partContainer
-        });
+        if (this._isMounted) {
+            this.setState({
+                renderedNotes,
+                partContainer
+            });
+        }
     };
 
     triggerVisualize = index => {
@@ -675,10 +706,14 @@ export default class DrumMachine extends React.Component {
         this.setState({ isActive });
     };
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
 
     render() {
         // console.log('DrumMachine state: ', this.state)
+        console.log('_isMounted? ', this._isMounted)
         const { 
             // track,
             id,
@@ -700,7 +735,24 @@ export default class DrumMachine extends React.Component {
             <div className="App">
                 <header className="App-header">
                     {/* <Title landscape={this.state.landscape} /> */}
+                    <Header
+                        track={this.state}
+                        editable={editable}
+                        titleChange={this.handleTitleChange}
+                    />
+                    {/* <UberControls
+                        authUser={authUser}
+                        track={this.state}
+                        editable={editable}
+                        resetTrack={this.handleResetTrack}
+                        createTrack={this.handleCreateTrack}
+                        updateTrack={this.handleUpdateTrack}
+                        deleteTrack={this.handleDeleteTrack}
+                    /> */}
                     <Buttons
+                        authUser={this.props.authUser}
+                        editable={this.state.editable}
+                        track={this.state}
                         isPlaying={this.state.isPlaying}
                         onTogglePlay={this.onTogglePlay}
                         sequence_length={this.state.sequence_length}
@@ -708,7 +760,12 @@ export default class DrumMachine extends React.Component {
                         tempo={this.state.tempo}
                         onTempoChange={this.onTempoChange}
                         onReset={this.onReset}
-                        handleTap={this.handleTap}
+                        onCreate={this.handleCreateTrack}
+                        onUpdate={this.handleUpdateTrack}
+                        onDelete={this.handleDeleteTrack}
+                        onEdit={this.onEdit} // React Router Redirect not working
+                        trackId={this.state.id}
+                        // handleTap={this.handleTap}
                         />
                     <StepSequence
                         checked={this.state.checked}

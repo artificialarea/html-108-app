@@ -151,7 +151,8 @@ export default class App extends React.Component {
                         />
                     }
                 />
-
+                
+                {/* Should I bypass the /tracks/:trackId route and go directly from /dashboard to /edit/:trackId? */}
                 <Route 
                     path='/tracks/:trackId'
                     render={(routerProps) => 

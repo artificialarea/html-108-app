@@ -37,7 +37,7 @@ export default function UberControls (props) {
 
     return (
         <div className="uber-controls">
-            <PlayButton />
+            {/* <PlayButton /> */}
             {conditionalSaveButton}
             {conditionalResetButton}
             {conditionalDeleteButton}
