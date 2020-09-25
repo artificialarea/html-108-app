@@ -41,8 +41,8 @@ library.add(faPencilAlt);
 
 // what are correct places for these?
 // creates a global synth and context
-// const synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
-const synth = new Tone.PolySynth().toMaster(); 
+const synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
+// const synth = new Tone.PolySynth().toMaster(); 
 const context = new AudioContext();
 
 export default class DrumMachine extends React.Component {
@@ -714,6 +714,7 @@ export default class DrumMachine extends React.Component {
 
     componentWillUnmount() {
         this._isMounted = false;
+        this.forceStop();
     }
 
 
@@ -735,8 +736,7 @@ export default class DrumMachine extends React.Component {
             authUser,
             editable,
         } = this.props;
-        console.log('editable? (viaDrum)', editable)
-        
+
         return (
             // DM2
             <div className="App">
