@@ -3,7 +3,6 @@ import PlayButton from "./PlayButton";
 import TimeSignature from "./TimeSignature";
 import TempoSlider from "./TempoSlider";
 import TempoDisplay from "./TempoDisplay";
-// import TapTempo from "./TapTempo";
 import ResetButton from "./ResetButton";
 import DeleteButton from "./DeleteButton";
 import CreateButton from "./CreateButton";
@@ -15,9 +14,20 @@ const Buttons = props => {
     const { 
         authUser, 
         editable, 
-        track 
+        track,
+        isPlaying,
+        onTogglePlay,
+        sequence_length,
+        onLengthChange,
+        onReset,
+        onCreate,
+        onUpdate,
+        onDelete,
+        tempo,
+        onTempoChange,
+        onEdit,
+        trackId,
     } = props;
-    // console.log('editable?: ', editable)
 
     return (
         <div id="buttons" className={styles.root}>
@@ -26,35 +36,35 @@ const Buttons = props => {
                     <>
                     <div className={styles.wrapperTop}>
                         <PlayButton
-                            isPlaying={props.isPlaying}
-                            onTogglePlay={props.onTogglePlay}
+                            isPlaying={isPlaying}
+                            onTogglePlay={onTogglePlay}
                             />
                         <TimeSignature
-                            sequence_length={props.sequence_length}
-                            onLengthChange={props.onLengthChange}
+                            sequence_length={sequence_length}
+                            onLengthChange={onLengthChange}
                             />
-                        <ResetButton onReset={props.onReset} />
+                        <ResetButton onReset={onReset} />
                         {track.id === 0
-                            ?   <CreateButton onCreate={props.onCreate} />
+                            ?   <CreateButton onCreate={onCreate} />
                             :   <>
-                                    <UpdateButton onUpdate={props.onUpdate} />
-                                    <DeleteButton onDelete={props.onDelete} />
+                                    <UpdateButton onUpdate={onUpdate} />
+                                    <DeleteButton onDelete={onDelete} />
                                 </>
                         }
                     </div>
                     <div className={styles.wrapperBottom}>
-                        <TempoDisplay tempo={props.tempo} />
-                        <TempoSlider tempo={props.tempo} onTempoChange={props.onTempoChange} />
+                        <TempoDisplay tempo={tempo} />
+                        <TempoSlider tempo={tempo} onTempoChange={onTempoChange} />
                     </div>
                     </>
                 :
 
                     <div className={styles.wrapperTop}>
                         <PlayButton
-                            isPlaying={props.isPlaying}
-                            onTogglePlay={props.onTogglePlay}
+                            isPlaying={isPlaying}
+                            onTogglePlay={onTogglePlay}
                             />
-                        <EditButton onEdit={props.onEdit} trackId={props.trackId} />
+                        <EditButton onEdit={onEdit} trackId={trackId} />
                     </div>
             }   
         </div>

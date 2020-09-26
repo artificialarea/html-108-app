@@ -5,9 +5,7 @@ import config from '../../config';
 import * as Tone from 'tone';   // NOTE: using older version (^13.4.9), not the latest (^14.7.39) b/c incompatiblity issues yet to be resolved.
 import _ from 'lodash'; 
 import StartAudioContext from 'startaudiocontext'; 
-// import Title from "./Title";
-import Header from '../DrumMachine/Header'
-import UberControls from '../DrumMachine/UberControls'
+import Header from './Header'
 import Buttons from "./Buttons";
 import StepSequence from "./StepSequence";
 import './DrumMachineDeux.module.css';
@@ -40,16 +38,13 @@ library.add(faCloudUploadAlt);
 library.add(faPencilAlt);
 
 
-export default class DrumMachine extends React.Component {
+export default class DrumMachineDeux extends React.Component {
     _isMounted = false; // per: https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component
 
     static defaultProps = {
         history: {
             push: () => {}
         },
-        // match: {
-        //     params: {}
-        // },
         authUser: {},
         editable: '',
 
@@ -67,20 +62,16 @@ export default class DrumMachine extends React.Component {
             [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
             [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
         ],
-        // ADDITIONALLY /////////////////////////
         isPlaying: false,
-        // sequenceLength: 8, // Reminder to change all references to this key to 'sequence_length'
         maxTempo: 300,
-        isActive: [ // used for highlighting during step-sequence visualization
+        isActive: [ 
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ], 
         renderedNotes: [],
-        partContainer: [], // store Part object for future removal
-        timeContainer: [], // tap tempo array
-        landscape: false,
+        partContainer: [], 
         velocity: 0.1,
 
     }
@@ -89,13 +80,8 @@ export default class DrumMachine extends React.Component {
 
     constructor(props) {
         super(props)
-
-        const {
-            editable,
-        } = this.props;
-
         this.state = {
-            editable: editable, 
+            editable: this.props.editable, 
             error: null,
             id: 0,
             user_id: '', 
@@ -111,9 +97,7 @@ export default class DrumMachine extends React.Component {
                 [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                 [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
             ],
-            // ADDITIONALLY /////////////////////////
             isPlaying: false,
-            // sequenceLength: 8, // Reminder to change all references to this key to 'sequence_length'
             maxTempo: 300,
             isActive: [ // used for highlighting during step-sequence visualization
                 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
@@ -123,16 +107,11 @@ export default class DrumMachine extends React.Component {
             ], 
             renderedNotes: [],
             partContainer: [], // store Part object for future removal
-            timeContainer: [], // tap tempo array
-            landscape: false,
             velocity: 0.1,
             defaults: {
                 tempo: 120,
                 sequence_length: 8,
                 isPlaying: false,
-                elapsedTime: 0,
-                numberOfTaps: 0,
-                averageBPM: 0,
                 checked: [
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
                     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
@@ -149,84 +128,42 @@ export default class DrumMachine extends React.Component {
             },
         };
 
-        // moved these into constructor, so no more test fail
-        // although still get the warning
-        // console.warn node_modules/tone/build/Tone.js:7 => This browser does not support Tone.js
         this.synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
         this.context = new AudioContext();
     }
 
    
     componentDidMount = () => {
+        console.log('COMPONENT DID MOUNT')
+        console.log('componentDidMount, this.state: ', this.state)
         this._isMounted = true;
-        // FETCH API ////////////////////////////////////////////////////
-        // 'BACKDOOR' HACK TO DETERMINE VIEW
-        // to determine what current URL :trackId is if accessed directly -- not from Router via App user flow -- using window.location.pathname to make a fetch call for /tracks/:track
-        // BUT by doing so I have created a seperate issue,
-        // if from t/here goto route='/add-track' via Nav, this component does not remount and so retains data from the :trackId of the previous view >_<
-        // Putting this on hold for now, but...
-        // TODO: Figure out a way to detect route change, but not using componentDidMount or deprecated componentWill____
-        const fullpath = window.location.pathname;
-        const splitPathArr = fullpath.split('/');
+
         const id = window.location.pathname.split('/')[2];
-        // console.log('window.location.path: ', window.location.pathname)
-        // console.log('split path:', splitPathArr);
-        // console.log('id:', window.location.pathname.split('/')[2]);
-        // console.log(typeof id == 'string')
         if (id) {
             this.fetchTrack(id);
         } else {
-            // by deduction we are in /add-track view, 
-            // so leave this.state as is (for new track)  
-
-            // this.handleResetTrack()
             this.onReset();
         }
 
-        // TONE WEB AUDIO API ////////////////////////////////////////////
         this.generateMetronome();
 
         // starts both audio contexts on mounting
         StartAudioContext(Tone.context);
         // StartAudioContext(this.context);
 
-        // event listener for space, enter and 't'
+        // event listener for spacebar to play/pause (may disable b/c title input field)
         window.addEventListener("keydown", e => {
-            if (e.keyCode === 32 || e.keyCode === 13) {
+            if (e.keyCode === 32) {
                 try {
-                    e.preventDefault(); // prevents space bar from triggering selected checkboxes
+                    e.preventDefault();
                     this.onTogglePlay();
                 } catch (e) {
                     console.log(e);
                 }
             } 
-            // else if (e.keyCode === 84) {
-            //     try {
-            //         e.preventDefault(); 
-            //         this.handleTap();
-            //     } catch (e) {
-            //         console.log(e);
-            //     }
-            // }
         });
 
-        // check for orientation, add event listener
-        if (
-            window.screen.orientation &&
-            Math.abs(window.screen.orientation.angle) === 90 &&
-            window.screen.height < 500
-        )
-            this.setState({ landscape: true });
-        window.addEventListener("orientationchange", () => {
-            if (Math.abs(window.screen.orientation.angle) !== 90) {
-                this.setState({ landscape: false });
-            } else if (window.screen.height < 500) {
-                this.setState({ landscape: true });
-            }
-        });
     }
-
-    // API EVENT HANDLERS ////////////////////////////////////////////
 
     fetchTrack(id) {
         fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
@@ -270,6 +207,7 @@ export default class DrumMachine extends React.Component {
 
     handleCreateTrack = () => {
         const {
+            // id,
             // user_id,
             // title,
             visible,
@@ -295,7 +233,6 @@ export default class DrumMachine extends React.Component {
             notes,
             checked,
         };
-        console.log('new track pre POSST', newTrack)
 
         fetch(`${config.API_ENDPOINT}/api/tracks`, {
             method: 'POST',
@@ -337,8 +274,6 @@ export default class DrumMachine extends React.Component {
             notes,
             checked,
         } = this.state;
-
-        // const user_id = this.props.authUser.id; 
 
         let { title } = this.state;
         if (title.length === 0) {
@@ -411,8 +346,6 @@ export default class DrumMachine extends React.Component {
             })
     }
 
-    // DM1 EVENT HANDLERS ///////////////////////////////
-
     handleResetTrack = (changeEvent) => {
         const newState = this.state;
         const { checked, ...arr } = newState;
@@ -437,13 +370,10 @@ export default class DrumMachine extends React.Component {
     }
 
     onEdit = () => {
-        console.log('redirect')
+        // console.log('redirect')
+        // redirect doesn't work...
         return <Redirect to={`/edit/${this.state.id}`} />
     }
- 
-
-    // DM2 with AUDIO EVENT HANDLERS ///////////////////////////////
-
     
     onToggleBox = (i, row) => {
         this.setState(
@@ -561,32 +491,6 @@ export default class DrumMachine extends React.Component {
 
     resetTempo = () => {
         Tone.Transport.bpm.value = this.state.defaults.tempo;
-    };
-
-    handleTap = () => {
-        // timeContainer maintenance - shift and push
-        const timeContainer = this.state.timeContainer;
-        if (timeContainer.length > 2) timeContainer.shift();
-        timeContainer.push(this.context.currentTime.toFixed(3));
-
-        // calculate tempo
-        const tempo = Math.round(
-            60 /
-            (timeContainer
-                .slice(1)
-                .map((time, i) => time - timeContainer[i])
-                .reduce((a, b) => a + b, 0) /
-                (timeContainer.length - 1))
-        );
-
-        // make sure tempo is within acceptable bounds
-        if (tempo > 40 && tempo < 301) {
-            this.setState({ tempo }, () => this.onTempoChange(tempo));
-        } else if (tempo > 300) {
-            this.setState({ tempo: this.state.maxTempo }, () =>
-                this.onTempoChange(this.state.tempo)
-            );
-        }
     };
 
     onPitchSelect = (note, row) => {
@@ -712,23 +616,24 @@ export default class DrumMachine extends React.Component {
     };
 
     componentWillUnmount() {
+        console.log('COMPONENT WILL UNMOUNT')
         this._isMounted = false;
         this.forceStop();
     }
 
 
     render() {
-        // console.log('DrumMachine state: ', this.state)
-        console.log('_isMounted? ', this._isMounted)
+        // console.log('DrumMachineDeux state: ', this.state)
+        // console.log('_isMounted? ', this._isMounted)
         const { 
-            // track,
             id,
-            user_id,
-            title,
-            tempo,
+            isPlaying,
             sequence_length,
-            notes,
+            tempo,
             checked,
+            notes,
+            isActive,
+            
         } = this.state;
 
         const {
@@ -737,41 +642,38 @@ export default class DrumMachine extends React.Component {
         } = this.props;
 
         return (
-            // DM2
             <div className="App">
                 <header className="App-header">
-                    {/* <Title landscape={this.state.landscape} /> */}
                     <Header
-                        track={this.state}
                         editable={editable}
+                        track={this.state}
                         titleChange={this.handleTitleChange}
                     />
                     <Buttons
-                        authUser={this.props.authUser}
-                        editable={this.state.editable}
+                        authUser={authUser}
+                        editable={editable}
                         track={this.state}
-                        isPlaying={this.state.isPlaying}
+                        trackId={id}
+                        isPlaying={isPlaying}
+                        sequence_length={sequence_length}
+                        tempo={tempo}
                         onTogglePlay={this.onTogglePlay}
-                        sequence_length={this.state.sequence_length}
                         onLengthChange={this.onLengthChange}
-                        tempo={this.state.tempo}
                         onTempoChange={this.onTempoChange}
                         onReset={this.onReset}
                         onCreate={this.handleCreateTrack}
                         onUpdate={this.handleUpdateTrack}
                         onDelete={this.handleDeleteTrack}
-                        onEdit={this.onEdit} // React Router Redirect not working
-                        trackId={this.state.id}
-                        // handleTap={this.handleTap}
+                        onEdit={this.onEdit} // React Router Redirect not working, tho
                         />
                     <StepSequence
                         editable={editable}
-                        checked={this.state.checked}
+                        sequence_length={sequence_length}
+                        checked={checked}
+                        notes={notes}
+                        isActive={isActive}
                         onToggle={this.onToggleBox}
-                        sequence_length={this.state.sequence_length}
                         onPitchSelect={this.onPitchSelect}
-                        notes={this.state.notes}
-                        isActive={this.state.isActive}
                         />
                 </header>
 
