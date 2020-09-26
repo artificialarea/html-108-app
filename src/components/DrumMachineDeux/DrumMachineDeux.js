@@ -128,7 +128,7 @@ export default class DrumMachineDeux extends React.Component {
             },
         };
 
-        this.synth = new Tone.PolySynth(2, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
+        this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
         this.context = new AudioContext();
     }
 
@@ -151,17 +151,18 @@ export default class DrumMachineDeux extends React.Component {
         StartAudioContext(Tone.context);
         // StartAudioContext(this.context);
 
-        // event listener for spacebar to play/pause (may disable b/c title input field)
-        window.addEventListener("keydown", e => {
-            if (e.keyCode === 32) {
-                try {
-                    e.preventDefault();
-                    this.onTogglePlay();
-                } catch (e) {
-                    console.log(e);
-                }
-            } 
-        });
+        // event listener for spacebar to play/pause 
+        // TODO: disabled until I figure out logic when title input active
+        // window.addEventListener("keydown", e => {
+        //     if (e.keyCode === 32) {
+        //         try {
+        //             e.preventDefault();
+        //             this.onTogglePlay();
+        //         } catch (e) {
+        //             console.log(e);
+        //         }
+        //     } 
+        // });
 
     }
 
