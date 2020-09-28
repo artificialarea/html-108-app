@@ -92,10 +92,10 @@ export default class DrumMachineDeux extends React.Component {
             sequence_length: 8,
             notes: [ "G5", "Eb5", "C5", "G4"],
             checked: [
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false],
             ],
             isPlaying: false,
             maxTempo: 300,
@@ -113,10 +113,10 @@ export default class DrumMachineDeux extends React.Component {
                 sequence_length: 8,
                 isPlaying: false,
                 checked: [
-                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                    [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false],
+                    [false, false, false, false, false, false, false, false],
                 ],
                 notes: [ "G5", "Eb5", "C5", "G4"],
                 isActive: [ 
@@ -129,7 +129,8 @@ export default class DrumMachineDeux extends React.Component {
         };
 
         this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
-        this.context = new AudioContext();
+        // Tone.context = new AudioContext();
+        this.toneContext = new AudioContext();
     }
 
    
@@ -148,8 +149,8 @@ export default class DrumMachineDeux extends React.Component {
         this.generateMetronome();
 
         // starts both audio contexts on mounting
-        StartAudioContext(Tone.context);
-        // StartAudioContext(this.context);
+        // StartAudioContext(Tone.context);
+        StartAudioContext(this.toneContext);
 
         // event listener for spacebar to play/pause 
         // TODO: disabled until I figure out logic when title input active
@@ -408,6 +409,7 @@ export default class DrumMachineDeux extends React.Component {
                         (this.state.sequence_length * 30) / this.state.tempo;
                     Tone.Transport.start("+0.0");
                     console.log("playing");
+                    console.log(this.state)
                 }
             }
         );
@@ -513,6 +515,7 @@ export default class DrumMachineDeux extends React.Component {
         const partContainer = this.state.partContainer;
         // console.log('this.state.partContainer: ', partContainer)
         partContainer.forEach(part => part.removeAll());  
+        // partContainer.forEach(part => part.dispose());  
 
         // metronome vitals
         const [note1, note2, note3, note4] = this.state.notes,
@@ -594,7 +597,7 @@ export default class DrumMachineDeux extends React.Component {
             this.synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
         }, renderedNotes).start(0);
         partContainer.push(part);
-
+        console.log('new Tone.Part', part)
         if (this._isMounted) {
             this.setState({
                 renderedNotes,
@@ -620,6 +623,12 @@ export default class DrumMachineDeux extends React.Component {
         console.log('COMPONENT WILL UNMOUNT')
         this._isMounted = false;
         this.forceStop();
+        this.toneContext.close();
+
+        // THIS METHOD CLEARS OUT THE FUCKER WHEN I MOVE BETWEEN VIEWS
+        // https://groups.google.com/g/tonejs/c/yAffQUjKVAE/m/npeWscc2BgAJ
+        Tone.Transport.cancel();
+
     }
 
 
