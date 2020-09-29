@@ -1,0 +1,10 @@
+.input {
+    text-align: center;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 500;
+    font-size: 1.2em;
+    background-color: rgba(40, 40, 40, 0.4);
+    color:#cbff8b;
+    border: none;
+    margin: 20px;
+}

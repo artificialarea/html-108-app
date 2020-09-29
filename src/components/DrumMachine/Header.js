@@ -15,16 +15,13 @@ export default function Header (props) {
                 :
                 <form className={styles.form}>
                     <div>
-                        <label>
-                            Track Title
-                            <input 
-                                type="text"
-                                name="title"
-                                id="title"
-                                placeholder="Untitled" 
-                                value={track.title}
-                                onChange={e => titleChange(e)}/>
-                        </label>
+                        <input className={styles.input}
+                            type="text"
+                            name="title"
+                            id="title"
+                            placeholder="Untitled" 
+                            value={track.title}
+                            onChange={e => titleChange(e)}/>
                     </div>
                 </form>
             }
