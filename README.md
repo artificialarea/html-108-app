@@ -99,7 +99,7 @@ _Components are **stateless** unless otherwise noted. In progress, as may introd
     * **LOGIN.JS** **(STATEFUL)**
     * **REGISTRATION.JS** **(STATEFUL)**
     * **Dashboard.js**
-    * **DrumMachineDeux.js**
+    * **DrumMachine.js**
     
 **[Component track Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-track.pdf)**
 

@@ -1,0 +1,23 @@
+.root {
+    background-color: #1e1e21;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.link {
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+    display: block;
+    padding: 1em;
+    background: rgba(40, 40, 44, 0.4);
+    border-radius: 4px;
+    margin: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.link:hover {
+    background: rgba(40, 40, 44, 0.9);
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function DashboardHeader (props) {
+export default function Header (props) {
     const { who, users, userId } = props;
 
     let displayView;

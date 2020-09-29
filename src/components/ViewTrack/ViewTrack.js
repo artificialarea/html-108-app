@@ -1,6 +1,6 @@
 import React from 'react';
 import ApiContext from '../../ApiContext';
-import DrumMachineDeux from '../DrumMachineDeux/DrumMachineDeux';
+import DrumMachine from '../DrumMachine/DrumMachine';
 
 
 export default class ViewTrack extends React.Component {
@@ -33,7 +33,7 @@ export default class ViewTrack extends React.Component {
 
         return (
             <div className="track-view">
-                <DrumMachineDeux 
+                <DrumMachine 
                     track={track} 
                     editable={editable}
                 />

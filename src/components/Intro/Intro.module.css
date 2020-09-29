@@ -1,0 +1,41 @@
+.root {
+    text-align: center;
+    background-color: #1e1e21;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 500;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin: 20px;
+    font-size: 1rem;
+}
+
+.root h1 {
+    color: #E52825;
+}
+
+.content {
+    max-width: 500px;
+}
+
+.button {
+    display: inline-block;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 900;
+    font-size: 0.9em;
+    text-decoration: none;
+    color: white;
+    background-color: black;
+    border: 2px solid white; 
+    padding: 5px 10px;
+    margin: 15px 10px 0 0; 
+  }
+  
+  .button:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+  }

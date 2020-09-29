@@ -8,18 +8,7 @@ import StartAudioContext from 'startaudiocontext';
 import Header from './Header'
 import Buttons from "./Buttons";
 import StepSequence from "./StepSequence";
-import './DrumMachineDeux.module.css';
-import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-    faPlay,
-    faStop,
-    faRecycle,
-    faInfoCircle,
-    faTrashAlt,
-    faSave,
-    faCloudUploadAlt,
-    faPencilAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import './DrumMachine.module.css';
 
 function toggleBox(priorChecked, i, row) {
     const checked = [...priorChecked];
@@ -27,18 +16,7 @@ function toggleBox(priorChecked, i, row) {
     return checked;
 }
 
-// fontawesome library setup
-library.add(faPlay);
-library.add(faStop);
-library.add(faRecycle);
-library.add(faInfoCircle);
-library.add(faTrashAlt);
-library.add(faSave);
-library.add(faCloudUploadAlt);
-library.add(faPencilAlt);
-
-
-export default class DrumMachineDeux extends React.Component {
+export default class DrumMachine extends React.Component {
     _isMounted = false; // per: https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component
 
     static defaultProps = {
@@ -135,8 +113,8 @@ export default class DrumMachineDeux extends React.Component {
 
    
     componentDidMount = () => {
-        console.log('COMPONENT DID MOUNT')
-        console.log('componentDidMount, this.state: ', this.state)
+        // console.log('COMPONENT DID MOUNT')
+        // console.log('componentDidMount, this.state: ', this.state)
         this._isMounted = true;
 
         const id = window.location.pathname.split('/')[2];
@@ -408,8 +386,8 @@ export default class DrumMachineDeux extends React.Component {
                     Tone.Transport.loopEnd =
                         (this.state.sequence_length * 30) / this.state.tempo;
                     Tone.Transport.start("+0.0");
-                    console.log("playing");
-                    console.log(this.state)
+                    // console.log("playing");
+                    // console.log(this.state)
                 }
             }
         );
@@ -424,7 +402,7 @@ export default class DrumMachineDeux extends React.Component {
                     (this.state.sequence_length * 30) / this.state.tempo;
                 Tone.Transport.loop = true;
                 Tone.Transport.start("+0.0");
-                console.log("playing restarted");
+                // console.log("playing restarted");
             });
         } else {
             console.error("restartPlaying called while not playing");
@@ -489,7 +467,7 @@ export default class DrumMachineDeux extends React.Component {
         Tone.Transport.stop();
         Tone.Transport.loop = false;
         Tone.Transport.loopEnd = 0;
-        console.log("force stopped");
+        // console.log("force stopped");
     };
 
     resetTempo = () => {
@@ -597,7 +575,7 @@ export default class DrumMachineDeux extends React.Component {
             this.synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
         }, renderedNotes).start(0);
         partContainer.push(part);
-        console.log('new Tone.Part', part)
+        // console.log('new Tone.Part', part)
         if (this._isMounted) {
             this.setState({
                 renderedNotes,
@@ -620,20 +598,21 @@ export default class DrumMachineDeux extends React.Component {
     };
 
     componentWillUnmount() {
-        console.log('COMPONENT WILL UNMOUNT')
+        // console.log('COMPONENT WILL UNMOUNT')
         this._isMounted = false;
         this.forceStop();
         this.toneContext.close();
 
-        // THIS METHOD CLEARS OUT THE FUCKER WHEN I MOVE BETWEEN VIEWS
-        // https://groups.google.com/g/tonejs/c/yAffQUjKVAE/m/npeWscc2BgAJ
+        // *CRUCIAL!*
+        // this method effectively disgards the Path(s) to reset the step sequencer
+        // src: https://groups.google.com/g/tonejs/c/yAffQUjKVAE/m/npeWscc2BgAJ
         Tone.Transport.cancel();
 
     }
 
 
     render() {
-        // console.log('DrumMachineDeux state: ', this.state)
+        // console.log('DrumMachine state: ', this.state)
         // console.log('_isMounted? ', this._isMounted)
         const { 
             id,
@@ -643,7 +622,6 @@ export default class DrumMachineDeux extends React.Component {
             checked,
             notes,
             isActive,
-            
         } = this.state;
 
         const {
@@ -653,38 +631,38 @@ export default class DrumMachineDeux extends React.Component {
 
         return (
             <div className="App">
-                <div className="App-container">
+                <div className="App--container">
                     <Header
                         editable={editable}
                         track={this.state}
                         titleChange={this.handleTitleChange}
                     />
                     <Buttons
-                            authUser={authUser}
-                            editable={editable}
-                            track={this.state}
-                            trackId={id}
-                            isPlaying={isPlaying}
-                            sequence_length={sequence_length}
-                            tempo={tempo}
-                            onTogglePlay={this.onTogglePlay}
-                            onLengthChange={this.onLengthChange}
-                            onTempoChange={this.onTempoChange}
-                            onReset={this.onReset}
-                            onCreate={this.handleCreateTrack}
-                            onUpdate={this.handleUpdateTrack}
-                            onDelete={this.handleDeleteTrack}
-                            onEdit={this.onEdit} // React Router Redirect not working, tho
-                            />
-                        <StepSequence
-                            editable={editable}
-                            sequence_length={sequence_length}
-                            checked={checked}
-                            notes={notes}
-                            isActive={isActive}
-                            onToggle={this.onToggleBox}
-                            onPitchSelect={this.onPitchSelect}
-                            />
+                        authUser={authUser}
+                        editable={editable}
+                        track={this.state}
+                        trackId={id}
+                        isPlaying={isPlaying}
+                        sequence_length={sequence_length}
+                        tempo={tempo}
+                        onTogglePlay={this.onTogglePlay}
+                        onLengthChange={this.onLengthChange}
+                        onTempoChange={this.onTempoChange}
+                        onReset={this.onReset}
+                        onCreate={this.handleCreateTrack}
+                        onUpdate={this.handleUpdateTrack}
+                        onDelete={this.handleDeleteTrack}
+                        onEdit={this.onEdit} // React Router Redirect not working, tho
+                        />
+                    <StepSequence
+                        editable={editable}
+                        sequence_length={sequence_length}
+                        checked={checked}
+                        notes={notes}
+                        isActive={isActive}
+                        onToggle={this.onToggleBox}
+                        onPitchSelect={this.onPitchSelect}
+                        />
                     </div>
             </div>
         )

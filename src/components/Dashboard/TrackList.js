@@ -1,5 +1,6 @@
 import React from 'react';
-import TrackItem from '../TrackItem/TrackItem';
+import TrackItem from './TrackItem';
+import styles from './TrackList.module.css'
 
 export default function TrackList (props) {
     const { users, tracks, who, userId, searchTerm } = props;
@@ -47,7 +48,7 @@ export default function TrackList (props) {
                 : privateTracks
 
     return (
-        <ul className="track-list">
+        <ul className={styles.root}>
             {dashboardDisplay}
         </ul>
     )

@@ -1,0 +1,11 @@
+.root {
+    display: block;
+    color: #E52825;
+    font-size: 24px;
+    /* ^^ thought it was height/width? */
+    margin: 10px;
+}
+
+.root:hover {
+    color: white;
+}

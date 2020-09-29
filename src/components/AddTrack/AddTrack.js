@@ -1,5 +1,5 @@
 import React from 'react';
-import DrumMachineDeux from '../DrumMachineDeux/DrumMachineDeux';
+import DrumMachine from '../DrumMachine/DrumMachine';
 
 
 export default class AddTrack extends React.Component {
@@ -28,7 +28,7 @@ export default class AddTrack extends React.Component {
 
         return (
             <div className="track-add">
-                <DrumMachineDeux 
+                <DrumMachine 
                     authUser={authUser}
                     track={track} 
                     editable={editable}

@@ -1,7 +1,8 @@
 import React from 'react';
-import DashboardHeader from './DashboardHeader/DashboardHeader';
-import TrackList from './TrackList/TrackList';
-import SearchBox from './SearchBox/SearchBox';
+import Header from './Header';
+import TrackList from './TrackList';
+// import SearchBox from './SearchBox';
+import styles from './Dashboard.module.css';
 
 
 export default class Dashboard extends React.Component {
@@ -25,24 +26,25 @@ export default class Dashboard extends React.Component {
         const { searchTerm } = this.state;
         
         return (
-            <div className="component dashboard">
-            <DashboardHeader 
-                who={who}
-                userId={userId}
-                users={users}
-                />
-            <SearchBox 
-                handleUpdate={term => this.updateSearchTerm(term)}
-                />
-            <TrackList 
-                who={who}
-                userId={userId}
-                users={users}
-                tracks={tracks}
-                onChange={e => onChange(e)}
-                onClickDelete={(trackId) => onClickDelete(trackId)}
-                searchTerm={searchTerm}
-                />
+            <div className={styles.root}>
+                <Header 
+                    who={who}
+                    userId={userId}
+                    users={users}
+                    />
+                {/* // Unnecessary at this time */}
+                {/* <SearchBox 
+                    handleUpdate={term => this.updateSearchTerm(term)}
+                    /> */}
+                <TrackList 
+                    who={who}
+                    userId={userId}
+                    users={users}
+                    tracks={tracks}
+                    onChange={e => onChange(e)}
+                    onClickDelete={(trackId) => onClickDelete(trackId)}
+                    searchTerm={searchTerm}
+                    />
             </div>
         )
     }

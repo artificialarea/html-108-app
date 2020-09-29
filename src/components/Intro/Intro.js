@@ -1,18 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './Intro.module.css';
+import logo from '../../assets/logo.png'
 
 export default function Intro (props) {
 
     return (
-        <div className="component intro">
+        <div className={styles.root}>
             <header role="banner">
-                <h1>HTML-108</h1>
-                <p> The HTML-108 is a minimal beat machine in the browser.</p>
-                <p>A nostalgic nod to the seminal Roland TR-808 analog synthesizer drum machine of the 1980s that ushered in several genres of electronic music.</p>
-                </header>
-            <Link to='/add-track'>Start!</Link>
-            {' '}
-            <Link to='/dashboard'>Checkout beats that others have made...</Link>
+                <img src={logo} alt="logo"/>
+                <h1>HTML-108</h1>    
+            </header>
+            <div className={styles.content}>
+                <p> a minimal browser-based step synthesizer</p>
+                <Link to='/add-track' className={styles.button}>Start!</Link>
+                {' '}
+                <Link to='/dashboard' className={styles.button}>Community Dashboard</Link>
+            </div>
         </div>
     )
 }

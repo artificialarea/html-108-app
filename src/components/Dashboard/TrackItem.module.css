@@ -1,0 +1,22 @@
+.root {
+    display: block;
+    padding: 1em;
+    background: rgba(40, 40, 44, 0.4);
+    border-radius: 4px;
+    margin: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.root:hover {
+    background: #28282c8c;
+    background: rgba(40, 40, 44, 1)
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+}
+
+.date {
+    color: gray;
+}

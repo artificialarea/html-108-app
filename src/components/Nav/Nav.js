@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './Nav.module.css'
 
 export default function Nav (props) {
     return (
-        <nav className="component nav">
-            <h3>HTML-108</h3>
-            <Link to='/'>Intro</Link>
+        <nav className={styles.root}>
+            <Link to='/' className={styles.link}>Intro</Link>
             {' '}
-            <Link to='/add-track'>New Track</Link>
+            <Link to='/add-track' className={styles.link}>New Track</Link>
             {' '}
-            <Link to='/dashboard'>Dashboard</Link>
+            <Link to='/dashboard' className={styles.link}>Dashboard</Link>
             {' '}
             {/* <Link to='/my-dashboard'>My Dashboard</Link>
             {' '} */}

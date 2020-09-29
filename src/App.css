@@ -1,8 +1,15 @@
+body {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+
 .App {
     text-align: center;
 }
 
-.App-container {
+.App--container {
     background-color: #1e1e21;
     /* min-height: 100vh; */
     display: flex;

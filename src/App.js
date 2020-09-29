@@ -13,6 +13,32 @@ import ViewTrack from './components/ViewTrack/ViewTrack';
 // import Login from './components/Login/Login';
 // import Registration from './components/Registration/Registration';
 import './App.css';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+    faPlay,
+    faStop,
+    faRecycle,
+    faInfoCircle,
+    faTrashAlt,
+    faSave,
+    faCloudUploadAlt,
+    faPencilAlt,
+    // faGithub,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+    faGithub,
+} from "@fortawesome/free-brands-svg-icons";
+
+// fontawesome library setup
+library.add(faPlay);
+library.add(faStop);
+library.add(faRecycle);
+library.add(faInfoCircle);
+library.add(faTrashAlt);
+library.add(faSave);
+library.add(faCloudUploadAlt);
+library.add(faPencilAlt);
+library.add(faGithub);
 
 
 export default class App extends React.Component {
@@ -101,21 +127,24 @@ export default class App extends React.Component {
     renderNavRoutes () {
         return (
             <>
-                <Route 
-                    path='/'
-                    component={Nav}
-                />
+                {['/dashboard', '/add-track', '/track/:trackId', '/edit/:trackId'].map(path =>
+                    <Route 
+                    path={path}
+                    component={Nav}    
+                    />
+                )}
             </>
         )
     }
 
     renderFooterRoutes () {
         return (
-            <>
+            <>  
                 <Route 
                     path='/'
                     component={Footer}    
                 />
+
             </>
         )
     }

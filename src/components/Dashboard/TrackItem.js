@@ -1,18 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import UserControls from '../UserControls/UserControls';
+import UserControls from './UserControls';
+import styles from './TrackItem.module.css';
 
 export default function TrackItem (props) {
     const { track, user, who } = props;
 
     return (
-        <Link to={`/tracks/${track.id}`}>
-        <li className="track track-item">
+        <Link to={`/tracks/${track.id}`} className={styles.link}>
+        <li className={styles.root}>
             <h2>{track.title}</h2>
             {/* { who !== 'private' 
                 ? <p className="public-user">by {user}</p> 
                 : null } */}
-            <p>{track.date_modified}</p>
+            <p><span className={styles.date}>{track.date_modified}</span></p>
             
             { who === 'private' && 
                 <UserControls 
