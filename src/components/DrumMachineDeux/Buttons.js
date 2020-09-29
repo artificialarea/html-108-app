@@ -1,6 +1,6 @@
 import React from "react";
 import PlayButton from "./PlayButton";
-import TimeSignature from "./TimeSignature";
+// import TimeSignature from "./TimeSignature";    // Disabled for now
 import TempoSlider from "./TempoSlider";
 import TempoDisplay from "./TempoDisplay";
 import ResetButton from "./ResetButton";
@@ -39,10 +39,11 @@ const Buttons = props => {
                             isPlaying={isPlaying}
                             onTogglePlay={onTogglePlay}
                             />
-                        <TimeSignature
+                        {/* // Simplifying by keeping TimeSignature constant (8 beats) */}
+                        {/* <TimeSignature
                             sequence_length={sequence_length}
                             onLengthChange={onLengthChange}
-                            />
+                            /> */}
                         <ResetButton onReset={onReset} />
                         {track.id === 0
                             ?   <CreateButton onCreate={onCreate} />

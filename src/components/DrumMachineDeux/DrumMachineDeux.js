@@ -653,40 +653,39 @@ export default class DrumMachineDeux extends React.Component {
 
         return (
             <div className="App">
-                <header className="App-header">
+                <div className="App-container">
                     <Header
                         editable={editable}
                         track={this.state}
                         titleChange={this.handleTitleChange}
                     />
                     <Buttons
-                        authUser={authUser}
-                        editable={editable}
-                        track={this.state}
-                        trackId={id}
-                        isPlaying={isPlaying}
-                        sequence_length={sequence_length}
-                        tempo={tempo}
-                        onTogglePlay={this.onTogglePlay}
-                        onLengthChange={this.onLengthChange}
-                        onTempoChange={this.onTempoChange}
-                        onReset={this.onReset}
-                        onCreate={this.handleCreateTrack}
-                        onUpdate={this.handleUpdateTrack}
-                        onDelete={this.handleDeleteTrack}
-                        onEdit={this.onEdit} // React Router Redirect not working, tho
-                        />
-                    <StepSequence
-                        editable={editable}
-                        sequence_length={sequence_length}
-                        checked={checked}
-                        notes={notes}
-                        isActive={isActive}
-                        onToggle={this.onToggleBox}
-                        onPitchSelect={this.onPitchSelect}
-                        />
-                </header>
-
+                            authUser={authUser}
+                            editable={editable}
+                            track={this.state}
+                            trackId={id}
+                            isPlaying={isPlaying}
+                            sequence_length={sequence_length}
+                            tempo={tempo}
+                            onTogglePlay={this.onTogglePlay}
+                            onLengthChange={this.onLengthChange}
+                            onTempoChange={this.onTempoChange}
+                            onReset={this.onReset}
+                            onCreate={this.handleCreateTrack}
+                            onUpdate={this.handleUpdateTrack}
+                            onDelete={this.handleDeleteTrack}
+                            onEdit={this.onEdit} // React Router Redirect not working, tho
+                            />
+                        <StepSequence
+                            editable={editable}
+                            sequence_length={sequence_length}
+                            checked={checked}
+                            notes={notes}
+                            isActive={isActive}
+                            onToggle={this.onToggleBox}
+                            onPitchSelect={this.onPitchSelect}
+                            />
+                    </div>
             </div>
         )
     }
