@@ -19,40 +19,40 @@ function toggleBox(priorChecked, i, row) {
 export default class DrumMachine extends React.Component {
     _isMounted = false; // per: https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component
 
-    static defaultProps = {
-        history: {
-            push: () => {}
-        },
-        authUser: {},
-        editable: '',
+    // static defaultProps = {
+    //     history: {
+    //         push: () => {}
+    //     },
+    //     authUser: {},
+    //     editable: '',
 
-        id: 0,
-        user_id: '', 
-        title: '',
-        date_modified: '',
-        visible: true,
-        tempo: 120,
-        sequence_length: 8,
-        notes: [ "G5", "Eb5", "C5", "G4"],
-        checked: [
-            [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-            [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-        ],
-        isPlaying: false,
-        maxTempo: 300,
-        isActive: [ 
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        ], 
-        renderedNotes: [],
-        partContainer: [], 
-        velocity: 0.1,
+    //     id: 0,
+    //     user_id: '', 
+    //     title: '',
+    //     date_modified: '',
+    //     visible: true,
+    //     tempo: 120,
+    //     sequence_length: 8,
+    //     notes: [ "G5", "Eb5", "C5", "G4"],
+    //     checked: [
+    //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+    //     ],
+    //     isPlaying: false,
+    //     maxTempo: 300,
+    //     isActive: [ 
+    //         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+    //         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //     ], 
+    //     renderedNotes: [],
+    //     partContainer: [], 
+    //     velocity: 0.1,
 
-    }
+    // }
 
     static contextType = ApiContext;
 
@@ -120,7 +120,8 @@ export default class DrumMachine extends React.Component {
         if (id) {
             this.fetchTrack(id);
         } else {
-            this.onReset();
+            // this.onReset();
+            // this.generateMetronome();
         }
 
         this.generateMetronome();
@@ -491,8 +492,10 @@ export default class DrumMachine extends React.Component {
         // erase or stop all previous parts
         const partContainer = this.state.partContainer;
         // console.log('this.state.partContainer: ', partContainer)
-        // partContainer.forEach(part => part.removeAll());  
-        // partContainer.forEach(part => part.dispose());  
+        // I don't quite understand what you do,
+        // but without you 
+        // the audio gets progressively worse after each iteration.
+        partContainer.forEach(part => part.removeAll());  
 
         // metronome vitals
         const [note1, note2, note3, note4] = this.state.notes,
