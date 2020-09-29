@@ -127,8 +127,9 @@ export default class App extends React.Component {
     renderNavRoutes () {
         return (
             <>
-                {['/dashboard', '/add-track', '/track/:trackId', '/edit/:trackId'].map(path =>
+                {['/dashboard', '/add-track', '/tracks/:trackId', '/edit/:trackId'].map(path =>
                     <Route 
+                    key={path}
                     path={path}
                     component={Nav}    
                     />

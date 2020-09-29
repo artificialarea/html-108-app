@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import ApiContext from '../../ApiContext';
 import config from '../../config';
-import * as Tone from 'tone';   // NOTE: using older version (^13.4.9), not the latest (^14.7.39) b/c incompatiblity issues yet to be resolved.
+import * as Tone from 'tone';   // NOTE: using older version (^13.8.25), not the latest typescript (^14.7.39) b/c incompatiblity issues yet to be resolved.
 import _ from 'lodash'; 
 import StartAudioContext from 'startaudiocontext'; 
 import Header from './Header'
@@ -106,8 +106,7 @@ export default class DrumMachine extends React.Component {
             },
         };
 
-        this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster(); // if Tone v14.7 => Error: DEPRECATED: The polyphony count is no longer the first argument. toMaster DEPRECATED, too.
-        // Tone.context = new AudioContext();
+        this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
         this.toneContext = new AudioContext();
     }
 
@@ -492,7 +491,7 @@ export default class DrumMachine extends React.Component {
         // erase or stop all previous parts
         const partContainer = this.state.partContainer;
         // console.log('this.state.partContainer: ', partContainer)
-        partContainer.forEach(part => part.removeAll());  
+        // partContainer.forEach(part => part.removeAll());  
         // partContainer.forEach(part => part.dispose());  
 
         // metronome vitals
