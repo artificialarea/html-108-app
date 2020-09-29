@@ -7,7 +7,8 @@ export default function TrackItem (props) {
     const { track, user, who } = props;
 
     return (
-        <Link to={`/tracks/${track.id}`} className={styles.link}>
+        // <Link to={`/tracks/${track.id}`} className={styles.link}>    // bypassing ViewTrack view
+        <Link to={`/edit/${track.id}`} className={styles.link}>
         <li className={styles.root}>
             <h2>{track.title}</h2>
             {/* { who !== 'private' 
