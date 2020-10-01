@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 import UserControls from './UserControls';
 import styles from './TrackItem.module.css';
 
@@ -8,13 +9,17 @@ export default function TrackItem (props) {
 
     return (
         // <Link to={`/tracks/${track.id}`} className={styles.link}>    // bypassing ViewTrack view
-        <Link to={`/edit/${track.id}`} className={styles.link}>
+        <Link to={`/tracks/${track.id}`} className={styles.link}>
         <li className={styles.root}>
             <h2>{track.title}</h2>
             {/* { who !== 'private' 
                 ? <p className="public-user">by {user}</p> 
                 : null } */}
-            <p><span className={styles.date}>{track.date_modified}</span></p>
+            {/* <p><span className={styles.date}>{format(Date.parse(track.date_modified), 'yyyy MMM do / p')}</span></p> */}
+            <p>
+                <span className={styles.date}>{format(Date.parse(track.date_modified), 'yyyy MMM do')}</span>
+                <span className={styles.time}>{format(Date.parse(track.date_modified), 'p')}</span>
+            </p>
             
             { who === 'private' && 
                 <UserControls 

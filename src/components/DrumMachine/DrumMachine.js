@@ -264,7 +264,7 @@ export default class DrumMachine extends React.Component {
             id,
             user_id,
             title,
-            date_modified,
+            date_modified: new Date(),
             visible,
             tempo,
             sequence_length,
