@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import ErrorBoundary from '../../ErrorBoundary';
 import UserControls from './UserControls';
 import styles from './TrackItem.module.css';
 
@@ -16,10 +17,12 @@ export default function TrackItem (props) {
                 ? <p className="public-user">by {user}</p> 
                 : null } */}
             {/* <p><span className={styles.date}>{format(Date.parse(track.date_modified), 'yyyy MMM do / p')}</span></p> */}
-            <p>
-                <span className={styles.date}>{format(Date.parse(track.date_modified), 'yyyy MMM do')}</span>
-                <span className={styles.time}>{format(Date.parse(track.date_modified), 'p')}</span>
-            </p>
+            <ErrorBoundary>
+                <p>
+                    <span className={styles.date}>{format(Date.parse(track.date_modified), 'yyyy MMM do')}</span>
+                    <span className={styles.time}>{format(Date.parse(track.date_modified), 'p')}</span>
+                </p>
+            </ErrorBoundary>
             
             { who === 'private' && 
                 <UserControls 
@@ -40,5 +43,8 @@ export default function TrackItem (props) {
 }
 
 TrackItem.defaultProps = {
-    track: {},
+    track: {
+        date_modified: '2029-01-22T16:28:32.615Z',
+    },
+    
 }

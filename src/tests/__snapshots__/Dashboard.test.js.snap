@@ -16,7 +16,7 @@ exports[`Dashboard component renders the UI as expected 1`] = `
   >
     <a
       className="link"
-      href="/edit/1"
+      href="/tracks/1"
       onClick={[Function]}
     >
       <li
@@ -29,14 +29,19 @@ exports[`Dashboard component renders the UI as expected 1`] = `
           <span
             className="date"
           >
-            2029-01-22T16:28:32.615Z
+            2029 Jan 22nd
+          </span>
+          <span
+            className="time"
+          >
+            8:28 AM
           </span>
         </p>
       </li>
     </a>
     <a
       className="link"
-      href="/edit/2"
+      href="/tracks/2"
       onClick={[Function]}
     >
       <li
@@ -49,14 +54,19 @@ exports[`Dashboard component renders the UI as expected 1`] = `
           <span
             className="date"
           >
-            2100-05-22T16:28:32.615Z
+            2100 May 22nd
+          </span>
+          <span
+            className="time"
+          >
+            9:28 AM
           </span>
         </p>
       </li>
     </a>
     <a
       className="link"
-      href="/edit/3"
+      href="/tracks/3"
       onClick={[Function]}
     >
       <li
@@ -69,7 +79,12 @@ exports[`Dashboard component renders the UI as expected 1`] = `
           <span
             className="date"
           >
-            1919-12-22T16:28:32.615Z
+            1919 Dec 22nd
+          </span>
+          <span
+            className="time"
+          >
+            8:28 AM
           </span>
         </p>
       </li>
