@@ -231,7 +231,7 @@ export default class DrumMachine extends React.Component {
             })
             .then(track => {
                 this.context.addTrack(track)
-                window.location = `/tracks/${track.id}`;
+                window.location = `/edit/${track.id}`;
             })
             .catch(err => {
                 console.error({ err });
@@ -288,7 +288,7 @@ export default class DrumMachine extends React.Component {
             })
             .then(() => {
                 this.context.updateTrack(newTrack)
-                window.location = `/tracks/${newTrack.id}`;
+                window.location = `/edit/${newTrack.id}`;
             })
             .catch(err => {
                 console.error({ err });

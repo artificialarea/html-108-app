@@ -10,6 +10,7 @@ import ApiContext from './ApiContext';
 import AddTrack from './components/AddTrack/AddTrack';
 import EditTrack from './components/EditTrack/EditTrack';
 import ViewTrack from './components/ViewTrack/ViewTrack';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 // import Login from './components/Login/Login';
 // import Registration from './components/Registration/Registration';
 import './App.css';
@@ -224,11 +225,14 @@ export default class App extends React.Component {
         }
         return (
             <ApiContext.Provider value={value}>
+                <ScrollToTop>
+
                 <>
                     {this.renderNavRoutes()}
                     {this.renderMainRoutes()}
                     {this.renderFooterRoutes()}
                 </>
+                </ScrollToTop>
             </ApiContext.Provider>
         );
     }
