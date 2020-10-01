@@ -12,6 +12,7 @@ import styles from "./Buttons.module.css";
 
 const Buttons = props => {
     const { 
+        processing,
         authUser, 
         editable, 
         track,
@@ -46,10 +47,10 @@ const Buttons = props => {
                             /> */}
                         <ResetButton onReset={onReset} />
                         {track.id === 0
-                            ?   <CreateButton onCreate={onCreate} />
+                            ?   <CreateButton onCreate={onCreate} processing={processing} />
                             :   <>
-                                    <UpdateButton onUpdate={onUpdate} />
-                                    <DeleteButton onDelete={onDelete} />
+                                    <UpdateButton onUpdate={onUpdate} processing={processing} />
+                                    <DeleteButton onDelete={onDelete} processing={processing} />
                                 </>
                         }
                     </div>

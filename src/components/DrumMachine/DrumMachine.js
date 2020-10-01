@@ -60,6 +60,7 @@ export default class DrumMachine extends React.Component {
         super(props)
         this.state = {
             editable: this.props.editable, 
+            processing: false,
             error: null,
             id: 0,
             user_id: '', 
@@ -197,6 +198,10 @@ export default class DrumMachine extends React.Component {
             checked,
         } = this.state;
 
+        this.setState({
+            processing: true
+        })
+
         const user_id = this.props.authUser.id; 
 
         let { title } = this.state;
@@ -231,18 +236,20 @@ export default class DrumMachine extends React.Component {
             })
             .then(track => {
                 this.context.addTrack(track)
+                this.setState({
+                    processing: false
+                })
                 window.location = `/tracks/${track.id}`;
             })
-            .catch(err => {
-                console.error({ err });
+            .catch(error => {
+                console.error({ error });
                 this.setState({
-                    error: `Error: ${err}`
+                    error
                 });
             })
     }
 
     handleUpdateTrack = () => {
-        console.log('handleUpdateTrack')
         const {
             id,
             user_id,
@@ -254,6 +261,10 @@ export default class DrumMachine extends React.Component {
             notes,
             checked,
         } = this.state;
+
+        this.setState({
+            processing: true
+        })
 
         const date_modified = new Date()
 
@@ -273,7 +284,7 @@ export default class DrumMachine extends React.Component {
             notes,
             checked,
         };
-        console.log('updatedTrack, new date?: ', newTrack.date_modified)
+
         fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
             method: 'PATCH',
             headers: {
@@ -289,8 +300,10 @@ export default class DrumMachine extends React.Component {
                 }
             })
             .then(() => {
-                // this.context.updateTrack(newTrack)
-                // window.location = `/tracks/${newTrack.id}`;
+                this.context.updateTrack(newTrack)
+                this.setState({
+                    processing: false
+                })
             })
             .catch(error => {
                 console.error({ error });
@@ -619,6 +632,7 @@ export default class DrumMachine extends React.Component {
         // console.log('DrumMachine state: ', this.state)
         // console.log('_isMounted? ', this._isMounted)
         const { 
+            processing,
             error,
             id,
             isPlaying,
@@ -633,7 +647,7 @@ export default class DrumMachine extends React.Component {
             authUser,
             editable,
         } = this.props;
-        // console.log(this.state.error.message)
+
         return (
             <div className="App">
                 <div className="App--container">
@@ -642,10 +656,8 @@ export default class DrumMachine extends React.Component {
                         track={this.state}
                         titleChange={this.handleTitleChange}
                     />
-                    <div className={styles.error} role='alert'>
-                        {error && <p>{error.error.message}</p>}
-                    </div>
                     <Buttons
+                        processing={processing}
                         authUser={authUser}
                         editable={editable}
                         track={this.state}
@@ -662,6 +674,11 @@ export default class DrumMachine extends React.Component {
                         onDelete={this.handleDeleteTrack}
                         onEdit={this.onEdit} // React Router Redirect not working, tho
                         />
+
+                    <div className={styles.error} role='alert'>
+                        {error && <p>{error.error.message}</p>}
+                    </div>
+
                     <StepSequence
                         editable={editable}
                         sequence_length={sequence_length}

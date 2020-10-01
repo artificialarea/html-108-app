@@ -24,6 +24,8 @@ import {
     faSave,
     faCloudUploadAlt,
     faPencilAlt,
+    faSpinner,
+    faCog,
     // faGithub,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -41,6 +43,8 @@ library.add(
     faCloudUploadAlt,
     faPencilAlt,
     faGithub,
+    faSpinner,
+    faCog,
 );
 
 export default class App extends React.Component {

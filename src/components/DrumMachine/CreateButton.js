@@ -5,7 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const CreateButton = props => (
     <div className={styles.root} onClick={props.onCreate}>
         <span className={styles.label}>
-            <FontAwesomeIcon icon="save" />
+            {!props.processing
+                ? <FontAwesomeIcon icon="save" />
+                : <FontAwesomeIcon icon="cog" spin/>
+            }
         </span>
     </div>
 );

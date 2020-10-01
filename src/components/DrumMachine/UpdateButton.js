@@ -5,7 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const UpdateButton = props => (
     <div className={styles.root} onClick={props.onUpdate}>
         <span className={styles.label}>
-            <FontAwesomeIcon icon="cloud-upload-alt" />
+            {!props.processing
+                ? <FontAwesomeIcon icon="cloud-upload-alt" />
+                : <FontAwesomeIcon icon="cog" spin/>
+            }
         </span>
     </div>
 );
