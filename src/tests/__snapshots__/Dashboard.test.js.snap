@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard component renders the UI as expected 1`] = `
+<div
+  className="root"
+>
+  <header
+    role="banner"
+  >
+    <h1>
+      Community Dashboard
+    </h1>
+  </header>
+  <ul
+    className="root"
+  >
+    <a
+      className="link"
+      href="/edit/1"
+      onClick={[Function]}
+    >
+      <li
+        className="root"
+      >
+        <h2>
+          Silencio
+        </h2>
+        <p>
+          <span
+            className="date"
+          >
+            2029-01-22T16:28:32.615Z
+          </span>
+        </p>
+      </li>
+    </a>
+    <a
+      className="link"
+      href="/edit/2"
+      onClick={[Function]}
+    >
+      <li
+        className="root"
+      >
+        <h2>
+          FullBlastoff
+        </h2>
+        <p>
+          <span
+            className="date"
+          >
+            2100-05-22T16:28:32.615Z
+          </span>
+        </p>
+      </li>
+    </a>
+    <a
+      className="link"
+      href="/edit/3"
+      onClick={[Function]}
+    >
+      <li
+        className="root"
+      >
+        <h2>
+          Browser Noise
+        </h2>
+        <p>
+          <span
+            className="date"
+          >
+            1919-12-22T16:28:32.615Z
+          </span>
+        </p>
+      </li>
+    </a>
+  </ul>
+</div>
+`;

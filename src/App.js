@@ -30,16 +30,17 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 // fontawesome library setup
-library.add(faPlay);
-library.add(faStop);
-library.add(faRecycle);
-library.add(faInfoCircle);
-library.add(faTrashAlt);
-library.add(faSave);
-library.add(faCloudUploadAlt);
-library.add(faPencilAlt);
-library.add(faGithub);
-
+library.add(
+    faPlay,
+    faStop,
+    faRecycle,
+    faInfoCircle,
+    faTrashAlt,
+    faSave,
+    faCloudUploadAlt,
+    faPencilAlt,
+    faGithub,
+);
 
 export default class App extends React.Component {
 

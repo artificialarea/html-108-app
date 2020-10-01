@@ -16,7 +16,6 @@ export default function TrackList (props) {
                     const trackUser = users.find(user => user.id === trackUserId).username;
                     publicTracks.push(
                         <TrackItem 
-                            // key={uuid()}
                             key={track.id}
                             who={who}
                             user={trackUser} 
@@ -29,7 +28,6 @@ export default function TrackList (props) {
                 
                 privateTracks.push(
                     <TrackItem 
-                    // key={uuid()}
                     key={track.id}
                     who={who}
                     track={track}

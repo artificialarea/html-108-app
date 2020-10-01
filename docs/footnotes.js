@@ -115,3 +115,10 @@ https://programmingwithmosh.com/react/css-modules-react/
 2. CSS modules also allow you to extend one or more classes, inheriting their styles. This concept is called class composition."
 
 */
+
+// [f#] ///////////////////////////////////////////////
+/* Logo
+
+Logo from: https://www.newgroove.it/
+
+*/

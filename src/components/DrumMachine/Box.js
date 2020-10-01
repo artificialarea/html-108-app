@@ -4,21 +4,21 @@ import _ from "lodash";
 
 const Box = props => {
 
-    let { editable } = props;
+    let { editable, checked, row, isActive, onToggle } = props;
     // console.log('editable?', editable)
     return (
 
         <div className={styles.root}>
             {/* // https://lodash.com/docs/4.17.15#map */}
-            {_.map(props.checked[props.row], (isBoxChecked, i) => (
+            {_.map(checked[row], (isBoxChecked, i) => (
                 <div
-                    onClick={() => editable ? props.onToggle(i, props.row): false }
+                    onClick={() => editable ? onToggle(i, row): false }
                     // https://lodash.com/docs/4.17.15#chain
                     className={_.chain([
                         styles.box,
                         isBoxChecked && styles.checked,
-                        props.isActive[props.row][i] && !isBoxChecked && styles.active,
-                        props.isActive[props.row][i] && isBoxChecked && styles.activechecked
+                        isActive[row][i] && !isBoxChecked && styles.active,
+                        isActive[row][i] && isBoxChecked && styles.activechecked
                     ])
                     .compact()
                     .join(" ")
@@ -29,5 +29,13 @@ const Box = props => {
         </div>
     )
 };
+
+Box.defaultProps = {
+    editable: '', 
+    checked: [], 
+    row: '', 
+    isActive: [], 
+    onToggle: () => {},
+}
 
 export default Box;

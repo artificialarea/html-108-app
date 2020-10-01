@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { render } from '@testing-library/react';
-import App from '../App';
+import TrackItem from '../components/Dashboard/TrackItem';
 import { BrowserRouter } from 'react-router-dom';
 
 describe(`App component`, () => {
@@ -9,7 +8,7 @@ describe(`App component`, () => {
         const div = document.createElement("div");
         ReactDOM.render(
             <BrowserRouter>
-                <App />
+                <TrackItem />
             </BrowserRouter>
             , div);
         ReactDOM.unmountComponentAtNode(div);

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { render } from '@testing-library/react';
-import App from '../App';
+import Registration from '../components/Registration/Registration';
 import { BrowserRouter } from 'react-router-dom';
 
 describe(`App component`, () => {
@@ -9,7 +8,7 @@ describe(`App component`, () => {
         const div = document.createElement("div");
         ReactDOM.render(
             <BrowserRouter>
-                <App />
+                <Registration />
             </BrowserRouter>
             , div);
         ReactDOM.unmountComponentAtNode(div);

@@ -29,3 +29,7 @@ export default function Header (props) {
         </header>
     )
 }
+
+Header.defaultProps = {
+    track: {},
+}

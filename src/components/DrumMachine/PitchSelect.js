@@ -30,3 +30,7 @@ const PitchSelect = props => (
 );
 
 export default PitchSelect;
+
+PitchSelect.defaultProps = {
+    notes: [],
+}

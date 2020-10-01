@@ -378,7 +378,7 @@ export default class DrumMachine extends React.Component {
                     Tone.Transport.loop = false;
                     Tone.Transport.loopEnd = 0;
                     // isActive array zeroed out
-                    this.setState({ isActive: [[], [], [], []] }, () => console.log("stopped"));
+                    this.setState({ isActive: [[], [], [], []] });
                 } else {
                     // configure looping for step sequencer
                     Tone.Transport.loop = true;

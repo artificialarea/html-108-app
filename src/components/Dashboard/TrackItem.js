@@ -33,3 +33,7 @@ export default function TrackItem (props) {
         </Link>
     )
 }
+
+TrackItem.defaultProps = {
+    track: {},
+}

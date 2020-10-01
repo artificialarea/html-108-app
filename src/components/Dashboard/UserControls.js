@@ -48,3 +48,7 @@ export default function UserControls (props) {
         </div>
     )
 }
+
+UserControls.defaultProps = {
+    track: {},
+}
