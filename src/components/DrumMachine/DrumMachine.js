@@ -8,7 +8,7 @@ import StartAudioContext from 'startaudiocontext';
 import Header from './Header'
 import Buttons from "./Buttons";
 import StepSequence from "./StepSequence";
-import './DrumMachine.module.css';
+import styles from './DrumMachine.module.css';
 
 function toggleBox(priorChecked, i, row) {
     const checked = [...priorChecked];
@@ -247,13 +247,15 @@ export default class DrumMachine extends React.Component {
             id,
             user_id,
             // title,
-            date_modified,
+            // date_modified,
             visible,
             tempo,
             sequence_length,
             notes,
             checked,
         } = this.state;
+
+        const date_modified = new Date()
 
         let { title } = this.state;
         if (title.length === 0) {
@@ -264,14 +266,14 @@ export default class DrumMachine extends React.Component {
             id,
             user_id,
             title,
-            date_modified: new Date(),
+            date_modified,
             visible,
             tempo,
             sequence_length,
             notes,
             checked,
         };
-
+        console.log('updatedTrack, new date?: ', newTrack.date_modified)
         fetch(`${config.API_ENDPOINT}/api/tracks/${id}`, {
             method: 'PATCH',
             headers: {
@@ -283,17 +285,17 @@ export default class DrumMachine extends React.Component {
             .then(res => {
                 if (!res.ok) {
                     // throw new Error(res.statusText);
-                    return res.json().then(err => Promise.reject(err))
+                    return res.json().then(error => Promise.reject(error))
                 }
             })
             .then(() => {
-                this.context.updateTrack(newTrack)
-                window.location = `/tracks/${newTrack.id}`;
+                // this.context.updateTrack(newTrack)
+                // window.location = `/tracks/${newTrack.id}`;
             })
-            .catch(err => {
-                console.error({ err });
+            .catch(error => {
+                console.error({ error });
                 this.setState({
-                    error: `Error: ${err}`
+                    error
                 });
             })
     }
@@ -617,6 +619,7 @@ export default class DrumMachine extends React.Component {
         // console.log('DrumMachine state: ', this.state)
         // console.log('_isMounted? ', this._isMounted)
         const { 
+            error,
             id,
             isPlaying,
             sequence_length,
@@ -630,7 +633,7 @@ export default class DrumMachine extends React.Component {
             authUser,
             editable,
         } = this.props;
-
+        // console.log(this.state.error.message)
         return (
             <div className="App">
                 <div className="App--container">
@@ -639,6 +642,9 @@ export default class DrumMachine extends React.Component {
                         track={this.state}
                         titleChange={this.handleTitleChange}
                     />
+                    <div className={styles.error} role='alert'>
+                        {error && <p>{error.error.message}</p>}
+                    </div>
                     <Buttons
                         authUser={authUser}
                         editable={editable}

@@ -21,6 +21,8 @@ export default function TrackItem (props) {
                 <p>
                     <span className={styles.date}>{format(Date.parse(track.date_modified), 'yyyy MMM do')}</span>
                     <span className={styles.time}>{format(Date.parse(track.date_modified), 'p')}</span>
+                    {/* <span className={styles.date}>{format(track.date_modified, 'yyyy MMM do')}</span>
+                    <span className={styles.time}>{format(track.date_modified, 'p')}</span> */}
                 </p>
             </ErrorBoundary>
             

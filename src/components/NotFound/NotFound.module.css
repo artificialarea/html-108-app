@@ -1,0 +1,30 @@
+.root {
+    text-align: center;
+    background-color: #1e1e21;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 500;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin: 20px;
+    font-size: 1rem;
+}
+
+.root h1 {
+    color: rgba(255, 255, 255, 0.3)
+}
+
+.content {
+    max-width: 500px;
+}
+
+.link {
+    color: #E52825;
+}
+
+.link:hover {
+    color: #ff4a02;
+}
