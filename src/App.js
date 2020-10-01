@@ -183,27 +183,14 @@ export default class App extends React.Component {
                     }
                 />
                 
-                {/* Should I bypass the /tracks/:trackId route and go directly from /dashboard to /edit/:trackId? */}
                 <Route 
                     path='/tracks/:trackId'
                     render={(routerProps) => 
-                        <ViewTrack 
+                        <EditTrack 
                             authUser={authUser}
                             editable={false}
                             track={tracks.find(track => track.id == routerProps.match.params.trackId)}
                         />
-                    }
-                />
-                
-                <Route 
-                    path='/edit/:trackId' 
-                    render={(routerProps) => 
-                        <EditTrack 
-                            authUser={authUser}
-                            editable={true}
-                            track={tracks.find(track => track.id == routerProps.match.params.trackId)}
-                        />
-                        
                     }
                 />
 
