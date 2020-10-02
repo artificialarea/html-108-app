@@ -1,50 +1,10 @@
 # Capstone: HTML-108
 
-The HTML-108 is a minimal beat machine in the browser.
+The HTML-108 is a minimal browser-based step synthesizer.
 
-A nostalgic nod to the seminal Roland TR-808 analog synthesizer drum machine of the 1980s that ushered in several genres of electronic music.
+A nostalgic nod to the synthesizer hardware of the 1980s, like the seminal [Roland TR-808](https://en.wikipedia.org/wiki/Roland_TR-808), that ushered in several genres of electronic music.
 
-## Working Prototype 
-You can access a working prototype of the React app here: **https://html-108.vercel.app**
-
-The corresponding Node Express Sever repo here: **[html-108-server](https://github.com/artificialarea/html-108-server)**
-
-
-## Functionality
-Please note the app currently has no audio sequencer functionality. The Phase 1 MVP is concerned solely with the architecture and CRUD operations between client and server. Audio functionality will be completed next in Phase 2.
-
-Functionality thus far in Phase 1 MVP:
-* A user can add a **New Track**, which involves selecting 'active' beat notes, adjusting the tempo, and providing an optional track title. Upon clicking 'Save Track' it's now listed and accessible via the public **Dashboard**.
-* Upon selecting a track from the Dashboard, the user is taken to a **Track View Mode**, where (later in Phase 2) they will be able to play the track loop via the 'Start/Stop' button.
-* If the user wishes to edit the track, he clicks on the 'EDIT' button, which takes the user to a **Track Edit Mode**, enabling the user to edit all the properties of the track, which they can then save by clicking the 'UPDATE' button. The user can also delete the track by clicking the 'DELETE' button.
-
-There remain bugs galore, but some particular ones to call out:
-* Currently can't access a track view (/track/:trackId) or a track edit view (/edit/:trackId) directly via their URL Route. 
-* URL Route redirects via react router history not working.
-
-
-## 00. Pivoting...
-<img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/plan---release.jpg" alt="situation" width="400"/>
-
-**PERSONAL NOTE:** Scaling back ambition and scope of project considerably for now, in order to get some semblance of an MVP and some "quick wins".
-
-This project will evolve in several phases in line with certain Thinkful project for guidance:
-* **Phase 1a:** ala **Noteful**
-    * No user/sign-in, but API_TOKEN
-        * ** Although, in antipation of re-integrating users/auth at some later phase, at this initial phase I still need to have users table in dB and have a single primary and foreign key placeholder **`user.id - - - - track.user_id`** whilst handing data on client-side.
-    * CRUD
-    * JSON server
-
-* **Phase 1b:** MVP achieved upon completion. Yes, no audio yet... but the architecture at this stage is paramount.
-    * fully integrate with Postgres localhost
-    * fully integrate React & Node/Postgres deployments to production on Vercel & Heroku, respectively
-
-* **Phase 2:** **Integrate Web Audio API / Tone.js**
-
-* **Phase 3:** Styling
-
-* **Phase 4 Stretch:** Login with Auth and JWT, ala **Blogful**. Doubtful in timeframe, but will revisit later if necessary.
-
+Personally, it also enabled me to explore the wonderful world of the Web Audio API and the Tone.js javascript framework.
 
 <br />
 
@@ -56,19 +16,19 @@ The corresponding Node Express Sever repo here: **[html-108-server](https://gith
 
 <br />
 
-## 2. User Stories (to do later)
-This app is for two types of users: a visitor and a logged-in user
+## 2. Functionality 
 
-**[User Flows](https://github.com/artificialarea/html-108-app/blob/master/docs/user-flow.pdf)**
+Landing page introduces the application...
+<img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/images/screenshot-01-intro.png" alt="intro screen" width="600"/>
 
+User can create a new track...
+<img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/images/screenshot-02-newtrack-blank.png" alt="intro screen" width="600"/>
 
-<br />
+Users can save, update and delete their tracks...
+<img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/images/screenshot-03-track-saved.png" alt="intro screen" width="600"/>
 
-## 3. Functionality (to do later)
-The app's functionality includes:
-* (Example) Every User has the ability to create an account
-
-**[Screen Inventory](https://github.com/artificialarea/html-108-app/blob/master/docs/screen-inventory.md)**
+All tracks saved are accessible via the community dashboard...
+<img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/images/screenshot-04-dashboard.png" alt="intro screen" width="600"/>
 
 
 <br />
@@ -175,8 +135,12 @@ API Documentation details of CRUD
 Register Page
 ![Register Page](/github-images/screenshots/register-page-screenshot.png)
 
-## Development Roadmap (to do later)
-This is v1.0 of the app, but future enhancements are expected to include:
+## Development Roadmap (v1.x)
+<img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/plan---release.jpg" alt="situation" width="400"/>
+
+Scaled back the ambition and scope of project considerably for a v1.o MVP release.
+
+Future v1.x enhancements are expected to include:
 * (Example) add more functionality
 
 ## How to run it (done)
