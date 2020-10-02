@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from './Header';
 import TrackList from './TrackList';
-// import SearchBox from './SearchBox';
 import styles from './Dashboard.module.css';
 
 

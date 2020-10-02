@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import ApiContext from '../../ApiContext';
 import config from '../../config';
-import * as Tone from 'tone';   // NOTE: using older version (^13.8.25), not the latest typescript (^14.7.39) b/c incompatiblity issues yet to be resolved.
+import * as Tone from 'tone';   // NOTE: using older version of Tone (^13.8.25), b/c the latest typescript version (^14.7.39) has incompatiblity issues I've yet to be able to resolve.
 import _ from 'lodash'; 
 import StartAudioContext from 'startaudiocontext'; 
 import Header from './Header'

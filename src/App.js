@@ -9,10 +9,7 @@ import NotFound from './components/NotFound/NotFound';
 import ApiContext from './ApiContext';
 import AddTrack from './components/AddTrack/AddTrack';
 import EditTrack from './components/EditTrack/EditTrack';
-// import ViewTrack from './components/ViewTrack/ViewTrack';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
-// import Login from './components/Login/Login';
-// import Registration from './components/Registration/Registration';
 import './App.css';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
