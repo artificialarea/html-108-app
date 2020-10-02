@@ -38,7 +38,7 @@ All saved tracks are accessible via the community dashboard...
 <br />
 
 ## 3. Technology
-* Front-End: HTML5, CSS3, JavaScript ES6, React, Tone.js
+* Front-End: HTML5, CSS3, JavaScript ES6, React, Web Audio API, Tone.js
 * Back-End: Node.js, Express.js, Mocha, Chai, RESTful API Endpoints, Postgres
 * Development Environment: Vercel (client), Heroku (server), DBeaver
 
@@ -46,7 +46,7 @@ All saved tracks are accessible via the community dashboard...
 <br />
 
 ## 4. Wireframes
-Early initial wireframes accessible here: **['Greybox' HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)**
+Preliminary wireframes accessible as ['Greybox' HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)
 
 
 <br />
@@ -65,9 +65,6 @@ _Components are **stateless** unless otherwise noted. In progress, as may introd
      * **DrumMachine.js** **(STATEFUL)**
     * **EditTrack.js**
      * **DrumMachine.js** **(STATEFUL)**
-     
-    
-**[Component track Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-track.pdf)**
 
 
 <br />
@@ -111,7 +108,7 @@ API TOKEN Authorization required
   
 * **`GET`** 
   * **`/api/tracks`** get all tracks
-  * **`/api/tracks?visible=true`** get all public tracks for community `/dashboard` URL
+  * **`/api/tracks?visible=true`** get all publicly visible tracks for community `/dashboard` URL
   * **`/api/tracks?userId=[:userId]`** get all tracks for signed-in user's `/my-dashboard` URL
   * **`/api/tracks/:trackId`** get particular track for `/track/:trackId` URL
   * **`/api/users`** get all users associated with `/api/tracks/?visible=true`
@@ -122,15 +119,16 @@ API TOKEN Authorization required
   * **`/api/users`** update user profile
   
 * **`DELETE`**
-  * **`/api/tracks/:trackId`** delete own track via `/my-dashboard` URL
-  * **`/api/users`** delete profile?
+  * **`/api/tracks/:trackId`** delete track via `/dashboard` URL
+  * **`/api/users`** delete profile
   
 
 <br />
 
 ## Development Roadmap (v1.x)
 <img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/plan---release.jpg" alt="situation" width="400"/>
-[**Project Board**](https://github.com/artificialarea/html-108-app/projects/1) featuring bugs and enhancements
+
+**[Project Board](https://github.com/artificialarea/html-108-app/projects/1)** featuring bugs and enhancements
 
 Scaled back the ambition and scope of project considerably for v1.o MVP release.
 
