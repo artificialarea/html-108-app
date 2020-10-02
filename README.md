@@ -128,8 +128,6 @@ API TOKEN Authorization required
 ## Development Roadmap (v1.x)
 <img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/plan---release.jpg" alt="situation" width="400"/>
 
-**[Project Board](https://github.com/artificialarea/html-108-app/projects/1)** featuring bugs and enhancements
-
 Scaled back the ambition and scope of project considerably for v1.o MVP release.
 
 Anticipate future v1.x enhancements to include:
@@ -138,6 +136,9 @@ Anticipate future v1.x enhancements to include:
 * Ability to adjust pitch
 * Ability to choose samples (e.g. hihat, clap, trap, bass, etc)
 * Ability to download mp3 file of track
+
+
+**[Project Board](https://github.com/artificialarea/html-108-app/projects/1)** featuring bugs and enhancements
 
 <br />
 
