@@ -37,7 +37,7 @@ All saved tracks are accessible via the community dashboard...
 
 <br />
 
-## 4. Technology
+## 3. Technology
 * Front-End: HTML5, CSS3, JavaScript ES6, React, Tone.js
 * Back-End: Node.js, Express.js, Mocha, Chai, RESTful API Endpoints, Postgres
 * Development Environment: Vercel (client), Heroku (server), DBeaver
@@ -45,13 +45,13 @@ All saved tracks are accessible via the community dashboard...
 
 <br />
 
-## 5. Wireframes (add images later)
-See: **['Greybox' HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)**
+## 4. Wireframes
+Early initial wireframes accessible here: **['Greybox' HTML Wireframes](https://artificialarea.github.io/html-108-app/greybox/)**
 
 
 <br />
 
-## 6. Front-end Struture: React Components Map
+## 5. Front-end Struture: React Components Map
 
 _Components are **stateless** unless otherwise noted. In progress, as may introduce more stateful components._
 
@@ -59,25 +59,33 @@ _Components are **stateless** unless otherwise noted. In progress, as may introd
   * **APP.JS** **(STATEFUL:BRAIN)**
     * **Nav.js**
     * **Footer.js**
-    * **LandingPage.js**
-    * **LOGIN.JS** **(STATEFUL)**
-    * **REGISTRATION.JS** **(STATEFUL)**
+    * **Intro.js**
     * **Dashboard.js**
-    * **DrumMachine.js**
+    * **AddTrack.js**
+     * **DrumMachine.js** **(STATEFUL)**
+    * **EditTrack.js**
+     * **DrumMachine.js** **(STATEFUL)**
+     
     
 **[Component track Diagram](https://github.com/artificialarea/html-108-app/blob/master/docs/component-track.pdf)**
 
 
 <br />
 
-## 7. Back-end Structure: Business Objects
+## 6. Back-end Structure
+
+**Schema**
+
+![Schema](https://github.com/artificialarea/html-108-app/blob/master/docs/schema.png)
+
+**Business Objects**
 
 * **Users** (database table)
   * **id** (primary key, auto-generated)
   * **username** (validation: NOT NULL; UNIQUE)
   * **password** (validation: NOT NULL; at least 8 characters, including at least one lowercase, one uppercase, one number, and one special character)
-  * **email** **TBD** (validation: includes @ character and .com, .org, or .net)
-  * **date_login** (new Date())
+  * **email** (validation: includes @ character and .com, .org, or .net)
+  * **date_created** (new Date())
   
 * **tracks** (database table)
   * **id** (primary key, auto-generated)
@@ -87,43 +95,31 @@ _Components are **stateless** unless otherwise noted. In progress, as may introd
   * **visible** (NOT NULL, boolean default false)
   * **tempo** (NOT NULL, numeric)
   * **sequence_length** (NOT NULL, numeric)
-  * **mp3** **TBD** (location of file, e.g. "http://path-of-the-audio-preview.mp3")
-  
-  _Data structure associated with step sequence (and perhaps audio sequence) still TBD_
-  * **step_sequence** (NOT NULL, ARRAY[4])
-    * `[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],`
-    * `[0,0,0,1,0,0,0,1,1,1,0,1,0,0,0,1],`
-    * `[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],`
-    * `[0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1]`
-  * **audio_sequence** (NOT NULL, ARRAY)
+  * **notes** (NOT NULL, text)
+  _Data structure associated with step sequence_
+  * **checked** (NOT NULL, BOOLEAN ARRAY)
 
 <br />
 
-**Schema** _(WIP)_
 
-![Schema](https://github.com/artificialarea/html-108-app/blob/master/docs/schema.png)
-
-
-<br />
-
-## 8. API Documentation (WIP)
-API Documentation details of CRUD
+## 7. API Documentation
+API TOKEN Authorization required
 
 * **`POST`**
-  * **`/api/tracks`** create/add new track via `/track` URL
-  * **`/api/users`** create/add new user via `/register` URL
+  * **`/api/tracks`** create new track via `/add-track` URL
+  * **`/api/users`** create new user via `/register` URL
   
 * **`GET`** 
   * **`/api/tracks`** get all tracks
   * **`/api/tracks?visible=true`** get all public tracks for community `/dashboard` URL
   * **`/api/tracks?userId=[:userId]`** get all tracks for signed-in user's `/my-dashboard` URL
   * **`/api/tracks/:trackId`** get particular track for `/track/:trackId` URL
-  * **`/api/users`** get all users associated with an `/api/tracks` fetch _(presumably just id & username, sans sensitive info)_
+  * **`/api/users`** get all users associated with `/api/tracks/?visible=true`
   * **`/api/users/:userId`** for user to log-in
   
 * **`PATCH`**
-  * **`/api/tracks/:trackId`** update track via `/track/:trackId` or `/my-dashboard` URL
-  * **`/api/users`** update user profile (via `/register` URL?)
+  * **`/api/tracks/:trackId`** update track via `/track/:trackId` URL
+  * **`/api/users`** update user profile
   
 * **`DELETE`**
   * **`/api/tracks/:trackId`** delete own track via `/my-dashboard` URL
@@ -132,20 +128,22 @@ API Documentation details of CRUD
 
 <br />
 
-## Screenshots (to do later)
-(Example) Landing Page
-:-------------------------:
-![Landing Page](/github-images/screenshots/landing-page-screenshot.png)
-Register Page
-![Register Page](/github-images/screenshots/register-page-screenshot.png)
-
 ## Development Roadmap (v1.x)
 <img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/plan---release.jpg" alt="situation" width="400"/>
+[**Project Board**](https://github.com/artificialarea/html-108-app/projects/1) featuring bugs and enhancements
 
-Scaled back the ambition and scope of project considerably for a v1.o MVP release.
+Scaled back the ambition and scope of project considerably for v1.o MVP release.
 
-Future v1.x enhancements are expected to include:
-* (Example) add more functionality
+Anticipate future v1.x enhancements to include:
+* User Login via JWT Auth, with personal Dashboard
+* Ability to adjust time signature from 4 to 8 to 12 to 16 beats
+* Ability to adjust pitch
+* Ability to choose samples (e.g. hihat, clap, trap, bass, etc)
+* Ability to download mp3 file of track
+
+<br />
+
+<hr /> 
 
 ## How to run it (done)
 Use command line to navigate into the project folder and run the following in terminal
@@ -160,37 +158,6 @@ Use command line to navigate into the project folder and run the following in te
 * To migrate the database ===> `npm run migrate -- 1`
 * To run Node server (on port 8000) ===> `npm run dev`
 * To run tests ===> `npm run test`
-
-<hr />
-
-<br />
-
-# Personal Notes (to delete later...)
-
-Did some initial React integration studies in my [p5-reaction](https://github.com/artificialarea/p5-reaction) repo to explore integration of **p5.js library** as Web Audio API middleware. Was able to integrate `p5.js` sketch canvas, but encountered too many difficulties with `p5.sound.js` library. Looking at other audio optons, discovered **[Tone.js](https://tonejs.github.io/)** audio framework integrates with React, so will go that route.
-
-<br />
-
-## in /docs 
-
-* **[Questions](https://github.com/artificialarea/html-108-app/blob/master/docs/questions.md)**
-* **[Footnotes](https://github.com/artificialarea/html-108-app/blob/master/docs/footnotes.js)**
-
-<br />
-
-## Dependencies
-
-* **Tone.js**: [npm](https://www.npmjs.com/package/tone) | [docs](https://tonejs.github.io/)
-* **StartAudioContext**: [npm](https://www.npmjs.com/package/startaudiocontext) | [repo](https://github.com/tambien/StartAudioContext)
-* **[FontAwesome Icons](https://fontawesome.com/icons)** via...
-```
-$ npm install @fortawesome/fontawesome-svg-core
-$ npm install @fortawesome/free-solid-svg-icons
-$ npm install @fortawesome/react-fontawesome
-```
-https://fontawesome.com/how-to-use/on-the-web/using-with/react
-https://react-icons.github.io/react-icons/icons?name=fa
-refer to [checkpoint 12](https://courses.thinkful.com/react-v1/checkpoint/12#brief-interlude) & repo 05-21_fileuploader
 
 <br />
 
