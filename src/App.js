@@ -113,20 +113,20 @@ export default class App extends React.Component {
     handleAddTrack = track => {
         this.setState({
             tracks: [
-                ...this.state.tracks,
-                track
+                track,
+                ...this.state.tracks
             ]
         })
     }
 
     handleUpdateTrack = updatedTrack => {
-        const newTracks = this.state.tracks.map(track =>
-            (track.id !== updatedTrack.id)
-                ? track
-                : updatedTrack    
+        // to prepend track, purge from the rest
+        const restTracks = this.state.tracks.filter(track => 
+            track.id !== updatedTrack.id
         )
+
         this.setState({
-            tracks: newTracks
+            tracks: [updatedTrack, ...restTracks]
         })
     }
 

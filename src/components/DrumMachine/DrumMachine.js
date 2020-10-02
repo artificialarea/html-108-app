@@ -266,7 +266,7 @@ export default class DrumMachine extends React.Component {
             processing: true
         })
 
-        const date_modified = new Date()
+        const date_modified = new Date().toUTCString();
 
         let { title } = this.state;
         if (title.length === 0) {
