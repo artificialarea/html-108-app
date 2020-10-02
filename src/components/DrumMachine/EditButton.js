@@ -11,13 +11,6 @@ const EditButton = props => (
             </Link>
         </span>
     </div>
-
-    // Disable for now b/c ReactRouter Redirect not working
-    // <div className={styles.root} onClick={props.onEdit}>
-    //     <span className={styles.label}>
-    //         <FontAwesomeIcon icon="pencil-alt" />
-    //     </span>
-    // </div>
 );
 
 export default EditButton;

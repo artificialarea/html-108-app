@@ -26,7 +26,6 @@ const Buttons = props => {
         onDelete,
         tempo,
         onTempoChange,
-        onEdit,
         trackId,
     } = props;
 
@@ -40,7 +39,7 @@ const Buttons = props => {
                             isPlaying={isPlaying}
                             onTogglePlay={onTogglePlay}
                             />
-                        {/* // Simplifying by keeping TimeSignature constant (8 beats) */}
+                        {/* // Simplifying by keeping TimeSignature constant (8 beats) for now */}
                         {/* <TimeSignature
                             sequence_length={sequence_length}
                             onLengthChange={onLengthChange}
@@ -66,7 +65,6 @@ const Buttons = props => {
                             isPlaying={isPlaying}
                             onTogglePlay={onTogglePlay}
                             />
-                        <EditButton onEdit={onEdit} trackId={trackId} />
                     </div>
             }   
         </div>

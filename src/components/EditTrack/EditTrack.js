@@ -8,9 +8,6 @@ export default class EditTrack extends React.Component {
         history: {
             push: () => {}
         },
-        // match: {
-        //     params: {}
-        // },
         authUser: {},
         track: {},
     }

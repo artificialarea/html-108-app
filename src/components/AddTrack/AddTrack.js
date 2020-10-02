@@ -8,9 +8,6 @@ export default class AddTrack extends React.Component {
         history: {
             push: () => {}
         },
-        // match: {
-        //     params: {}
-        // },
         authUser: {},
         track: { id: 0 },
     }

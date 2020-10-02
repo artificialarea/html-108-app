@@ -32,10 +32,6 @@ export default class Dashboard extends React.Component {
                     userId={userId}
                     users={users}
                     />
-                {/* // Unnecessary at this time */}
-                {/* <SearchBox 
-                    handleUpdate={term => this.updateSearchTerm(term)}
-                    /> */}
                 <TrackList 
                     who={who}
                     userId={userId}

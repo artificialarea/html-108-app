@@ -9,7 +9,7 @@ import NotFound from './components/NotFound/NotFound';
 import ApiContext from './ApiContext';
 import AddTrack from './components/AddTrack/AddTrack';
 import EditTrack from './components/EditTrack/EditTrack';
-import ViewTrack from './components/ViewTrack/ViewTrack';
+// import ViewTrack from './components/ViewTrack/ViewTrack';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 // import Login from './components/Login/Login';
 // import Registration from './components/Registration/Registration';
@@ -26,7 +26,6 @@ import {
     faPencilAlt,
     faSpinner,
     faCog,
-    // faGithub,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     faGithub,
@@ -98,7 +97,6 @@ export default class App extends React.Component {
 
     handleDeleteTrack = (trackId) => {
         const { tracks } = this.state;
-        // [f3] + [f1]
         const newTracks = [...tracks]
         const index = newTracks.findIndex(track => track.id === trackId)
         if (index > -1) {
@@ -148,6 +146,7 @@ export default class App extends React.Component {
         return (
             <>  
                 <Route 
+                    exact
                     path='/'
                     component={Footer}    
                 />
@@ -205,7 +204,6 @@ export default class App extends React.Component {
     }
 
     render() {
-        // console.log ("App state: ", this.state)
         const value = {
             authUser: this.state.authUser,
             users: this.state.users,
@@ -217,12 +215,11 @@ export default class App extends React.Component {
         return (
             <ApiContext.Provider value={value}>
                 <ScrollToTop>
-
-                <>
-                    {this.renderNavRoutes()}
-                    {this.renderMainRoutes()}
-                    {this.renderFooterRoutes()}
-                </>
+                    <>
+                        {this.renderNavRoutes()}
+                        {this.renderMainRoutes()}
+                        {this.renderFooterRoutes()}
+                    </>
                 </ScrollToTop>
             </ApiContext.Provider>
         );

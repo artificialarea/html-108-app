@@ -3,18 +3,16 @@ import styles from "./Box.module.css";
 import _ from "lodash";
 
 const Box = props => {
-
     let { editable, checked, row, isActive, onToggle } = props;
-    // console.log('editable?', editable)
-    return (
 
+    return (
         <div className={styles.root}>
-            {/* // https://lodash.com/docs/4.17.15#map */}
             {_.map(checked[row], (isBoxChecked, i) => (
+                // https://lodash.com/docs/4.17.15#map
+                // https://lodash.com/docs/4.17.15#chain
                 <div
                     onClick={() => editable ? onToggle(i, row) : false }
                     onKeyPress={() => editable ? onToggle(i, row) : false }
-                    // https://lodash.com/docs/4.17.15#chain
                     className={_.chain([
                         styles.box,
                         isBoxChecked && styles.checked,

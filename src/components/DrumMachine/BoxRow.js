@@ -5,7 +5,7 @@ import Box from "./Box";
 
 const BoxRow = props => (
     <div className={styles.root}>
-        {/* // Simplifying by removing ability to select pitch */}
+        {/* // Simplifying by removing ability to select pitch for now */}
         {/* <PitchSelect
             editable={props.editable}
             onPitchSelect={props.onPitchSelect}

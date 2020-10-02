@@ -28,12 +28,11 @@ export default function TrackList (props) {
                 
                 privateTracks.push(
                     <TrackItem 
-                    key={track.id}
-                    who={who}
-                    track={track}
-                    onChange={e => props.onChange(e)}
-                    // onClickDelete={props.onClickDelete}
-                    onClickDelete={(trackId) => props.onClickDelete(trackId)}
+                        key={track.id}
+                        who={who}
+                        track={track}
+                        onChange={e => props.onChange(e)}
+                        onClickDelete={(trackId) => props.onClickDelete(trackId)}
                     />
                 );
             }
@@ -45,10 +44,10 @@ export default function TrackList (props) {
                 ? publicTracks
                 : privateTracks
 
-    return (
-        <ul className={styles.root}>
-            {dashboardDisplay}
-        </ul>
+        return (
+            <ul className={styles.root}>
+                {dashboardDisplay}
+            </ul>
     )
 }
 

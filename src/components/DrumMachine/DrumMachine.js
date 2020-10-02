@@ -19,41 +19,6 @@ function toggleBox(priorChecked, i, row) {
 export default class DrumMachine extends React.Component {
     _isMounted = false; // per: https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component
 
-    // static defaultProps = {
-    //     history: {
-    //         push: () => {}
-    //     },
-    //     authUser: {},
-    //     editable: '',
-
-    //     id: 0,
-    //     user_id: '', 
-    //     title: '',
-    //     date_modified: '',
-    //     visible: true,
-    //     tempo: 120,
-    //     sequence_length: 8,
-    //     notes: [ "G5", "Eb5", "C5", "G4"],
-    //     checked: [
-    //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    //         [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-    //     ],
-    //     isPlaying: false,
-    //     maxTempo: 300,
-    //     isActive: [ 
-    //         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-    //         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //     ], 
-    //     renderedNotes: [],
-    //     partContainer: [], 
-    //     velocity: 0.1,
-
-    // }
-
     static contextType = ApiContext;
 
     constructor(props) {
@@ -79,10 +44,10 @@ export default class DrumMachine extends React.Component {
             isPlaying: false,
             maxTempo: 300,
             isActive: [ // used for highlighting during step-sequence visualization
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0, 0], 
+                [1, 0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0, 0],
             ], 
             renderedNotes: [],
             partContainer: [], // store Part object for future removal
@@ -99,10 +64,10 @@ export default class DrumMachine extends React.Component {
                 ],
                 notes: [ "G5", "Eb5", "C5", "G4"],
                 isActive: [ 
-                    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-                    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0], 
+                    [1, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0],
                 ], 
             },
         };
@@ -113,37 +78,18 @@ export default class DrumMachine extends React.Component {
 
    
     componentDidMount = () => {
-        // console.log('COMPONENT DID MOUNT')
-        // console.log('componentDidMount, this.state: ', this.state)
         this._isMounted = true;
 
         const id = window.location.pathname.split('/')[2];
         if (id) {
             this.fetchTrack(id);
-        } else {
-            // this.onReset();
-            // this.generateMetronome();
-        }
+        } 
 
         this.generateMetronome();
 
         // starts both audio contexts on mounting
         // StartAudioContext(Tone.context);
         StartAudioContext(this.toneContext);
-
-        // event listener for spacebar to play/pause 
-        // TODO: disabled until I figure out logic when title input active
-        // window.addEventListener("keydown", e => {
-        //     if (e.keyCode === 32) {
-        //         try {
-        //             e.preventDefault();
-        //             this.onTogglePlay();
-        //         } catch (e) {
-        //             console.log(e);
-        //         }
-        //     } 
-        // });
-
     }
 
     fetchTrack(id) {
@@ -295,7 +241,6 @@ export default class DrumMachine extends React.Component {
         })
             .then(res => {
                 if (!res.ok) {
-                    // throw new Error(res.statusText);
                     return res.json().then(error => Promise.reject(error))
                 }
             })
@@ -325,7 +270,6 @@ export default class DrumMachine extends React.Component {
         })
             .then(res => {
                 if (!res.ok) {
-                    // throw new Error(res.statusText);
                     return res.json().then(err => Promise.reject(err))
                 }
             })
@@ -347,10 +291,10 @@ export default class DrumMachine extends React.Component {
         this.setState({
             ...arr,
             checked: [
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-                [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false],
             ],
         })
     }
@@ -359,15 +303,8 @@ export default class DrumMachine extends React.Component {
         const newState = this.state;
         newState.title = changeEvent.target.value;
         this.setState({
-            // [f1]
-            // newState
+            newState
         })
-    }
-
-    onEdit = () => {
-        // console.log('redirect')
-        // redirect doesn't work...
-        return <Redirect to={`/edit/${this.state.id}`} />
     }
     
     onToggleBox = (i, row) => {
@@ -412,8 +349,6 @@ export default class DrumMachine extends React.Component {
                     Tone.Transport.loopEnd =
                         (this.state.sequence_length * 30) / this.state.tempo;
                     Tone.Transport.start("+0.0");
-                    // console.log("playing");
-                    // console.log(this.state)
                 }
             }
         );
@@ -428,7 +363,6 @@ export default class DrumMachine extends React.Component {
                     (this.state.sequence_length * 30) / this.state.tempo;
                 Tone.Transport.loop = true;
                 Tone.Transport.start("+0.0");
-                // console.log("playing restarted");
             });
         } else {
             console.error("restartPlaying called while not playing");
@@ -493,7 +427,6 @@ export default class DrumMachine extends React.Component {
         Tone.Transport.stop();
         Tone.Transport.loop = false;
         Tone.Transport.loopEnd = 0;
-        // console.log("force stopped");
     };
 
     resetTempo = () => {
@@ -517,10 +450,8 @@ export default class DrumMachine extends React.Component {
     generateMetronome = () => {
         // erase or stop all previous parts
         const partContainer = this.state.partContainer;
-        // console.log('this.state.partContainer: ', partContainer)
-        // I don't quite understand what you do,
-        // but without you 
-        // the audio gets progressively worse after each iteration.
+        // I don't quite understand what you do, but I like it. Haha.
+        // Without you, the audio gets progressively worse after each iteration...
         partContainer.forEach(part => part.removeAll());  
 
         // metronome vitals
@@ -603,7 +534,7 @@ export default class DrumMachine extends React.Component {
             this.synth.triggerAttackRelease(value.note, 0.05, time, value.velocity);
         }, renderedNotes).start(0);
         partContainer.push(part);
-        // console.log('new Tone.Part', part)
+
         if (this._isMounted) {
             this.setState({
                 renderedNotes,
@@ -626,7 +557,6 @@ export default class DrumMachine extends React.Component {
     };
 
     componentWillUnmount() {
-        // console.log('COMPONENT WILL UNMOUNT')
         this._isMounted = false;
         this.forceStop();
         this.toneContext.close();
@@ -634,14 +564,11 @@ export default class DrumMachine extends React.Component {
         // *CRUCIAL!*
         // this method effectively disgards the Path(s) to reset the step sequencer
         // src: https://groups.google.com/g/tonejs/c/yAffQUjKVAE/m/npeWscc2BgAJ
-        Tone.Transport.cancel();
+        Tone.Transport.cancel(0);
 
     }
 
-
     render() {
-        // console.log('DrumMachine state: ', this.state)
-        // console.log('_isMounted? ', this._isMounted)
         const { 
             processing,
             error,
@@ -683,7 +610,6 @@ export default class DrumMachine extends React.Component {
                         onCreate={this.handleCreateTrack}
                         onUpdate={this.handleUpdateTrack}
                         onDelete={this.handleDeleteTrack}
-                        onEdit={this.onEdit} // React Router Redirect not working, tho
                         />
 
                     <div className={styles.error} role='alert'>

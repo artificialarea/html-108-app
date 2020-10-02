@@ -11,11 +11,6 @@ export default function Nav (props) {
             {' '}
             <Link to='/dashboard' className={styles.link}>Dashboard</Link>
             {' '}
-            {/* <Link to='/my-dashboard'>My Dashboard</Link>
-            {' '} */}
-            {/* <Link to='/login'>Login</Link>
-            {' '}
-            <Link to='/register'>Register</Link> */}
         </nav>
     )
 }

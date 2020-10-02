@@ -26,11 +26,6 @@ export default class ViewTrack extends React.Component {
         const { trackId } = this.props.match.params;
         const track = tracks.find(track => track.id == trackId)
 
-        // WORKS AS IT SHOULD
-        // console.log('tracks (via context): ', tracks)
-        // console.log('trackId (via match.params): ', trackId)
-        // console.log('track to view: ', track)
-
         return (
             <div className="track-view">
                 <DrumMachine 
