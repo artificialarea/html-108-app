@@ -31,14 +31,14 @@
     -webkit-appearance: none;
     width: 20px; /* 1 */
     height: 40px;
-    background: #cbff8b;
+    background: #FF8934;
     box-shadow: -100vw 0 0 100vw hsl(240, 5%, 22%);
 }
 .slider::-moz-range-thumb {
     -moz-appearance: none;
     width: 20px; /* 1 */
     height: 40px;
-    background: #cbff8b;
+    background: #FF8934;
     box-shadow: -100vw 0 0 100vw hsl(240, 5%, 22%);
 }
 .slider:focus::-webkit-slider-runnable-track {
