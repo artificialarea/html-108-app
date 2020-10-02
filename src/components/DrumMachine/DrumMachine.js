@@ -381,6 +381,17 @@ export default class DrumMachine extends React.Component {
         );
     };
 
+    onToggleBoxAria = (i, row) => {
+        this.setState(
+            prior => ({
+                checked: toggleBox(prior.checked, i, row)
+            }),
+            () => {
+                this.generateMetronome();
+            }
+        );
+    };
+
     onTogglePlay = () => {
         this.setState(
             prior => ({

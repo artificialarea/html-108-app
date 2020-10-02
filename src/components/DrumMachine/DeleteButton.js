@@ -3,7 +3,12 @@ import styles from "./DeleteButton.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DeleteButton = props => (
-    <div className={styles.root} onClick={props.onDelete}>
+    <div 
+        className={styles.root} 
+        onClick={props.onDelete} 
+        onKeyPress={props.onDelete} 
+        tabindex="0" 
+        aria-label="delete track">
         <span className={styles.label}>
             <FontAwesomeIcon icon="trash-alt" />
         </span>

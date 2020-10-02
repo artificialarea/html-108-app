@@ -12,7 +12,8 @@ const Box = props => {
             {/* // https://lodash.com/docs/4.17.15#map */}
             {_.map(checked[row], (isBoxChecked, i) => (
                 <div
-                    onClick={() => editable ? onToggle(i, row): false }
+                    onClick={() => editable ? onToggle(i, row) : false }
+                    onKeyPress={() => editable ? onToggle(i, row) : false }
                     // https://lodash.com/docs/4.17.15#chain
                     className={_.chain([
                         styles.box,
@@ -24,6 +25,13 @@ const Box = props => {
                     .join(" ")
                     .value()}
                     key={i}
+                    role="button"
+                    aria-pressed={
+                        isBoxChecked
+                            ? "true"
+                            : "false"
+                    }
+                    tabindex={0}
                 />
             ))}
         </div>

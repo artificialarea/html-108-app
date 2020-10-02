@@ -3,7 +3,12 @@ import styles from "./ResetButton.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ResetButton = props => (
-    <div className={styles.root} onClick={props.onReset}>
+    <div 
+        className={styles.root} 
+        onClick={props.onReset} 
+        onKeyPress={props.onReset} 
+        tabindex="0" 
+        aria-label="reset track">
         <span className={styles.label}>
             <FontAwesomeIcon icon="recycle" />
         </span>

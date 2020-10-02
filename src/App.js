@@ -99,14 +99,14 @@ export default class App extends React.Component {
     handleDeleteTrack = (trackId) => {
         const { tracks } = this.state;
         // [f3] + [f1]
-        const newtracks = [...tracks]
-        const index = newtracks.findIndex(track => track.id === trackId)
+        const newTracks = [...tracks]
+        const index = newTracks.findIndex(track => track.id === trackId)
         if (index > -1) {
-            newtracks.splice(index, 1);
+            newTracks.splice(index, 1);
         }
 
         this.setState({
-            tracks: newtracks
+            tracks: newTracks
         })
     }
 

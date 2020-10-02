@@ -3,7 +3,12 @@ import styles from "./PlayButton.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PlayButton = props => (
-    <div className={styles.root} onClick={props.onTogglePlay}>
+    <div 
+        className={styles.root} 
+        onClick={props.onTogglePlay} 
+        onKeyPress={props.onTogglePlay} 
+        tabindex="0" 
+        aria-label="start stop sequence">
         <span className={styles.label}>
             {props.isPlaying 
                 ? <FontAwesomeIcon icon="stop" />

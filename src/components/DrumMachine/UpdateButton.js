@@ -3,7 +3,12 @@ import styles from "./UpdateButton.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UpdateButton = props => (
-    <div className={styles.root} onClick={props.onUpdate}>
+    <div 
+        className={styles.root} 
+        onClick={props.onUpdate} 
+        onKeyPress={props.onUpdate} 
+        tabindex="0" 
+        aria-label="update track">
         <span className={styles.label}>
             {!props.processing
                 ? <FontAwesomeIcon icon="cloud-upload-alt" />

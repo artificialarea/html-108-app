@@ -3,7 +3,12 @@ import styles from "./CreateButton.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CreateButton = props => (
-    <div className={styles.root} onClick={props.onCreate}>
+    <div 
+        className={styles.root} 
+        onClick={props.onCreate} 
+        onKeyPress={props.onCreate} 
+        tabindex="0" 
+        aria-label="save track">
         <span className={styles.label}>
             {!props.processing
                 ? <FontAwesomeIcon icon="save" />
