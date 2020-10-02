@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const GitHubIcon = props => (
     <div className={styles.root}>
-        <FontAwesomeIcon icon={["fab", "github"]} />
+        <FontAwesomeIcon icon={["fab", "github"]} title="github icon"/>
     </div>
 );
 
