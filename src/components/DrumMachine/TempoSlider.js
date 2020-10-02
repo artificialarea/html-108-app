@@ -18,7 +18,7 @@ const TempoSlider = props => (
                     props.onTempoChange(e.target.value);
                 }}
             />
-        <label for="tempo" className={styles.screenreadertext}>Tempo</label>
+        <label htmlFor="tempo" className={styles.screenreadertext}>Tempo</label>
 
 
     </div>

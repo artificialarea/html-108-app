@@ -13,7 +13,7 @@ export default function Header (props) {
                 :
                 <form className={styles.form}>
                     <div>
-                        <label for="title" className={styles.screenreadertext}>Title</label>
+                        <label htmlFor="title" className={styles.screenreadertext}>Title</label>
                             <input className={styles.input}
                                 type="text"
                                 name="title"
