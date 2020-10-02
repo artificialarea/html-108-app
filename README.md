@@ -19,15 +19,19 @@ The corresponding Node Express Sever repo here: **[html-108-server](https://gith
 ## 2. Functionality 
 
 Landing page introduces the application...
+
 <img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/images/screenshot-01-intro.png" alt="intro screen" width="600"/>
 
 User can create a new track...
+
 <img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/images/screenshot-02-newtrack-blank.png" alt="intro screen" width="600"/>
 
 Users can save, update and delete their tracks...
+
 <img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/images/screenshot-03-track-saved.png" alt="intro screen" width="600"/>
 
 All tracks saved are accessible via the community dashboard...
+
 <img src="https://raw.githubusercontent.com/artificialarea/html-108-app/master/docs/images/screenshot-04-dashboard.png" alt="intro screen" width="600"/>
 
 
