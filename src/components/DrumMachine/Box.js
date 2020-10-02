@@ -29,7 +29,7 @@ const Box = props => {
                             ? "true"
                             : "false"
                     }
-                    tabindex={0}
+                    tabIndex={0}
                 />
             ))}
         </div>

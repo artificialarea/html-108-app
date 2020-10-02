@@ -7,7 +7,7 @@ const ResetButton = props => (
         className={styles.root} 
         onClick={props.onReset} 
         onKeyPress={props.onReset} 
-        tabindex="0" 
+        tabIndex="0" 
         aria-label="reset track">
         <span className={styles.label}>
             <FontAwesomeIcon icon="recycle" />

@@ -7,7 +7,7 @@ const CreateButton = props => (
         className={styles.root} 
         onClick={props.onCreate} 
         onKeyPress={props.onCreate} 
-        tabindex="0" 
+        tabIndex="0" 
         aria-label="save track">
         <span className={styles.label}>
             {!props.processing

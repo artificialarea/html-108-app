@@ -7,7 +7,7 @@ const DeleteButton = props => (
         className={styles.root} 
         onClick={props.onDelete} 
         onKeyPress={props.onDelete} 
-        tabindex="0" 
+        tabIndex="0" 
         aria-label="delete track">
         <span className={styles.label}>
             <FontAwesomeIcon icon="trash-alt" />

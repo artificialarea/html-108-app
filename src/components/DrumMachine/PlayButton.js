@@ -7,7 +7,7 @@ const PlayButton = props => (
         className={styles.root} 
         onClick={props.onTogglePlay} 
         onKeyPress={props.onTogglePlay} 
-        tabindex="0" 
+        tabIndex="0" 
         aria-label="start stop sequence">
         <span className={styles.label}>
             {props.isPlaying 

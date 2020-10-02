@@ -7,7 +7,7 @@ const UpdateButton = props => (
         className={styles.root} 
         onClick={props.onUpdate} 
         onKeyPress={props.onUpdate} 
-        tabindex="0" 
+        tabIndex="0" 
         aria-label="update track">
         <span className={styles.label}>
             {!props.processing
